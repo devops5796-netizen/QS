@@ -1,0 +1,420 @@
+QatarSale Scraper - Full Pipeline
+URL: https://qatarsale.com/ar/products/cars_for_sale | Pages: 1 to 1
+
+==================================================
+STEP 1: Scraping listing pages for links...
+==================================================
+Page 1/1: https://qatarsale.com/ar/products/cars_for_sale?page=1
+  Found 36 links
+
+==================================================
+STEP 2: Scraping product pages (3 workers)...
+==================================================
+Loaded 36 URLs
+Remaining: 36 URLs
+  [Worker 2] (1/12): https://qatarsale.com/ar/product/gwm_tank_700_2026_gray_automatic_suv-603575
+  [Worker 3] (1/12): https://qatarsale.com/ar/product/nissan_patrol_xe_2019_white_automatic_suv-603577
+  [Worker 1] (1/12): https://qatarsale.com/ar/product/lexus_lx_600_vip_2022_gray_automatic_suv-385213
+  [Worker 1] Saved: لكزس  ال اكس  600 في اي بي  2022  اوتوماتيك  17,000 كم  6 سلندر  دفع رباعي  اس يو في  رمادي  تحت الضمان
+  [Worker 3] Saved: نيسان  باترول  أكس أي  2019  اوتوماتيك  170,000 كم  6 سلندر  دفع رباعي  اس يو في  أبيض
+  [Worker 1] (2/12): https://qatarsale.com/ar/product/toyota_land_cruiser_gxr_2019_white_automatic_suv-540274
+  [Worker 3] (2/12): https://qatarsale.com/ar/product/jetour_x90_2024_blue_automatic_suv-603567
+  [Worker 2] Saved: جي دبليو ام  تانك  700  2026  اوتوماتيك  0 كم  6 سلندر  دفع رباعي  اس يو في  رمادي  تحت الضمان
+  [Worker 2] (2/12): https://qatarsale.com/ar/product/bentley_continental_flying_spur_2014_beige_automatic_sedan-538572
+  [Worker 2] Saved: بنتلي  كونتيننتل  فلاينج سبور  2014  اوتوماتيك  90,000 كم  12 سلندر  دفع كلي مستمر  سيدان  بيج
+  [Worker 2] (3/12): https://qatarsale.com/ar/product/toyota_land_cruiser_gxr_2013_white_automatic_suv-529043
+  [Worker 1] Saved: تويوتا  لاند كروزر  جي اكس ار  2019  اوتوماتيك  236,000 كم  8 سلندر  دفع رباعي  اس يو في  أبيض
+  [Worker 3] Saved: جيتور  اكس90  2024  اوتوماتيك  34,000 كم  4 سلندر  دفع رباعي  اس يو في  ازرق
+  [Worker 3] (3/12): https://qatarsale.com/ar/product/lexus_lx_600_luxury_2025_black_automatic_suv-603570
+  [Worker 1] (3/12): https://qatarsale.com/ar/product/rolls_royce_cullinan_2021_beige_automatic_suv-603563
+  [Worker 1] Saved: رولز - رويس  كولينان  2021  اوتوماتيك  27,000 كم  12 سلندر  دفع رباعي  اس يو في  بيج
+  [Worker 1] (4/12): https://qatarsale.com/ar/product/toyota_hilux_2019_white_automatic_pick_up-545653
+  [Worker 2] Saved: تويوتا  لاند كروزر  جي اكس ار  2013  اوتوماتيك  67,000 كم  8 سلندر  دفع رباعي  اس يو في  أبيض
+  [Worker 2] (4/12): https://qatarsale.com/ar/product/gmc_sierra_2015_white_automatic_pick_up-587560
+  [Worker 3] Saved: لكزس  ال اكس  600 لكجري  2025  اوتوماتيك  42,000 كم  6 سلندر  دفع رباعي  اس يو في  أسود  تحت الضمان
+  [Worker 1] Saved: تويوتا  هاي لوكس  2019  اوتوماتيك  200,000 كم  4 سلندر  دفع رباعي  بيكب  أبيض
+  [Worker 3] (4/12): https://qatarsale.com/ar/product/gwm_tank_500_2026_black_automatic_suv-603565
+  [Worker 2] Saved: جي ام سي  سييرا  2015  اوتوماتيك  233,000 كم  8 سلندر  دفع رباعي  بيكب  أبيض
+  [Worker 1] (5/12): https://qatarsale.com/ar/product/toyota_land_cruiser_gx_2014_white_automatic_suv-542024
+  [Worker 2] (5/12): https://qatarsale.com/ar/product/toyota_land_cruiser_gxr_2021_gray_automatic_suv-603564
+  [Worker 3] Saved: جي دبليو ام  تانك  500  2026  اوتوماتيك  19,000 كم  6 سلندر  دفع رباعي  اس يو في  أسود  تحت الضمان
+  [Worker 3] (5/12): https://qatarsale.com/ar/product/mercedes_benz_sprinter_vip_2012_black_automatic_van_bus-427569
+  [Worker 2] Saved: تويوتا  لاند كروزر  جي اكس ار  2021  اوتوماتيك  138,000 كم  6 سلندر  دفع رباعي  اس يو في  رمادي
+  [Worker 3] Saved: مرسيدس - بنز  سبرينتر  في اي بي  2012  اوتوماتيك  2,000 كم  6 سلندر  دفع رباعي  فان \ باص  أسود
+  [Worker 2] (6/12): https://qatarsale.com/ar/product/ford_raptor_2018_gray_automatic_pick_up-571967
+  [Worker 1] Saved: تويوتا  لاند كروزر  جي اكس  2014  اوتوماتيك  335,000 كم  6 سلندر  دفع رباعي  اس يو في  أبيض
+  [Worker 1] (6/12): https://qatarsale.com/ar/product/ford_f_150_platinum_2017_black_automatic_pick_up-577932
+  [Worker 3] (6/12): https://qatarsale.com/ar/product/mercedes_benz_g_class_500_night_pack_2022_black_automatic_suv-527493
+  [Worker 1] Saved: فورد  أف  150 بلاتينيوم  2017  اوتوماتيك  183,000 كم  6 سلندر  دفع رباعي  بيكب  أسود
+  [Worker 1] (7/12): https://qatarsale.com/ar/product/toyota_hilux_2017_white_manual_pick_up-527480
+  [Worker 2] Saved: فورد  رابتر  2018  اوتوماتيك  200,000 كم  6 سلندر  دفع رباعي  بيكب  رمادي
+  [Worker 2] (7/12): https://qatarsale.com/ar/product/toyota_land_cruiser_gx_2010_gray_automatic_suv-571986
+  [Worker 3] Saved: مرسيدس - بنز  جي - كلاس  500 نايت باك  2022  اوتوماتيك  36,000 كم  8 سلندر  دفع رباعي  اس يو في  أسود  تحت الضمان
+  [Worker 3] (7/12): https://qatarsale.com/ar/product/land_rover_range_rover_vogue_hse_2023_white_automatic_suv-603561
+  [Worker 1] Saved: تويوتا  هاي لوكس  2017  عادي  29,000 كم  4 سلندر  دفع رباعي  بيكب  أبيض
+  [Worker 2] Saved: تويوتا  لاند كروزر  جي اكس  2010  اوتوماتيك  445,000 كم  6 سلندر  دفع رباعي  اس يو في  رمادي
+  [Worker 1] (8/12): https://qatarsale.com/ar/product/toyota_land_cruiser_gxr_twin_turbo_2024_white_automatic_suv-540206
+  [Worker 2] (8/12): https://qatarsale.com/ar/product/toyota_land_cruiser_vxr_2010_gray_automatic_suv-545608
+  [Worker 1] Saved: تويوتا  لاند كروزر  جي اكس ار توين توربو  2024  اوتوماتيك  60,000 كم  6 سلندر  دفع رباعي  اس يو في  أبيض  تحت الضمان
+  [Worker 1] (9/12): https://qatarsale.com/ar/product/lamborghini_urus_2019_gray_automatic_suv-603569
+  [Worker 2] Saved: تويوتا  لاند كروزر  في اكس ار  2010  اوتوماتيك  322,000 كم  8 سلندر  دفع رباعي  اس يو في  رمادي
+  [Worker 2] (9/12): https://qatarsale.com/ar/product/toyota_land_cruiser_gxr_twin_turbo_2024_white_automatic_suv-603573
+  [Worker 1] Saved: لمبرجيني  اوروس  2019  اوتوماتيك  85,000 كم  8 سلندر  دفع رباعي  اس يو في  رمادي
+  [Worker 1] (10/12): https://qatarsale.com/ar/product/toyota_land_cruiser_gxr_2022_white_automatic_suv-577957
+  [Worker 2] Saved: تويوتا  لاند كروزر  جي اكس ار توين توربو  2024  اوتوماتيك  86,000 كم  6 سلندر  دفع رباعي  اس يو في  أبيض
+  [Worker 2] (10/12): https://qatarsale.com/ar/product/toyota_land_cruiser_gxr_2006_silver_manual_suv-603578
+  [Worker 1] Saved: تويوتا  لاند كروزر  جي اكس ار  2022  اوتوماتيك  154,000 كم  6 سلندر  دفع رباعي  اس يو في  أبيض
+  [Worker 1] (11/12): https://qatarsale.com/ar/product/toyota_sequoia_sr5_2012_white_automatic_suv-545610
+  [Worker 2] Saved: تويوتا  لاند كروزر  جي اكس ار  2006  عادي  70,000 كم  6 سلندر  دفع رباعي  اس يو في  فضي
+  [Worker 2] (11/12): https://qatarsale.com/ar/product/toyota_land_cruiser_gxr_2014_black_automatic_suv-540269
+  [Worker 1] Saved: تويوتا  سكويا  اس ار 5  2012  اوتوماتيك  290,000 كم  8 سلندر  دفع رباعي  اس يو في  أبيض
+  [Worker 1] (12/12): https://qatarsale.com/ar/product/land_rover_range_rover_vogue_se_2018_white_automatic_suv-535324
+  [Worker 2] Saved: تويوتا  لاند كروزر  جي اكس ار  2014  اوتوماتيك  370,000 كم  8 سلندر  دفع رباعي  اس يو في  أسود
+  [Worker 2] (12/12): https://qatarsale.com/ar/product/dodge_ram_1500_2023_red_automatic_pick_up-603579
+  [Worker 1] Saved: لاند روفر  رنج روفر  فوج اس اي  2018  اوتوماتيك  71,000 كم  8 سلندر  دفع رباعي  اس يو في  أبيض
+  [Worker 3] Saved: لاند روفر  رنج روفر  فوج اتش اس اي  2023  اوتوماتيك  79,800 كم  8 سلندر  دفع رباعي  اس يو في  أبيض  تحت الضمان
+  [Worker 3] (8/12): https://qatarsale.com/ar/product/toyota_fortuner_2015_white_automatic_suv-453607
+  [Worker 3] Saved: تويوتا  فورشنر  2015  اوتوماتيك  26,000 كم  4 سلندر  دفع رباعي  اس يو في  أبيض
+  [Worker 3] (9/12): https://qatarsale.com/ar/product/lamborghini_aventador_2016_white_automatic_coupe_sport-527594
+  [Worker 3] Saved: لمبرجيني  أفانتادور  2016  اوتوماتيك  36,000 كم  8 سلندر  دفع خلفي  كوبيه \ سبورت  أبيض
+  [Worker 3] (10/12): https://qatarsale.com/ar/product/toyota_coaster_2022_white_manual_van_bus-603580
+  [Worker 3] Saved: تويوتا  كوستر  2022  عادي  237,000 كم  4 سلندر  دفع خلفي  فان \ باص  أبيض
+  [Worker 3] (11/12): https://qatarsale.com/ar/product/cadillac_escalade_2015_white_automatic_suv-603562
+  [Worker 3] Saved: كاديلاك  اسكيليد  2015  اوتوماتيك  177,000 كم  8 سلندر  دفع رباعي  اس يو في  أبيض
+  [Worker 3] (12/12): https://qatarsale.com/ar/product/nissan_patrol_se_2017_white_automatic_suv-577936
+  [Worker 2] Saved: دودج  رام  1500  2023  اوتوماتيك  160,000 كم  8 سلندر  دفع رباعي  بيكب  أحمر
+  [Worker 3] Saved: نيسان  باترول  اس اي  2017  اوتوماتيك  245,000 كم  8 سلندر  دفع رباعي  اس يو في  أبيض
+
+STEP 2 DONE: 36 OK, 0 failed
+
+==================================================
+STEP 3: Flattening specifications JSON...
+==================================================
+STEP 3 DONE: Saved to 'all_products_flat.csv' with 45 columns
+
+==================================================
+STEP 4: Downloading images (5 workers)...
+==================================================
+Total images to download: 253
+  Downloaded: 385213_1_20250622081201566689.webp
+  Downloaded: 385213_0_20250622081201566469.webp
+  Downloaded: 385213_3_20250622081201566857.webp
+  Downloaded: 385213_2_20250622081201566778.webp
+  Downloaded: 385213_4_20250622081201566914.webp
+  Downloaded: 385213_5_20250622081201566976.webp
+  Downloaded: 385213_6_20250622081201567033.webp
+  Downloaded: 603577_1_20260607093512864696.webp
+  Downloaded: 603577_0_20260607093512864176.webp
+  Downloaded: 603575_0_20260607093423438678.webp
+  Downloaded: 603577_2_20260607093512865029.webp
+  Downloaded: 603577_3_20260607093512865388.webp
+  Downloaded: 603577_4_20260607093512865718.webp
+  Downloaded: 603577_5_20260607093512865974.webp
+  Downloaded: 603575_2_20260607093423439658.webp
+  Downloaded: 603575_1_20260607093423439225.webp
+  Downloaded: 538572_0_20260426070428914387.webp
+  Downloaded: 538572_1_20260426070428914830.webp
+  Downloaded: 603575_3_20260607093423440028.webp
+  Downloaded: 603575_4_20260607093423440250.webp
+  Downloaded: 603575_5_20260607093423440514.webp
+  Downloaded: 540274_0_20260429095639679667.webp
+  Downloaded: 538572_4_20260426070428915592.webp
+  Downloaded: 538572_2_20260426070428915112.webp
+  Downloaded: 538572_3_20260426070428915363.webp
+  Downloaded: 538572_5_20260426070428915803.webp
+  Downloaded: 540274_1_20260429095639680201.webp
+  Downloaded: 540274_5_20260429095639681497.webp
+  Downloaded: 540274_2_20260429095639680565.webp
+  Downloaded: 540274_4_20260429095639681183.webp
+  Downloaded: 540274_3_20260429095639680901.webp
+  Downloaded: 603567_1_20260607092807451370.webp
+  Downloaded: 603567_0_20260607092807450929.webp
+  Downloaded: 603567_2_20260607092807451759.webp
+  Downloaded: 603567_3_20260607092807452009.webp
+  Downloaded: 540274_6_20260429095639681784.webp
+  Downloaded: 603563_0_20260607092553196687.webp
+  Downloaded: 603567_5_20260607092807452632.webp
+  Downloaded: 603563_1_20260607092553198448.webp
+  Downloaded: 603567_4_20260607092807452314.webp
+  Downloaded: 603563_2_20260607092553198998.webp
+  Downloaded: 529043_0_20260405084737611403.webp
+  Downloaded: 603563_3_20260607092553199334.webp
+  Downloaded: 603563_4_20260607092553199640.webp
+  Downloaded: 603563_5_20260607092553199944.webp
+  Downloaded: 529043_1_20260405084737611843.webp
+  Downloaded: 529043_3_20260405084737612607.webp
+  Downloaded: 529043_2_20260405084737612267.webp
+  Downloaded: 529043_5_20260405084737613301.webp
+  Downloaded: 529043_4_20260405084737612952.webp
+  Downloaded: 529043_6_20260405084737613682.webp
+  Downloaded: 603570_1_20260607093018194394.webp
+  Downloaded: 603570_0_20260607093018193739.webp
+  Downloaded: 529043_7_20260405084737613978.webp
+  Downloaded: 529043_8_20260405084737614282.webp
+  Downloaded: 603570_5_20260607093018195744.webp
+  Downloaded: 545653_0_20260510082813200985.webp
+  Downloaded: 603570_2_20260607093018194819.webp
+  Downloaded: 545653_1_20260510082813201746.webp
+  Downloaded: 603570_3_20260607093018195169.webp
+  Downloaded: 545653_2_20260510082813202169.webp
+  Downloaded: 603570_4_20260607093018195385.webp
+  Downloaded: 545653_5_20260510082813203187.webp
+  Downloaded: 545653_3_20260510082813202514.webp
+  Downloaded: 545653_4_20260510082813202837.webp
+  Downloaded: 545653_6_20260510082813203561.webp
+  Downloaded: 587560_0_20260603083720798618.webp
+  Downloaded: 545653_7_20260510082813203921.webp
+  Downloaded: 587560_1_20260603083720799147.webp
+  Downloaded: 545653_8_20260510082813204289.webp
+  Downloaded: 587560_2_20260603083720799563.webp
+  Downloaded: 587560_3_20260603083720799923.webp
+  Downloaded: 587560_4_20260603083720800267.webp
+  Downloaded: 587560_5_20260603083720800588.webp
+  Downloaded: 587560_6_20260603083720800942.webp
+  Downloaded: 587560_7_20260603083720801316.webp
+  Downloaded: 587560_8_20260603083720801648.webp
+  Downloaded: 603565_0_20260607092749004049.webp
+  Downloaded: 587560_9_20260603083720802401.webp
+  Downloaded: 603565_2_20260607092749005033.webp
+  Downloaded: 603565_1_20260607092749004639.webp
+  Downloaded: 603564_0_20260607092625323716.webp
+  Downloaded: 603565_3_20260607092749005307.webp
+  Downloaded: 603565_5_20260607092749005825.webp
+  Downloaded: 603565_4_20260607092749005509.webp
+  Downloaded: 603564_1_20260607092625325376.webp
+  Downloaded: 603564_2_20260607092625325814.webp
+  Downloaded: 603564_3_20260607092625326211.webp
+  Downloaded: 427569_1_20251008130752977811.webp
+  Downloaded: 603564_4_20260607092625326560.webp
+  Downloaded: 427569_0_20251008130752976957.webp
+  Downloaded: 603564_5_20260607092625326836.webp
+  Downloaded: 427569_2_20251008130752978456.webp
+  Downloaded: 427569_4_20251008130752979673.webp
+  Downloaded: 427569_5_20251008130752980398.webp
+  Downloaded: 542024_0_20260503085706295548.webp
+  Downloaded: 427569_3_20251008130752979154.webp
+  Downloaded: 427569_6_20251008130752981033.webp
+  Downloaded: 542024_1_20260503085706296223.webp
+  Downloaded: 542024_4_20260503085706297222.webp
+  Downloaded: 542024_5_20260503085706297540.webp
+  Downloaded: 542024_2_20260503085706296546.webp
+  Downloaded: 542024_3_20260503085706296924.webp
+  Downloaded: 577932_0_20260531082038825186.webp
+  Downloaded: 577932_1_20260531082038825727.webp
+  Downloaded: 577932_2_20260531082038826068.webp
+  Downloaded: 542024_6_20260503085706297844.webp
+  Downloaded: 577932_5_20260531082038826964.webp
+  Downloaded: 577932_3_20260531082038826360.webp
+  Downloaded: 577932_4_20260531082038826680.webp
+  Downloaded: 571967_1_20260524075606802906.webp
+  Downloaded: 571967_0_20260524075606802439.webp
+  Downloaded: 577932_7_20260531082038827520.webp
+  Downloaded: 571967_2_20260524075606803277.webp
+  Downloaded: 577932_6_20260531082038827245.webp
+  Downloaded: 577932_8_20260531082038827779.webp
+  Downloaded: 571967_4_20260524075606803925.webp
+  Downloaded: 571967_3_20260524075606803617.webp
+  Downloaded: 571967_5_20260524075606804266.webp
+  Downloaded: 571967_7_20260524075606804860.webp
+  Downloaded: 571967_6_20260524075606804543.webp
+  Downloaded: 527493_0_20260401081222638622.webp
+  Downloaded: 571967_9_20260524075606805384.webp
+  Downloaded: 571967_8_20260524075606805127.webp
+  Downloaded: 527493_1_20260401081222639129.webp
+  Downloaded: 527493_4_20260401081222640152.webp
+  Downloaded: 527493_2_20260401081222639490.webp
+  Downloaded: 527493_3_20260401081222639807.webp
+  Downloaded: 527493_5_20260401081222640479.webp
+  Downloaded: 527480_0_20260401074827365733.webp
+  Downloaded: 527480_2_20260401074827366650.webp
+  Downloaded: 527480_1_20260401074827366282.webp
+  Downloaded: 527480_4_20260401074827367309.webp
+  Downloaded: 571986_0_20260524082029477064.webp
+  Downloaded: 527480_3_20260401074827367065.webp
+  Downloaded: 527480_5_20260401074827367611.webp
+  Downloaded: 571986_2_20260524082029478956.webp
+  Downloaded: 571986_1_20260524082029478508.webp
+  Downloaded: 540206_0_20260429085156906908.webp
+  Downloaded: 571986_3_20260524082029479305.webp
+  Downloaded: 571986_5_20260524082029479891.webp
+  Downloaded: 571986_4_20260524082029479608.webp
+  Downloaded: 571986_6_20260524082029480218.webp
+  Downloaded: 540206_1_20260429085156907340.webp
+  Downloaded: 540206_2_20260429085156907609.webp
+  Downloaded: 540206_3_20260429085156907934.webp
+  Downloaded: 540206_5_20260429085156908497.webp
+  Downloaded: 540206_6_20260429085156908879.webp
+  Downloaded: 540206_4_20260429085156908243.webp
+  Downloaded: 545608_1_20260510075022831931.webp
+  Downloaded: 545608_0_20260510075022831433.webp
+  Downloaded: 540206_7_20260429085156909166.webp
+  Downloaded: 540206_8_20260429085156909557.webp
+  Downloaded: 545608_2_20260510075022832262.webp
+  Downloaded: 545608_4_20260510075022832958.webp
+  Downloaded: 545608_5_20260510075022833276.webp
+  Downloaded: 545608_3_20260510075022832681.webp
+  Downloaded: 603569_0_20260607092934101649.webp
+  Downloaded: 603569_1_20260607092934102138.webp
+  Downloaded: 603569_2_20260607092934102495.webp
+  Downloaded: 603569_4_20260607092934103141.webp
+  Downloaded: 603569_3_20260607092934102848.webp
+  Downloaded: 545608_6_20260510075022833681.webp
+  Downloaded: 603573_0_20260607093307779819.webp
+  Downloaded: 603569_5_20260607092934103423.webp
+  Downloaded: 603573_1_20260607093307780293.webp
+  Downloaded: 577957_0_20260531084624357601.webp
+  Downloaded: 603573_4_20260607093307781338.webp
+  Downloaded: 603573_2_20260607093307780600.webp
+  Downloaded: 577957_1_20260531084624358295.webp
+  Downloaded: 603573_5_20260607093307781632.webp
+  Downloaded: 603573_3_20260607093307781019.webp
+  Downloaded: 577957_2_20260531084624358642.webp
+  Downloaded: 603578_0_20260607093612111613.webp
+  Downloaded: 577957_6_20260531084624359657.webp
+  Downloaded: 577957_3_20260531084624358894.webp
+  Downloaded: 577957_4_20260531084624359177.webp
+  Downloaded: 577957_5_20260531084624359373.webp
+  Downloaded: 603578_2_20260607093612112499.webp
+  Downloaded: 603578_4_20260607093612113067.webp
+  Downloaded: 603578_1_20260607093612112150.webp
+  Downloaded: 603578_5_20260607093612113280.webp
+  Downloaded: 545610_0_20260510075545695921.webp
+  Downloaded: 603578_3_20260607093612112795.webp
+  Downloaded: 545610_4_20260510075545697404.webp
+  Downloaded: 603578_6_20260607093612113585.webp
+  Downloaded: 545610_2_20260510075545696858.webp
+  Downloaded: 545610_3_20260510075545697121.webp
+  Downloaded: 545610_1_20260510075545696578.webp
+  Downloaded: 545610_5_20260510075545697621.webp
+  Downloaded: 545610_6_20260510075545697851.webp
+  Downloaded: 540269_0_20260429095403644418.webp
+  Downloaded: 540269_1_20260429095403644812.webp
+  Downloaded: 540269_3_20260429095403645379.webp
+  Downloaded: 540269_4_20260429095403645655.webp
+  Downloaded: 540269_2_20260429095403645062.webp
+  Downloaded: 540269_5_20260429095403645915.webp
+  Downloaded: 535324_0_20260419065803287737.webp
+  Downloaded: 540269_6_20260429095403646186.webp
+  Downloaded: 535324_3_20260419065803288982.webp
+  Downloaded: 535324_1_20260419065803288335.webp
+  Downloaded: 603561_1_20260607092303785947.webp
+  Downloaded: 535324_2_20260419065803288687.webp
+  Downloaded: 535324_5_20260419065803289434.webp
+  Downloaded: 603561_0_20260607092303785363.webp
+  Downloaded: 603561_2_20260607092303786288.webp
+  Downloaded: 535324_4_20260419065803289200.webp
+  Downloaded: 603561_4_20260607092303786889.webp
+  Downloaded: 603561_3_20260607092303786602.webp
+  Downloaded: 603561_5_20260607092303787198.webp
+  Downloaded: 453607_0_20251130085126471552.webp
+  Downloaded: 453607_1_20251130085126472172.webp
+  Downloaded: 453607_4_20251130085126473210.webp
+  Downloaded: 453607_6_20251130085126473955.webp
+  Downloaded: 453607_3_20251130085126472864.webp
+  Downloaded: 453607_2_20251130085126472532.webp
+  Downloaded: 453607_5_20251130085126473599.webp
+  Downloaded: 527594_0_20260401094951992971.webp
+  Downloaded: 527594_1_20260401094951993557.webp
+  Downloaded: 527594_2_20260401094951993884.webp
+  Downloaded: 603580_0_20260607093730774751.webp
+  Downloaded: 527594_4_20260401094951994358.webp
+  Downloaded: 603580_1_20260607093730775373.webp
+  Downloaded: 527594_3_20260401094951994143.webp
+  Downloaded: 527594_5_20260401094951994623.webp
+  Downloaded: 603580_3_20260607093730776083.webp
+  Downloaded: 603580_4_20260607093730776364.webp
+  Downloaded: 603562_0_20260607092414262252.webp
+  Downloaded: 603580_2_20260607093730775769.webp
+  Downloaded: 603580_6_20260607093730776843.webp
+  Downloaded: 603580_5_20260607093730776608.webp
+  Downloaded: 603562_3_20260607092414263281.webp
+  Downloaded: 603562_1_20260607092414262653.webp
+  Downloaded: 603562_5_20260607092414263902.webp
+  Downloaded: 603579_1_20260607093702533182.webp
+  Downloaded: 603579_2_20260607093702533544.webp
+  Downloaded: 603579_0_20260607093702532625.webp
+  Downloaded: 603562_2_20260607092414262982.webp
+  Downloaded: 603562_4_20260607092414263638.webp
+  Downloaded: 603579_3_20260607093702533837.webp
+  Downloaded: 603579_4_20260607093702534140.webp
+  Downloaded: 603579_5_20260607093702534458.webp
+  Downloaded: 603579_6_20260607093702534718.webp
+  Downloaded: 603579_7_20260607093702535064.webp
+  Downloaded: 577936_0_20260531082301064297.webp
+  Downloaded: 577936_1_20260531082301064708.webp
+  Downloaded: 577936_2_20260531082301065062.webp
+  Downloaded: 577936_5_20260531082301065937.webp
+  Downloaded: 577936_6_20260531082301066236.webp
+  Downloaded: 577936_3_20260531082301065406.webp
+  Downloaded: 577936_4_20260531082301065664.webp
+  Downloaded: 577936_8_20260531082301066961.webp
+  Downloaded: 577936_7_20260531082301066543.webp
+
+STEP 4 DONE: 253 downloaded | 0 failed
+
+============================================================
+📊 SCRAPED DATA QUALITY SUMMARY REPORT
+============================================================
+📈 Total Rows (Products) Processed: 36
+============================================================
+        Column Name  Empty Cells Count Missing Percentage
+        product_url                  0              0.00%
+              title                  0              0.00%
+              price                  0              0.00%
+           currency                  0              0.00%
+       listing_type                  0              0.00%
+          condition                 35             97.22%
+        seller_type                 35             97.22%
+      showroom_name                  1              2.78%
+       showroom_url                  1              2.78%
+        posted_time                  0              0.00%
+         fans_count                  0              0.00%
+         view_count                  0              0.00%
+        description                 35             97.22%
+             phones                  0              0.00%
+          whatsapps                  0              0.00%
+             images                  0              0.00%
+       images_count                  0              0.00%
+specifications_json                  0              0.00%
+             المصنع                  0              0.00%
+              الصنف                  0              0.00%
+            الموديل                  0              0.00%
+               قاطع                  0              0.00%
+              اللون                  0              0.00%
+      اللون الداخلي                  0              0.00%
+              النوع                  0              0.00%
+        ناقل السرعة                  0              0.00%
+         نظام الدفع                  0              0.00%
+        فرش المقاعد                  0              0.00%
+              السنة                  0              0.00%
+              سلندر                  0              0.00%
+      تحديد المواقع                 13             36.11%
+              سي دي                  9             25.00%
+           دي في دي                 31             86.11%
+       كاميرا خلفية                 10             27.78%
+           الحساسات                  2              5.56%
+         فتحة السقف                  0              0.00%
+         تحت الضمان                  0              0.00%
+             بلوتوث                  3              8.33%
+      كاميرا امامية                 34             94.44%
+               وارد                 31             86.11%
+   تدفئة في المقاعد                 34             94.44%
+   تبريد في المقاعد                 34             94.44%
+         نوع الوقود                  0              0.00%
+           بانوراما                 35             97.22%
+      الطلاء الأصلي                 35             97.22%
+ images_local_paths                  0              0.00%
+============================================================
+💡 Note: 0.00% means the column is perfect with NO empty data.
+============================================================
+
+
+============================================================
+FINAL SUMMARY
+============================================================
+STEP 1 - Links:    1 pages OK | 0 failed | 36 total links
+STEP 2 - Products: 36 scraped | 0 failed
+STEP 3 - Flatten:  45 columns
+STEP 4 - Images:   253 downloaded | 0 failed
+Total Time: 7m 50s
+============================================================
