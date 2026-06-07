@@ -1,0 +1,36 @@
+name: QatarSale Scraper
+
+on:
+  schedule:
+    - cron: '0 0 * * 1' 
+  workflow_dispatch: 
+
+jobs:
+  scrape:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repo
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+
+      - name: Install dependencies
+        run: |
+          pip install requests pandas beautifulsoup4 playwright
+          playwright install chromium
+          playwright install-deps chromium
+
+      - name: Run scraper
+        run: python main.py
+
+      - name: Commit results
+        run: |
+          git config --global user.name "github-actions[bot]"
+          git config --global user.email "github-actions[bot]@users.noreply.github.com"
+          git add all_car_links.csv all_products.csv all_products_flat.csv all_products_final.csv images/
+          git diff --staged --quiet || git commit -m "Auto scrape: $(date +'%Y-%m-%d')"
+          git push
