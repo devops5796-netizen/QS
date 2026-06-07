@@ -30,7 +30,7 @@ async def main():
     summary["products"] = await products_scraper.run(LINKS_CSV, PRODUCTS_CSV)
     summary["flatten"]  = flatten.run(PRODUCTS_CSV, PRODUCTS_FLAT_CSV)
     summary["images"]   = image_downloader.run(PRODUCTS_FLAT_CSV, PRODUCTS_FINAL_CSV, IMAGES_FOLDER)
-    analyze_data.analyze_scraped_data(PRODUCTS_CSV)
+    analyze_data.analyze_scraped_data(PRODUCTS_FINAL_CSV)
 
     elapsed = time.time() - start
     minutes = int(elapsed // 60)
