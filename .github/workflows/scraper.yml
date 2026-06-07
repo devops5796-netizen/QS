@@ -24,13 +24,14 @@ jobs:
           playwright install chromium
           playwright install-deps chromium
 
-      - name: Run scraper
-        run: python main.py
+        name: Run scraper and save report
+        run: |
+          python main.py > scrape_report.txt 2>&1
 
       - name: Commit results
         run: |
           git config --global user.name "github-actions[bot]"
           git config --global user.email "github-actions[bot]@users.noreply.github.com"
-          git add all_car_links.csv all_products.csv all_products_flat.csv all_products_final.csv images/
-          git diff --staged --quiet || git commit -m "Auto scrape: $(date +'%Y-%m-%d')"
+          git add scrape_report.txt
+          git commit --allow-empty -m "Auto scrape report: $(date +'%Y-%m-%d')"
           git push
