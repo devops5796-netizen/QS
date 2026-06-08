@@ -29,6 +29,7 @@ Listing Pages  →  Product URLs  →  Product Details  →  Flatten Specs  → 
 | 2 | `products_scraper.py` | `playwright` (3 workers) | `all_products.csv` |
 | 3 | `flatten.py` | `pandas` | `all_products_flat.csv` |
 | 4 | `image_downloader.py` | `requests` (5 workers) | `all_products_final.csv` + `images/` |
+| 5 | `r2_uploader.py` | `boto3` | Cloudflare R2 (images + final CSV) |
 
 
 ## GitHub Actions (CI/CD)
