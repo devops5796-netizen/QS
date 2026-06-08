@@ -1,6 +1,7 @@
 # QS
-```
 ## Project Structure
+```
+
 QS/
 ├── main.py               # Pipeline entry point
 ├── links_scraper.py      # Step 1: Collect product URLs from listing pages
@@ -15,6 +16,7 @@ QS/
 ---
 
 ## Pipeline Overview
+
 ```
 Listing Pages  →  Product URLs  →  Product Details  →  Flatten Specs  →  Download Images
   (requests)        (CSV)           (Playwright)           (CSV)             (local)
@@ -27,3 +29,20 @@ Listing Pages  →  Product URLs  →  Product Details  →  Flatten Specs  → 
 | 2 | `products_scraper.py` | `playwright` (3 workers) | `all_products.csv` |
 | 3 | `flatten.py` | `pandas` | `all_products_flat.csv` |
 | 4 | `image_downloader.py` | `requests` (5 workers) | `all_products_final.csv` + `images/` |
+
+
+## GitHub Actions (CI/CD)
+
+The workflow runs automatically every **Monday at 12:00 AM UTC** or manually from GitHub UI.
+
+### What happens after each run
+- Scraper output is saved to `scrape_report.txt` and committed to the repo
+
+### Workflow steps
+| Step | Action |
+|------|--------|
+| 1 | Checkout repo |
+| 2 | Set up Python 3.11 |
+| 3 | Install dependencies + Playwright Chromium |
+| 4 | Run `main.py` and save output to `scrape_report.txt` |
+| 5 | Commit and push `scrape_report.txt` to repo |
