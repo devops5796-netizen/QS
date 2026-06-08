@@ -22,11 +22,16 @@ jobs:
 
       - name: Install dependencies
         run: |
-          pip install requests pandas beautifulsoup4 playwright
+          pip install requests pandas beautifulsoup4 playwright boto3
           playwright install chromium
           playwright install-deps chromium
 
       - name: Run scraper and save report
+        env:
+          CF_R2_ACCESS_KEY_ID: ${{ secrets.CF_R2_ACCESS_KEY_ID }}
+          CF_R2_SECRET_ACCESS_KEY: ${{ secrets.CF_R2_SECRET_ACCESS_KEY }}
+          CF_R2_ENDPOINT_URL: ${{ secrets.CF_R2_ENDPOINT_URL }}
+          CF_R2_BUCKET_NAME: ${{ secrets.CF_R2_BUCKET_NAME }}
         run: |
           python main.py > scrape_report.txt 2>&1
 
