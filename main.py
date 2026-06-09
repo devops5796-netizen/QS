@@ -4,7 +4,7 @@ import links_scraper
 import products_scraper
 import flatten
 import analyze_data
-import r2_uploader
+from r2_uploader import upload_final_batch_assets
 
 from dotenv import load_dotenv
 load_dotenv()
@@ -39,7 +39,7 @@ def main():
     summary["links"]    = links_scraper.run(LISTING_URL, start, end, links_csv)
     summary["products"] = products_scraper.run(links_csv, products_json, workers=4)
     summary["flatten"]  = flatten.run(products_json, products_flat_csv)
-    summary["r2"]       = r2_uploader.upload_all(IMAGES_FOLDER, products_flat_csv)
+    summary["r2"]       = upload_final_batch_assets(IMAGES_FOLDER, products_flat_csv)    
     analyze_data.analyze_scraped_data(products_flat_csv)
 
     elapsed = time.time() - elapsed_start
@@ -55,6 +55,7 @@ def main():
     print(f"STEP 4 - R2 Upload: {summary['r2']['uploaded']} uploaded | {summary['r2']['failed']} failed")
     print(f"Total Time: {minutes}m {seconds}s")
     print("="*60)
+
 
 if __name__ == "__main__":
     main()

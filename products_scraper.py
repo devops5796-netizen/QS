@@ -9,6 +9,8 @@ import boto3
 from scrapling import StealthyFetcher
 from concurrent.futures import ThreadPoolExecutor, as_completed
 
+from r2_uploader import upload_single_file
+
 def parse_product(page) -> dict:
     title = price = currency = listing_type = condition = seller_type = ""
     description = posted_time = showroom_name = showroom_url = ""
@@ -128,20 +130,8 @@ def parse_product(page) -> dict:
         "specs": specs
     }
 
-
-def get_r2_client():
-    return boto3.client(
-        "s3",
-        endpoint_url=os.environ.get("CF_R2_ENDPOINT_URL"),
-        aws_access_key_id=os.environ.get("CF_R2_ACCESS_KEY_ID"),
-        aws_secret_access_key=os.environ.get("CF_R2_SECRET_ACCESS_KEY"),
-        region_name="auto"
-    )
-
 def download_images(images: list, images_folder: str) -> list:
     Path(images_folder).mkdir(exist_ok=True)
-    r2 = get_r2_client()
-    bucket = os.environ.get("CF_R2_BUCKET_NAME", "")
     local_paths = []
     
     for img_url in images:
@@ -156,29 +146,21 @@ def download_images(images: list, images_folder: str) -> list:
                 with open(local_path, "wb") as f:
                     f.write(r.content)
                 local_paths.append(local_path)
-                # upload to R2
-                if r2 and bucket:
-                    try:
-                        r2.upload_file(
-                            local_path, bucket,
-                            f"images/{filename}",
-                            ExtraArgs={"ContentType": "image/webp"}
-                        )
-                    except Exception as e:
-                        print(f"  R2 upload error: {filename} -> {e}")
+                
+                upload_single_file(local_path, r2_folder="images")
+                
         except Exception:
             pass
     return local_paths
 
 def scrape_single(url: str, images_folder: str = "images") -> dict:
     try:
-        # تم تغيير network_idle لتكون False لزيادة السرعة القصوى مع الحفاظ على المهلة المحددة
         page = StealthyFetcher.fetch(url, headless=True, network_idle=False, timeout=30000)
         data = parse_product(page)
         data["images_local_paths"] = download_images(data.get("images", []), images_folder)
         return data
     except Exception as e:
-        print(f"  Error: {url} -> {e}")
+        print(f"  Error URL: {url} -> {e}")
         return {}
 
 def run(links_csv: str, output_json: str, workers: int = 5):
