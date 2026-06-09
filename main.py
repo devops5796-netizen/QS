@@ -1,3 +1,4 @@
+import sys
 import time
 import links_scraper
 import products_scraper
@@ -6,7 +7,6 @@ import analyze_data
 import r2_uploader
 
 from dotenv import load_dotenv
-
 load_dotenv()
 
 # ============================================================
@@ -22,19 +22,26 @@ PRODUCTS_FLAT_CSV = "all_products_flat.csv"
 # ============================================================
 
 def main():
-    start = time.time()
+    if len(sys.argv) == 3:
+        start = int(sys.argv[1])
+        end = int(sys.argv[2])
+    else:
+        start = START_PAGE
+        end = END_PAGE
+
+    elapsed_start = time.time()
     summary = {}
 
     print("QatarSale Scraper - Full Pipeline")
-    print(f"URL: {LISTING_URL} | Pages: {START_PAGE} to {END_PAGE}")
+    print(f"URL: {LISTING_URL} | Pages: {start} to {end}")
 
-    summary["links"]    = links_scraper.run(LISTING_URL, START_PAGE, END_PAGE, LINKS_CSV)
-    summary["products"] = products_scraper.run(LINKS_CSV, PRODUCTS_JSON, workers=5)
+    summary["links"]    = links_scraper.run(LISTING_URL, start, end, LINKS_CSV)
+    summary["products"] = products_scraper.run(LINKS_CSV, PRODUCTS_JSON, workers=4)
     summary["flatten"]  = flatten.run(PRODUCTS_JSON, PRODUCTS_FLAT_CSV)
-    summary["r2"] = r2_uploader.upload_all(IMAGES_FOLDER, PRODUCTS_FLAT_CSV)
+    summary["r2"]       = r2_uploader.upload_all(IMAGES_FOLDER, PRODUCTS_FLAT_CSV)
     analyze_data.analyze_scraped_data(PRODUCTS_FLAT_CSV)
 
-    elapsed = time.time() - start
+    elapsed = time.time() - elapsed_start
     minutes = int(elapsed // 60)
     seconds = int(elapsed % 60)
 
