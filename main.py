@@ -29,7 +29,7 @@ def main():
     print(f"URL: {LISTING_URL} | Pages: {START_PAGE} to {END_PAGE}")
 
     summary["links"]    = links_scraper.run(LISTING_URL, START_PAGE, END_PAGE, LINKS_CSV)
-    summary["products"] = products_scraper.run(LINKS_CSV, PRODUCTS_JSON, workers=3)
+    summary["products"] = products_scraper.run(LINKS_CSV, PRODUCTS_JSON, workers=4)
     summary["flatten"]  = flatten.run(PRODUCTS_JSON, PRODUCTS_FLAT_CSV)
     summary["r2"] = r2_uploader.upload_all(IMAGES_FOLDER, PRODUCTS_FLAT_CSV)
     analyze_data.analyze_scraped_data(PRODUCTS_FLAT_CSV)
