@@ -22,9 +22,10 @@ jobs:
 
       - name: Install dependencies
         run: |
-          pip install requests pandas beautifulsoup4 playwright boto3
+          pip install requests pandas beautifulsoup4 playwright scrapling
           playwright install chromium
           playwright install-deps chromium
+          scrapling install
 
       - name: Run scraper and save report
         env:
