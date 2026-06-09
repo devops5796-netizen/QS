@@ -40,7 +40,7 @@ jobs:
           CF_R2_ENDPOINT_URL: ${{ secrets.CF_R2_ENDPOINT_URL }}
           CF_R2_BUCKET_NAME: ${{ secrets.CF_R2_BUCKET_NAME }}
         run: |
-          python -u main.py 1 1 2>&1 | tee scrape_report_test.txt
+          python -u main.py 1 2 2>&1 | tee scrape_report_test.txt
 
       - name: Commit results
         run: |

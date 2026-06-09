@@ -10,53 +10,91 @@ from scrapling import StealthyFetcher
 from concurrent.futures import ThreadPoolExecutor, as_completed
 
 def parse_product(page) -> dict:
-    title_el = page.find("h1[title]")
-    title = title_el.text if title_el else ""
-
-    price_el = page.find("[data-testid='at-show-product-info-startingPrice-text']")
-    price = price_el.text if price_el else ""
-
-    currency = ""
-    price_wrapper = page.find(".product-price")
-    if price_wrapper:
-        texts = [p.text for p in price_wrapper.find_all("p")]
-        currency = texts[1] if len(texts) > 1 else ""
-
-    seller_type_el = page.find("[data-testid='at-show-product-info-personal-name-text']")
-    seller_type = seller_type_el.text if seller_type_el else ""
-
-
-    condition_el = page.find("[data-testid='at-show-product-info-conditionNew-text']")
-    condition = condition_el.text if condition_el else ""
-
-    desc_el = page.find("[data-testid='at-show-product-description-text']")
-    description = desc_el.text if desc_el else ""
-
-    # listing_type
-    listing_type_el = page.find("[data-testid='at-show-product-info-forSale-text']")
-    listing_type = listing_type_el.find("p").text if listing_type_el and listing_type_el.find("p") else ""
-
-    # showroom
-    showroom_el = page.find("[data-testid='at-show-product-info-showroom-name-text']")
-    if showroom_el:
-        showroom_name = showroom_el.find("p").text if showroom_el.find("p") else showroom_el.text
-        showroom_url = showroom_el.attrib.get("href", "").strip()
-        if showroom_url and not showroom_url.startswith("http"):
-            showroom_url = f"https://qatarsale.com/{showroom_url}"
-    else:
-        showroom_name = ""
-        showroom_url = ""
+    title = price = currency = listing_type = condition = seller_type = ""
+    description = posted_time = showroom_name = showroom_url = ""
+    fans_count = view_count = "0"
+    phones, whatsapps = [], []
+    specs = {}
+    images = []
 
     posted_time_el = page.find("[data-testid='at-show-product-info-productPosted-text']")
-    posted_time = posted_time_el.text if posted_time_el else ""
+    if posted_time_el:
+        posted_time = posted_time_el.text.strip()
 
-    fans_count_el = page.find("[data-testid='at-show-product-info-fansCount-text']")
-    fans_count = fans_count_el.text if fans_count_el else "0"
+    state_script = page.find("script#serverApp-state")
+    if state_script:
+        try:
+            raw = state_script.text.replace("&q;", '"').replace("&l;", "<").replace("&a;", "&").replace("&s;", "'")
+            state_data = json.loads(raw)
+            product_data = state_data.get("product", {}).get("product", {})
+            
+            if isinstance(product_data, dict):
+                title = product_data.get("title", "")
+                price = str(product_data.get("startingPrice", ""))
+                description = product_data.get("desc", product_data.get("arDesc", ""))
+                fans_count = str(product_data.get("fansCount", 0))
+                view_count = str(product_data.get("viewCount", 0))
+                showroom_name = product_data.get("showroomName", "")
+                
+                if not posted_time:
+                    posted_time = product_data.get("timeAgo", "")
+                
+                s_uri = product_data.get("showroomUri", "")
+                if s_uri:
+                    showroom_url = f"https://qatarsale.com/ar/showroom/{s_uri}"
+                
+                cond_obj = product_data.get("condition", {})
+                if isinstance(cond_obj, dict):
+                    condition = cond_obj.get("nameAr", "")
+                
+                list_type_code = str(product_data.get("advertisedFor", ""))
+                listing_type = "للبيع" if list_type_code == "0" else ("للإيجار" if list_type_code == "1" else list_type_code)
+                
+                owner_obj = product_data.get("owner", {})
+                if isinstance(owner_obj, dict):
+                    seller_type = owner_obj.get("name", "")
+                    for p in owner_obj.get("phones", []):
+                        phone_num = p.get("phone", "").strip()
+                        if phone_num:
+                            if p.get("isPhone", True): phones.append(phone_num)
+                            if p.get("isWhatsapp", False): whatsapps.append(phone_num)
 
-    view_count_el = page.find("[data-testid='at-show-product-info-viewCount-text']")
-    view_count = view_count_el.text if view_count_el else "0"
+                curr_obj = product_data.get("currency", {})
+                if isinstance(curr_obj, dict):
+                    currency = curr_obj.get("nameAr", "رق")
 
-    specs = {}
+        except Exception:
+            pass 
+
+    if not title:
+        title_el = page.find("h1[title]")
+        title = title_el.text.strip() if title_el else ""
+
+    if not price:
+        price_el = page.find("[data-testid='at-show-product-info-startingPrice-text']")
+        price = price_el.text.strip() if price_el else ""
+
+    if not seller_type:
+        seller_type_el = page.find("[data-testid='at-show-product-info-personal-name-text']")
+        if seller_type_el:
+            p_tag = seller_type_el.find("p")
+            seller_type = p_tag.text.strip() if p_tag else seller_type_el.text.strip()
+
+    if not condition:
+        condition_el = page.find("[data-testid*='condition']")
+        if condition_el:
+            p_tag = condition_el.find("p")
+            condition = p_tag.text.strip() if p_tag else condition_el.text.strip()
+        
+        if not condition:
+            pill_el = page.find(".pill")
+            if pill_el:
+                condition = pill_el.text.strip()
+
+    if not description:
+        desc_el = page.find("[data-testid='at-show-product-description-text']")
+        description = desc_el.text.strip() if desc_el else ""
+
     seen = set()
     labels = page.find_all("[data-testid^='at-show-product-parsedDefs-label-text-']")
     values = page.find_all("[data-testid^='at-show-product-parsedDefs-value-text-']")
@@ -67,22 +105,6 @@ def parse_product(page) -> dict:
             specs[key] = value
             seen.add(key)
 
-    phones, whatsapps = [], []
-    state_script = page.find("script#serverApp-state")
-    if state_script:
-        try:
-            raw = state_script.text.replace("&q;", '"').replace("&l;", "<").replace("&a;", "&").replace("&s;", "'")
-            state_data = json.loads(raw)
-            owner = state_data.get("product", {}).get("product", {}).get("owner", {})
-            for p in owner.get("phones", []):
-                phone_num = p.get("phone", "").strip()
-                if phone_num:
-                    if p.get("isPhone", True): phones.append(phone_num)
-                    if p.get("isWhatsapp", False): whatsapps.append(phone_num)
-        except Exception:
-            pass
-
-    images = []
     script = page.find("script[type='application/ld+json'][data-json-ld='true']")
     if script:
         try:
@@ -150,6 +172,7 @@ def download_images(images: list, images_folder: str) -> list:
 
 def scrape_single(url: str, images_folder: str = "images") -> dict:
     try:
+        # تم تغيير network_idle لتكون False لزيادة السرعة القصوى مع الحفاظ على المهلة المحددة
         page = StealthyFetcher.fetch(url, headless=True, network_idle=False, timeout=30000)
         data = parse_product(page)
         data["images_local_paths"] = download_images(data.get("images", []), images_folder)
