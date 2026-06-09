@@ -46,7 +46,7 @@ jobs:
         run: |
           git config --global user.name "github-actions[bot]"
           git config --global user.email "github-actions[bot]@users.noreply.github.com"
-          git add scrape_report_test.txt all_products_flat_1_1.csv
+          git add scrape_report_test.txt all_products_flat_1_2.csv
           git diff --staged --quiet || git commit -m "Test run: 1 page $(date +'%Y-%m-%d')"
           git pull --rebase origin main
           git push
