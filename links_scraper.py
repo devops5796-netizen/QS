@@ -40,25 +40,33 @@ def run(listing_url: str, start_page: int, end_page: int, output_csv: str):
     for page_num in range(start_page, end_page + 1):
         url = f"{listing_url}?page={page_num}"
         print(f"Page {page_num}/{end_page}: {url}")
-        try:
-            headers = {"User-Agent": random.choice(USER_AGENTS)}
-            response = session.get(url, headers=headers, timeout=15)
-            if response.status_code == 200:
-                links = extract_product_links(response.text)
-                if links:
-                    for l in links:
-                        all_links.add(l)
-                    success_count += 1
-                    print(f"  Found {len(links)} links")
+        
+        for attempt in range(3):  # retry 3 مرات
+            try:
+                headers = {"User-Agent": random.choice(USER_AGENTS)}
+                response = session.get(url, headers=headers, timeout=30)  # من 15 لـ 30
+                if response.status_code == 200:
+                    links = extract_product_links(response.text)
+                    if links:
+                        for l in links:
+                            all_links.add(l)
+                        success_count += 1
+                        print(f"  Found {len(links)} links")
+                    else:
+                        failed_pages[f"Page {page_num}"] = "No links found"
+                        print(f"  No links found")
+                    break  # نخرج من الـ retry loop لو نجح
                 else:
-                    failed_pages[f"Page {page_num}"] = "No links found"
-                    print(f"  No links found")
-            else:
-                failed_pages[f"Page {page_num}"] = f"HTTP {response.status_code}"
-                print(f"  HTTP Error: {response.status_code}")
-        except Exception as e:
-            failed_pages[f"Page {page_num}"] = str(e)
-            print(f"  Error: {e}")
+                    failed_pages[f"Page {page_num}"] = f"HTTP {response.status_code}"
+                    print(f"  HTTP Error: {response.status_code}")
+                    break
+            except Exception as e:
+                if attempt < 2:
+                    print(f"  Attempt {attempt+1} failed, retrying...")
+                    time.sleep(3)
+                else:
+                    failed_pages[f"Page {page_num}"] = str(e)
+                    print(f"  Error: {e}")
 
         if page_num < end_page:
             time.sleep(random.uniform(2.0, 5.0))
