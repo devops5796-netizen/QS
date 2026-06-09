@@ -1,6 +1,164 @@
-Traceback (most recent call last):
-  File "/home/runner/work/QS/QS/main.py", line 3, in <module>
-    import products_scraper
-  File "/home/runner/work/QS/QS/products_scraper.py", line 5, in <module>
-    from scrapling import StealthyFetcher
-ModuleNotFoundError: No module named 'scrapling'
+QatarSale Scraper - Full Pipeline
+URL: https://qatarsale.com/ar/products/cars_for_sale | Pages: 1 to 1
+
+==================================================
+STEP 1: Scraping listing pages for links...
+==================================================
+Page 1/1: https://qatarsale.com/ar/products/cars_for_sale?page=1
+  Found 36 links
+
+==================================================
+STEP 2: Scraping product pages (3 workers)...
+==================================================
+Loaded 36 URLs
+Remaining: 36 URLs
+[2026-06-09 05:52:26] INFO: Fetched (200) <GET https://qatarsale.com/ar/product/land_rover_range_rover_velar_r_dynamic_2019_red_automatic_suv-542390> (referer: https://www.google.com/)
+[2026-06-09 05:52:27] INFO: Fetched (200) <GET https://qatarsale.com/ar/product/byd_song_l_2026_gray_and_off_white_automatic_suv-604635> (referer: https://www.google.com/)
+[2026-06-09 05:52:28] INFO: Fetched (200) <GET https://qatarsale.com/ar/product/lamborghini_urus_performante_2023_blue_matte_automatic_suv-604662> (referer: https://www.google.com/)
+  Saved:  بي واي دي  سونغ ال  2026  اوتوماتيك  17,000 كم  4 سلندر  دفع رباعي  اس يو في  رمادي و اوف وايت  تحت الضمان 
+[2026-06-09 05:52:38] INFO: Fetched (200) <GET https://qatarsale.com/ar/product/lexus_lx_570_2013_white_automatic_suv-604721> (referer: https://www.google.com/)
+  Saved:  لاند روفر  رنج روفر  فيلار-ار - داينمك  2019  اوتوماتيك  77,000 كم  4 سلندر  دفع رباعي  اس يو في  أحمر 
+[2026-06-09 05:52:43] INFO: Fetched (200) <GET https://qatarsale.com/ar/product/ferrari_296_gtb_2025_red_automatic_coupe_sport-546700> (referer: https://www.google.com/)
+  Saved:  لكزس  ال اكس  570  2013  اوتوماتيك  306,000 كم  8 سلندر  دفع رباعي  اس يو في  أبيض 
+  Saved:  لمبرجيني  اوروس  بيرفورمانتي  2023  اوتوماتيك  65,000 كم  8 سلندر  دفع رباعي  اس يو في  أزرق مطفي  تحت الضمان 
+  Saved:  فيراري  296  جي تي بي  2025  اوتوماتيك  5,000 كم  6 سلندر  دفع كلي مستمر  كوبيه \ سبورت  أحمر  تحت الضمان 
+[2026-06-09 05:52:52] INFO: Fetched (200) <GET https://qatarsale.com/ar/product/lexus_lx_570_s_black_edition_2019_black_automatic_suv-604690> (referer: https://www.google.com/)
+[2026-06-09 05:52:52] INFO: Fetched (200) <GET https://qatarsale.com/ar/product/gmc_sierra_at4_carbon_pro_2021_white_automatic_pick_up-528221> (referer: https://www.google.com/)
+[2026-06-09 05:52:53] INFO: Fetched (200) <GET https://qatarsale.com/ar/product/land_rover_range_rover_vogue_2016_white_automatic_suv-604525> (referer: https://www.google.com/)
+  Saved:  لكزس  ال اكس  570 اس بلاك ايديشن  2019  اوتوماتيك  333,000 كم  8 سلندر  دفع رباعي  اس يو في  أسود 
+  Saved:  جي ام سي  سييرا  اي تي 4  كاربون برو  2021  اوتوماتيك  105,000 كم  8 سلندر  دفع رباعي  بيكب  أبيض 
+[2026-06-09 05:52:57] INFO: Fetched (200) <GET https://qatarsale.com/ar/product/land_rover_defender_110_hse_2024_black_automatic_suv-604724> (referer: https://www.google.com/)
+  Saved:  لاند روفر  رنج روفر  فوج  2016  اوتوماتيك  128,000 كم  8 سلندر  دفع رباعي  اس يو في  أبيض 
+  Saved:  لاند روفر  ديفيندر  110 اتش اس اي  2024  اوتوماتيك  55,000 كم  6 سلندر  دفع رباعي  اس يو في  أسود  تحت الضمان 
+[2026-06-09 05:53:02] INFO: Fetched (200) <GET https://qatarsale.com/ar/product/bmw_x_series_x6_40i_2026_black_tiptronic_suv-545007> (referer: https://www.google.com/)
+[2026-06-09 05:53:03] INFO: Fetched (200) <GET https://qatarsale.com/ar/product/toyota_land_cruiser_gxr_2020_white_automatic_suv-604674> (referer: https://www.google.com/)
+[2026-06-09 05:53:03] INFO: Fetched (200) <GET https://qatarsale.com/ar/product/toyota_land_cruiser_vxr_twin_turbo_2023_black_automatic_suv-604702> (referer: https://www.google.com/)
+  Saved:  تويوتا  لاند كروزر  في اكس ار توين توربو  2023  اوتوماتيك  67,000 كم  6 سلندر  دفع رباعي  اس يو في  أسود  تحت الضمان 
+  Saved:  تويوتا  لاند كروزر  جي اكس ار  2020  اوتوماتيك  169,000 كم  8 سلندر  دفع رباعي  اس يو في  أبيض 
+[2026-06-09 05:53:08] INFO: Fetched (200) <GET https://qatarsale.com/ar/product/lexus_lx_600_overtrail_2025_beige_automatic_suv-603077> (referer: https://www.google.com/)
+  Saved:  بي ام دبليو  الفئة - اكس  اكس 6 40اي  2026  تبترونك  6,200 كم  6 سلندر  دفع كلي مستمر  اس يو في  أسود  تحت الضمان 
+[2026-06-09 05:53:11] INFO: Fetched (200) <GET https://qatarsale.com/ar/product/lexus_lx_570_2018_white_automatic_suv-587537> (referer: https://www.google.com/)
+[2026-06-09 05:53:12] INFO: Fetched (200) <GET https://qatarsale.com/ar/product/rolls_royce_phantom_drophead_2014_white_automatic_convertible-604684> (referer: https://www.google.com/)
+  Saved:  لكزس  ال اكس  600 اوفرتريل  2025  اوتوماتيك  10,000 كم  6 سلندر  دفع رباعي  اس يو في  بيج  تحت الضمان 
+  Saved:  لكزس  ال اكس  570  2018  اوتوماتيك  9,000 كم  8 سلندر  دفع رباعي  اس يو في  أبيض 
+[2026-06-09 05:53:16] INFO: Fetched (200) <GET https://qatarsale.com/ar/product/toyota_land_cruiser_vxr_twin_turbo_2023_black_automatic_suv-364361> (referer: https://www.google.com/)
+  Saved:  رولز - رويس  فانتوم  دروب هيد  2014  اوتوماتيك  42,000 كم  12 سلندر  دفع رباعي  كشف  أبيض 
+[2026-06-09 05:53:18] INFO: Fetched (200) <GET https://qatarsale.com/ar/product/land_rover_defender_110_hse_2023_black_matte_automatic_suv-604562> (referer: https://www.google.com/)
+  Saved:  تويوتا  لاند كروزر  في اكس ار توين توربو  2023  اوتوماتيك  29,000 كم  8 سلندر  دفع رباعي  اس يو في  أسود  تحت الضمان 
+  Saved:  لاند روفر  ديفيندر  110 اتش اس اي  2023  اوتوماتيك  109,900 كم  6 سلندر  دفع رباعي  اس يو في  اسود مطفي  تحت الضمان 
+[2026-06-09 05:53:21] INFO: Fetched (200) <GET https://qatarsale.com/ar/product/bmw_4_series_420_i_m_2021_blue_automatic_coupe_sport-604512> (referer: https://www.google.com/)
+[2026-06-09 05:53:22] INFO: Fetched (200) <GET https://qatarsale.com/ar/product/honda_crv_ex_2005_gold_automatic_suv-604411> (referer: https://www.google.com/)
+  Saved:  بي ام دبليو  الفئة-الرابعة  420 اي ام  2021  اوتوماتيك  46,000 كم  4 سلندر  دفع خلفي  كوبيه \ سبورت  ازرق 
+  Saved:  هوندا  سي آر في  اي اكس  2005  اوتوماتيك  167,000 كم  4 سلندر  دفع رباعي  اس يو في  ذهبي 
+[2026-06-09 05:53:28] INFO: Fetched (200) <GET https://qatarsale.com/ar/product/land_rover_evoque_r_dynamic_2016_white_automatic_suv-602977> (referer: https://www.google.com/)
+[2026-06-09 05:53:29] INFO: Fetched (200) <GET https://qatarsale.com/ar/product/chevrolet_silverado_trail_boss_2023_beige_automatic_pick_up-604657> (referer: https://www.google.com/)
+[2026-06-09 05:53:29] INFO: Fetched (200) <GET https://qatarsale.com/ar/product/lexus_lx_600_f_sport_2024_white_automatic_suv-604712> (referer: https://www.google.com/)
+  Saved:  لكزس  ال اكس  600 اف سبورت  2024  اوتوماتيك  52,000 كم  6 سلندر  دفع رباعي  اس يو في  أبيض  تحت الضمان 
+  Saved:  شفروليه  سلفرادو  تريل بووز  2023  اوتوماتيك  58,000 كم  8 سلندر  دفع رباعي  بيكب  بيج  تحت الضمان 
+[2026-06-09 05:53:34] INFO: Fetched (200) <GET https://qatarsale.com/ar/product/mercedes_benz_c_class_200_amg_2015_silver_automatic_sedan-542943> (referer: https://www.google.com/)
+  Saved:  لاند روفر  أيفوك  ار- داينمك  2016  اوتوماتيك  77,000 كم  4 سلندر  دفع رباعي  اس يو في  أبيض 
+[2026-06-09 05:53:36] INFO: Fetched (200) <GET https://qatarsale.com/ar/product/voyah_free_2025_black_automatic_suv-604676> (referer: https://www.google.com/)
+[2026-06-09 05:53:37] INFO: Fetched (200) <GET https://qatarsale.com/ar/product/lexus_lx_570_s_2014_pearl_automatic_suv-604696> (referer: https://www.google.com/)
+  Saved:  لكزس  ال اكس  570 اس  2014  اوتوماتيك  163,000 كم  8 سلندر  دفع رباعي  اس يو في  أبيض لؤلؤي 
+  Saved:  مرسيدس - بنز  سي - كلاس  200 اي ام جي  2015  اوتوماتيك  121,000 كم  4 سلندر  دفع خلفي  سيدان  فضي 
+  Saved:  فوياه  فري  2025  اوتوماتيك  19,000 كم  0 سلندر  دفع كلي مستمر  اس يو في  أسود  تحت الضمان 
+[2026-06-09 05:53:43] INFO: Fetched (200) <GET https://qatarsale.com/ar/product/porsche_cayenne_gts_2016_white_automatic_suv-437413> (referer: https://www.google.com/)
+[2026-06-09 05:53:43] INFO: Fetched (200) <GET https://qatarsale.com/ar/product/kia_rio_2024_gray_automatic_sedan-604708> (referer: https://www.google.com/)
+[2026-06-09 05:53:44] INFO: Fetched (200) <GET https://qatarsale.com/ar/product/byd_ti7_flag_ship_2027_black_automatic_suv-575754> (referer: https://www.google.com/)
+  Saved:  كيا  ريو  2024  اوتوماتيك  54,000 كم  4 سلندر  سحب امامي  سيدان  رمادي  تحت الضمان 
+[2026-06-09 05:53:47] INFO: Fetched (200) <GET https://qatarsale.com/ar/product/volkswagen_t_roc_2023_black_automatic_suv-604687> (referer: https://www.google.com/)
+  Saved:  بورش  كيان  جي تي اس  2016  اوتوماتيك  79,000 كم  6 سلندر  دفع رباعي  اس يو في  أبيض  تحت الضمان 
+  Saved:  بي واي دي  تاي7  فلاج شب  2027  اوتوماتيك  0 كم  4 سلندر  دفع رباعي  اس يو في  أسود  تحت الضمان 
+  Saved:  فوكس واغن  تي- روك  2023  اوتوماتيك  33,900 كم  4 سلندر  سحب امامي  اس يو في  أسود  تحت الضمان 
+[2026-06-09 05:53:55] INFO: Fetched (200) <GET https://qatarsale.com/ar/product/chevrolet_suburban_ltz_2013_pearl_automatic_suv-604247> (referer: https://www.google.com/)
+[2026-06-09 05:53:55] INFO: Fetched (200) <GET https://qatarsale.com/ar/product/mercedes_benz_g_class_63_amg_2021_gray_automatic_suv-604670> (referer: https://www.google.com/)
+[2026-06-09 05:53:56] INFO: Fetched (200) <GET https://qatarsale.com/ar/product/audi_a8_l_2022_gray_automatic_sedan-604694> (referer: https://www.google.com/)
+  Saved:  شفروليه  سوبربان  ال تي زد  2013  اوتوماتيك  227,000 كم  8 سلندر  دفع رباعي  اس يو في  أبيض لؤلؤي 
+  Saved:  مرسيدس - بنز  جي - كلاس  63 اي ام جي  2021  اوتوماتيك  117,500 كم  8 سلندر  دفع رباعي  اس يو في  رمادي 
+[2026-06-09 05:53:59] INFO: Fetched (200) <GET https://qatarsale.com/ar/product/land_rover_range_rover_vogue_hse_2023_black_automatic_suv-604594> (referer: https://www.google.com/)
+[2026-06-09 05:54:01] INFO: Fetched (200) <GET https://qatarsale.com/ar/product/toyota_land_cruiser_gxr_2012_pearl_automatic_suv-604633> (referer: https://www.google.com/)
+  Saved:  اودي  أي 8  أل  2022  اوتوماتيك  51,000 كم  6 سلندر  دفع كلي مستمر  سيدان  رمادي  تحت الضمان 
+  Saved:  لاند روفر  رنج روفر  فوج اتش اس اي  2023  اوتوماتيك  45,000 كم  8 سلندر  دفع رباعي  اس يو في  أسود  تحت الضمان 
+[2026-06-09 05:54:05] INFO: Fetched (200) <GET https://qatarsale.com/ar/product/toyota_land_cruiser_gxr_2021_silver_automatic_suv-604711> (referer: https://www.google.com/)
+  Saved:  تويوتا  لاند كروزر  جي اكس ار  2012  اوتوماتيك  308,293 كم  8 سلندر  دفع رباعي  اس يو في  أبيض لؤلؤي 
+  Saved:  تويوتا  لاند كروزر  جي اكس ار  2021  اوتوماتيك  127,000 كم  6 سلندر  دفع رباعي  اس يو في  فضي 
+[2026-06-09 05:54:07] INFO: Fetched (200) <GET https://qatarsale.com/ar/product/lexus_lx_600_f_sport_2023_gray_automatic_suv-604725> (referer: https://www.google.com/)
+  Saved:  لكزس  ال اكس  600 اف سبورت  2023  اوتوماتيك  23,000 كم  6 سلندر  دفع رباعي  اس يو في  رمادي  تحت الضمان 
+
+STEP 2 DONE: 36 OK | 0 failed
+
+==================================================
+STEP 3: Flattening specifications JSON...
+==================================================
+STEP 3 DONE: Saved to 'all_products_flat.csv' with 51 columns
+
+============================================================
+📊 SCRAPED DATA QUALITY SUMMARY REPORT
+============================================================
+📈 Total Rows (Products) Processed: 36
+============================================================
+         Column Name  Empty Cells Count Missing Percentage
+         product_url                  0              0.00%
+               title                  0              0.00%
+               price                  0              0.00%
+            currency                  0              0.00%
+        listing_type                 36            100.00%
+           condition                 36            100.00%
+         seller_type                 36            100.00%
+       showroom_name                 36            100.00%
+        showroom_url                 36            100.00%
+         posted_time                 31             86.11%
+          fans_count                  0              0.00%
+          view_count                  0              0.00%
+         description                 21             58.33%
+              phones                  0              0.00%
+           whatsapps                  0              0.00%
+              images                  0              0.00%
+        images_count                  0              0.00%
+      specifications                  0              0.00%
+  images_local_paths                  0              0.00%
+              المصنع                  0              0.00%
+               الصنف                  0              0.00%
+             الموديل                  0              0.00%
+                قاطع                  0              0.00%
+               اللون                  0              0.00%
+       اللون الداخلي                  0              0.00%
+               النوع                  0              0.00%
+         ناقل السرعة                  0              0.00%
+          نظام الدفع                  0              0.00%
+         فرش المقاعد                  0              0.00%
+               السنة                  0              0.00%
+               سلندر                  0              0.00%
+       تحديد المواقع                  1              2.78%
+        كاميرا خلفية                  1              2.78%
+            الحساسات                  0              0.00%
+          فتحة السقف                  0              0.00%
+          تحت الضمان                  0              0.00%
+              بلوتوث                  0              0.00%
+            بانوراما                 22             61.11%
+       كاميرا امامية                 25             69.44%
+         عدد المقاعد                 26             72.22%
+                وارد                  4             11.11%
+        المالك الأول                 25             69.44%
+       الطلاء الأصلي                 19             52.78%
+    تدفئة في المقاعد                 23             63.89%
+    تبريد في المقاعد                 23             63.89%
+     دخول بدون مفتاح                 23             63.89%
+قياس الجنط ( الرنج )                 28             77.78%
+          نوع الوقود                  0              0.00%
+               سي دي                  5             13.89%
+            دي في دي                 20             55.56%
+    تدليك في المقاعد                 28             77.78%
+============================================================
+💡 Note: 0.00% means the column is perfect with NO empty data.
+============================================================
+
+
+============================================================
+FINAL SUMMARY
+============================================================
+STEP 1 - Links:    1 pages OK | 0 failed | 36 total links
+STEP 2 - Products: 36 scraped | 0 failed
+STEP 3 - Flatten:  51 columns
+Total Time: 1m 58s
+============================================================
