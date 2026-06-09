@@ -1,8 +1,6 @@
 name: QatarSale Scraper
 
 on:
-  schedule:
-    - cron: '0 0 * * 1'
   workflow_dispatch:
 
 jobs:
@@ -10,31 +8,6 @@ jobs:
     runs-on: ubuntu-latest
     permissions:
       contents: write
-
-    strategy:
-      matrix:
-        include:
-          - start: 1
-            end: 1
-          - start: 2
-            end: 2
-          - start: 3
-            end: 3
-          - start: 4
-            end: 4
-          - start: 5
-            end: 5
-          - start: 6
-            end: 6
-          - start: 7
-            end: 7
-          - start: 8
-            end: 8
-          - start: 9
-            end: 9
-          - start: 10
-            end: 10
-      fail-fast: false
 
     steps:
       - name: Checkout repo
@@ -55,25 +28,25 @@ jobs:
 
       - name: Install dependencies
         run: |
-          pip install requests pandas beautifulsoup4 playwright scrapling[all] boto3
+          pip install requests pandas beautifulsoup4 playwright scrapling[all] boto3 python-dotenv
           playwright install chromium
           playwright install-deps chromium
           patchright install chromium
 
-      - name: Run scraper and save report
+      - name: Run scraper
         env:
           CF_R2_ACCESS_KEY_ID: ${{ secrets.CF_R2_ACCESS_KEY_ID }}
           CF_R2_SECRET_ACCESS_KEY: ${{ secrets.CF_R2_SECRET_ACCESS_KEY }}
           CF_R2_ENDPOINT_URL: ${{ secrets.CF_R2_ENDPOINT_URL }}
           CF_R2_BUCKET_NAME: ${{ secrets.CF_R2_BUCKET_NAME }}
         run: |
-          python -u main.py ${{ matrix.start }} ${{ matrix.end }} 2>&1 | tee scrape_report_${{ matrix.start }}_${{ matrix.end }}.txt
+          python -u main.py 1 1 2>&1 | tee scrape_report_test.txt
 
       - name: Commit results
         run: |
           git config --global user.name "github-actions[bot]"
           git config --global user.email "github-actions[bot]@users.noreply.github.com"
-          git add scrape_report_${{ matrix.start }}_${{ matrix.end }}.txt all_products_flat_${{ matrix.start }}_${{ matrix.end }}.csv
-          git diff --staged --quiet || git commit -m "Scrape pages ${{ matrix.start }}-${{ matrix.end }} $(date +'%Y-%m-%d')"
+          git add scrape_report_test.txt all_products_flat_1_1.csv
+          git diff --staged --quiet || git commit -m "Test run: 1 page $(date +'%Y-%m-%d')"
           git pull --rebase origin main
           git push

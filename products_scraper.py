@@ -25,8 +25,6 @@ def parse_product(page) -> dict:
     seller_type_el = page.find("[data-testid='at-show-product-info-personal-name-text']")
     seller_type = seller_type_el.text if seller_type_el else ""
 
-    listing_type_el = page.find("[data-testid='at-show-product-info-forSale-text']")
-    listing_type = listing_type_el.text if listing_type_el else ""
 
     condition_el = page.find("[data-testid='at-show-product-info-conditionNew-text']")
     condition = condition_el.text if condition_el else ""
@@ -34,9 +32,14 @@ def parse_product(page) -> dict:
     desc_el = page.find("[data-testid='at-show-product-description-text']")
     description = desc_el.text if desc_el else ""
 
+    # listing_type
+    listing_type_el = page.find("[data-testid='at-show-product-info-forSale-text']")
+    listing_type = listing_type_el.find("p").text if listing_type_el and listing_type_el.find("p") else ""
+
+    # showroom
     showroom_el = page.find("[data-testid='at-show-product-info-showroom-name-text']")
     if showroom_el:
-        showroom_name = showroom_el.text
+        showroom_name = showroom_el.find("p").text if showroom_el.find("p") else showroom_el.text
         showroom_url = showroom_el.attrib.get("href", "").strip()
         if showroom_url and not showroom_url.startswith("http"):
             showroom_url = f"https://qatarsale.com/{showroom_url}"
