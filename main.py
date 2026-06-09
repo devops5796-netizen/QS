@@ -16,9 +16,6 @@ LISTING_URL       = "https://qatarsale.com/ar/products/cars_for_sale"
 START_PAGE        = 1
 END_PAGE          = 10
 IMAGES_FOLDER     = "images"
-LINKS_CSV         = "all_car_links.csv"
-PRODUCTS_JSON     = "all_products.jsonl"
-PRODUCTS_FLAT_CSV = "all_products_flat.csv"
 # ============================================================
 
 def main():
@@ -29,17 +26,21 @@ def main():
         start = START_PAGE
         end = END_PAGE
 
+    links_csv         = f"all_car_links_{start}_{end}.csv"
+    products_json     = f"all_products_{start}_{end}.jsonl"
+    products_flat_csv = f"all_products_flat_{start}_{end}.csv"
+
     elapsed_start = time.time()
     summary = {}
 
     print("QatarSale Scraper - Full Pipeline")
     print(f"URL: {LISTING_URL} | Pages: {start} to {end}")
 
-    summary["links"]    = links_scraper.run(LISTING_URL, start, end, LINKS_CSV)
-    summary["products"] = products_scraper.run(LINKS_CSV, PRODUCTS_JSON, workers=4)
-    summary["flatten"]  = flatten.run(PRODUCTS_JSON, PRODUCTS_FLAT_CSV)
-    summary["r2"]       = r2_uploader.upload_all(IMAGES_FOLDER, PRODUCTS_FLAT_CSV)
-    analyze_data.analyze_scraped_data(PRODUCTS_FLAT_CSV)
+    summary["links"]    = links_scraper.run(LISTING_URL, start, end, links_csv)
+    summary["products"] = products_scraper.run(links_csv, products_json, workers=4)
+    summary["flatten"]  = flatten.run(products_json, products_flat_csv)
+    summary["r2"]       = r2_uploader.upload_all(IMAGES_FOLDER, products_flat_csv)
+    analyze_data.analyze_scraped_data(products_flat_csv)
 
     elapsed = time.time() - elapsed_start
     minutes = int(elapsed // 60)
