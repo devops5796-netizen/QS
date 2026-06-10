@@ -12,145 +12,94 @@ from concurrent.futures import ThreadPoolExecutor, as_completed
 
 from r2_uploader import upload_single_file
 
+
 def parse_product(page) -> dict:
-    title = price = currency = listing_type = condition = seller_type = ""
-    description = posted_time = showroom_name = showroom_url = ""
-    fans_count = view_count = "0"
-    latitude = longitude = ""
-    phones, whatsapps, images = [], [], []
+    title = price = currency = listing_type = posted_time = ""
+    showroom_name = showroom_url = sold_date = ""
+    view_count = fans_count = "0"
+    images = []
     specs = {}
 
-    # ── 1. serverApp-state ──
-    state_script = page.find("script#serverApp-state")
-    if state_script:
-        try:
-            raw = state_script.text
-            if "&q;" in raw:
-                raw = raw.replace("&q;", '"').replace("&l;", "<").replace("&a;", "&").replace("&s;", "'")
-            else:
-                raw = html.unescape(raw)
-                
-            state_data = json.loads(raw)
-            product_data = state_data.get("product", {}).get("product", {})
+    title_el = page.find("[data-testid='at-show-product-info-market-title-text']") or page.find("h1")
+    if title_el:
+        title = title_el.text.strip()
 
-            if isinstance(product_data, dict) and product_data:
-                title       = product_data.get("title", "")
-                price       = str(product_data.get("startingPrice", "")) if product_data.get("startingPrice") is not None else ""
-                description = product_data.get("desc", product_data.get("arDesc", ""))
-                fans_count  = str(product_data.get("fansCount", 0))
-                view_count  = str(product_data.get("viewCount", 0))
-                posted_time = product_data.get("timeAgo", "")
-                showroom_name = product_data.get("showroomName", "")
+    price_el = page.find("[data-testid='at-show-product-info-startingPrice-text']")
+    if price_el:
+        price = price_el.text.strip()
+        
+    curr_el = page.find(".product-price p:not([data-testid])")
+    if curr_el:
+        currency = curr_el.text.strip()
 
-                s_uri = product_data.get("showroomUri", "")
-                if s_uri:
-                    showroom_url = f"https://qatarsale.com/ar/showroom/{s_uri}"
+    posted_el = page.find("[data-testid='at-show-product-info-productPosted-text']")
+    if posted_el:
+        posted_time = posted_el.text.strip()
 
-                list_type_code = str(product_data.get("advertisedFor", ""))
-                listing_type = "للبيع" if list_type_code == "0" else ("للإيجار" if list_type_code == "1" else "")
+    view_el = page.find("[data-testid='at-show-product-info-viewCount-text']")
+    if view_el:
+        view_count = view_el.text.strip()
 
-                cond_obj = product_data.get("condition", {})
-                if isinstance(cond_obj, dict):
-                    condition = cond_obj.get("nameAr", "")
+    fans_el = page.find("[data-testid='at-show-product-info-fansCount-text']")
+    if fans_el:
+        fans_count = fans_el.text.strip()
 
-                curr_obj = product_data.get("currency", {})
-                if isinstance(curr_obj, dict):
-                    currency = curr_obj.get("nameAr", "")
+    type_el = page.find("[data-testid='at-show-product-info-forSale-text']")
+    if type_el:
+        listing_type = type_el.attrib.get("title", "").strip() or type_el.text.strip()
 
-                owner_obj = product_data.get("owner", {})
-                if isinstance(owner_obj, dict):
-                    seller_type = owner_obj.get("name", "")
-                    for p in owner_obj.get("phones", []):
-                        phone_num = p.get("phone", "").strip()
-                        if phone_num:
-                            if p.get("isPhone", True): phones.append(phone_num)
-                            if p.get("isWhatsapp", False): whatsapps.append(phone_num)
+    sold_el = page.find("[data-testid='at-show-product-info-soldDate-text']")
+    if sold_el:
+        sold_date = sold_el.text.strip()
 
-                location_obj = product_data.get("location", {})
-                if isinstance(location_obj, dict):
-                    latitude  = str(location_obj.get("latitude", ""))
-                    longitude = str(location_obj.get("longitude", ""))
-        except Exception as e:
-            print(f" [JSON Parsing Error]: {e}")
+    showroom_el = (page.find("[data-testid='at-show-product-info-showroom-name-text']") or 
+                   page.find("[data-testid='at-show-product-info-personal-name-text']"))
+    if showroom_el:
+        showroom_name = showroom_el.text.strip()
+        href = showroom_el.attrib.get("href", "")
+        if href:
+            href = href.strip()
+            showroom_url = href if href.startswith("http") else f"https://qatarsale.com/{href}"
+    
+    desc_el = page.find("[data-testid='at-show-product-description-text']")
+    if desc_el:
+        description = desc_el.text.strip()
 
-    # ── 2. HTML Fallback المحدث للموقع ──
-    if not title:
-        el = page.find("h1") or page.find("[data-testid*='title']")
-        title = el.text.strip() if el else ""
+    seen_images = set()
+    img_elements = page.find_all("[data-testid='at-show-product-gallery-galleryImages-normal-image'] img")
+    for img_el in img_elements:
+        img_src = img_el.attrib.get("src", "").strip()
+        if img_src:
+            high_res_img = img_src.replace("_thumb.webp", ".webp")
+            if high_res_img not in seen_images:
+                images.append(high_res_img)
+                seen_images.add(high_res_img)
 
-    if not price:
-        el = page.find("[data-testid='at-show-product-info-startingPrice-text']") or page.find(".product-price h2") or page.find(".price")
-        price = el.text.strip() if el else ""
-
-    if not currency:
-        el = page.find("[data-testid='at-show-product-info-currency-text']") or page.find(".product-price span")
-        currency = el.text.strip() if el else ""
-
-    if not posted_time:
-        el = page.find("[data-testid='at-show-product-info-productPosted-text']")
-        posted_time = el.text.strip() if el else ""
-
-    if not fans_count or fans_count == "0":
-        el = page.find("[data-testid='at-show-product-info-fansCount-text']")
-        fans_count = el.text.strip() if el else "0"
-
-    if not view_count or view_count == "0":
-        el = page.find("[data-testid='at-show-product-info-viewCount-text']")
-        view_count = el.text.strip() if el else "0"
-
-    if not listing_type:
-        el = page.find("[data-testid='at-show-product-info-forSale-text']")
-        if el:
-            listing_type = el.attrib.get("title", "").strip() or el.text.strip()
-
-    if not showroom_name:
-        el = page.find("[data-testid='at-show-product-info-showroom-name-text']")
-        if el:
-            showroom_name = el.text.strip()
-            href = el.attrib.get("href", "").strip()
-            if href and not href.startswith("http"):
-                showroom_url = f"https://qatarsale.com/{href}"
-
-    if not description:
-        el = page.find("[data-testid='at-show-product-description-text']") or page.find(".product-description")
-        description = el.text.strip() if el else ""
-
-    # ── 3. Specs ──
-    seen = set()
-    for label_el, value_el in zip(
-        page.find_all("[data-testid^='at-show-product-parsedDefs-label-text-']"),
-        page.find_all("[data-testid^='at-show-product-parsedDefs-value-text-']")
-    ):
-        key = label_el.text.strip()
-        val = value_el.text.strip()
-        if key and key not in seen:
-            specs[key] = val
-            seen.add(key)
-
-    # ── 4. Images ──
-    script = page.find("script[type='application/ld+json'][data-json-ld='true']")
-    if script:
-        try:
-            ld_data = json.loads(script.text)
-            graph = ld_data.get("@graph", []) if isinstance(ld_data, dict) else (ld_data if isinstance(ld_data, list) else [])
-            for item in graph:
-                if isinstance(item, dict) and item.get("@type") == "Product":
-                    images = item.get("image", [])
-        except Exception:
-            pass
-    if isinstance(images, list):
-        images = [img.get("url", img) if isinstance(img, dict) else img for img in images]
+    labels = page.find_all("[data-testid^='at-show-product-parsedDefs-label-text-']")
+    values = page.find_all("[data-testid^='at-show-product-parsedDefs-value-text-']")
+    
+    if labels and values:
+        for lbl, val in zip(labels, values):
+            key = lbl.text.strip()
+            value = val.text.strip()
+            if key:
+                specs[key] = value
 
     return {
-        "title": title, "price": price, "currency": currency,
-        "listing_type": listing_type, "condition": condition, "seller_type": seller_type,
-        "description": description, "posted_time": posted_time,
-        "fans_count": fans_count, "view_count": view_count,
-        "showroom_name": showroom_name, "showroom_url": showroom_url,
-        "phones": phones, "whatsapps": whatsapps,
-        "images": images, "images_count": len(images),
-        "latitude": latitude, "longitude": longitude,
-        "specs": specs
+        "title": title,
+        "price": price,
+        "currency": currency,
+        "listing_type": listing_type,
+        "posted_time": posted_time,
+        "sold_date": sold_date,
+        "view_count": view_count,
+        "fans_count": fans_count,
+        "showroom_name": showroom_name,
+        "showroom_url": showroom_url,
+        "description": description,
+        "images": images,
+        "images_count": len(images),
+        "specifications_json": json.dumps(specs, ensure_ascii=False)
     }
 
 
@@ -179,14 +128,14 @@ def download_images(images: list, images_folder: str) -> list:
 
 def scrape_single(url: str, images_folder: str = "images") -> dict:
     try:
-        page = StealthyFetcher.fetch(url, headless=True, network_idle=False, timeout=30000)
+        page = StealthyFetcher.fetch(url, headless=True, network_idle=True, timeout=30000)
         data = parse_product(page)
         data["images_local_paths"] = download_images(data.get("images", []), images_folder)
         return data
     except Exception as e:
         print(f"  Error URL: {url} -> {e}")
         return {}
-
+        
 def run(links_csv: str, output_json: str, workers: int = 5):
     print("\n" + "="*50)
     print(f"STEP 2: Scraping product pages ({workers} workers)...")
@@ -239,6 +188,7 @@ def run(links_csv: str, output_json: str, workers: int = 5):
                     "showroom_name": data.get("showroom_name"),
                     "showroom_url": data.get("showroom_url"),
                     "posted_time": data.get("posted_time"),
+                    "sold_date": data.get("sold_date"),
                     "fans_count": data.get("fans_count"),
                     "view_count": data.get("view_count"),
                     "description": data.get("description"),
