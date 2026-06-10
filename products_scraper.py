@@ -90,23 +90,32 @@ def parse_product(page) -> dict:
                 .replace("&s;", "'")
             )
             state_data = json.loads(raw)
-            owner = (
+            product = (
                 state_data
                 .get("product", {})
                 .get("product", {})
-                .get("owner", {})
             )
+            owner = product.get("owner", {})
+
+            # Phones & WhatsApp — contactBy: 0=phone, 1=whatsapp, 2=both
             for phone_data in owner.get("phones", []):
                 phone_number = phone_data.get("phone", "").strip()
                 if not phone_number:
                     continue
-                if phone_data.get("isPhone", True):
+                contact_by = phone_data.get("contactBy", 0)
+                if contact_by in (0, 2):
                     phones.append(phone_number)
-                if phone_data.get("isWhatsapp", False):
+                if contact_by in (1, 2):
                     whatsapps.append(phone_number)
 
+            # Lat / Lng
+            location = product.get("location", {})
+            latitude = location.get("latitude")
+            longitude = location.get("longitude")
+
         except Exception as e:
-            print(f"Failed to parse phone data: {e}")
+            print(f"Failed to parse state data: {e}")
+            latitude = longitude = None
 
     seen_images = set()
     img_elements = page.find_all("[data-testid='at-show-product-gallery-galleryImages-normal-image'] img")
@@ -142,6 +151,8 @@ def parse_product(page) -> dict:
         "showroom_name": showroom_name,
         "showroom_url": showroom_url,  
         "description": description,
+        "latitude": latitude,
+        "longitude": longitude,
         "images": images,
         "images_count": len(images),
         "phones": phones,        
