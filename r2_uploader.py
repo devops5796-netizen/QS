@@ -1,50 +1,80 @@
-import sys
-import time
-import links_scraper
-import products_scraper
-import flatten
-from dotenv import load_dotenv
-load_dotenv()
+import os
+import mimetypes
+from pathlib import Path
+import boto3
 
-LISTING_URL   = "https://qatarsale.com/ar/products/cars_for_sale"
-START_PAGE    = 1
-END_PAGE      = 10
-IMAGES_FOLDER = "images"
+CF_R2_ACCESS_KEY = os.getenv('CF_R2_ACCESS_KEY_ID')
+CF_R2_SECRET_KEY = os.getenv('CF_R2_SECRET_ACCESS_KEY')
+CF_R2_ENDPOINT_URL = os.getenv('CF_R2_ENDPOINT_URL')
+BUCKET_NAME = os.getenv('CF_R2_BUCKET_NAME', '')
 
-def main():
-    if len(sys.argv) == 3:
-        start = int(sys.argv[1])
-        end = int(sys.argv[2])
+CLEAN_ENDPOINT = ""
+if CF_R2_ENDPOINT_URL:
+    CLEAN_ENDPOINT = CF_R2_ENDPOINT_URL.rstrip("/").removesuffix("/" + BUCKET_NAME)
+
+
+def get_r2_client():
+    if CF_R2_ACCESS_KEY and CF_R2_SECRET_KEY and CLEAN_ENDPOINT:
+        try:
+            return boto3.client(
+                's3',
+                endpoint_url=CLEAN_ENDPOINT,
+                aws_access_key_id=CF_R2_ACCESS_KEY,
+                aws_secret_access_key=CF_R2_SECRET_KEY,
+                region_name='auto'
+            )
+        except Exception as e:
+            print(f"Failed to initialize R2 Client: {e}")
+            return None
+    print("Warning: R2 Environment variables are missing.")
+    return None
+
+R2_CLIENT_INSTANCE = get_r2_client()
+
+
+def upload_single_file(local_path: str, r2_folder: str = "images") -> bool:
+    client = R2_CLIENT_INSTANCE if R2_CLIENT_INSTANCE else get_r2_client()
+    if not client or not BUCKET_NAME:
+        return False
+    
+    filename = Path(local_path).name
+    r2_key = f"{r2_folder}/{filename}"
+    
+    try:
+        content_type, _ = mimetypes.guess_type(local_path)
+        if not content_type:
+            content_type = 'image/jpeg' if r2_folder == "images" else 'application/octet-stream'
+
+        client.upload_file(
+            local_path, BUCKET_NAME, r2_key,
+            ExtraArgs={"ContentType": content_type}
+        )
+        print(f"  [OK] Uploaded to R2: {r2_key}")
+        return True
+    except Exception as e:
+        print(f"  [ERROR] R2 upload failed for {filename}: {e}")
+        return False
+
+
+def upload_final_batch_assets(images_folder: str, final_csv: str) -> dict:
+    print("\n" + "="*50)
+    print("STEP 4: Uploading final CSV artifact to Cloudflare R2...")
+    print("="*50)
+    
+    uploaded = 0
+    failed = 0
+    
+    if os.path.exists(final_csv):
+        print(f"Found final flat CSV file '{final_csv}', starting upload...")
+        success = upload_single_file(final_csv, r2_folder="csv")
+        if success:
+            uploaded += 1
+            print("-> Final CSV Artifact Uploaded successfully to R2!")
+        else:
+            failed += 1
+            print("-> [ERROR] Failed to upload final CSV to R2.")
     else:
-        start = START_PAGE
-        end = END_PAGE
-
-    links_csv         = f"all_car_links_{start}_{end}.csv"
-    products_json     = f"all_products_{start}_{end}.jsonl"
-    products_flat_csv = f"all_products_flat_{start}_{end}.csv"
-
-    elapsed_start = time.time()
-    summary = {}
-
-    print("QatarSale Scraper - Full Pipeline")
-    print(f"URL: {LISTING_URL} | Pages: {start} to {end}")
-
-    summary["links"]    = links_scraper.run(LISTING_URL, start, end, links_csv)
-    summary["products"] = products_scraper.run(links_csv, products_json, workers=4)
-    summary["flatten"]  = flatten.run(products_json, products_flat_csv)
-
-    elapsed = time.time() - elapsed_start
-    minutes = int(elapsed // 60)
-    seconds = int(elapsed % 60)
-
-    print("\n" + "="*60)
-    print("FINAL SUMMARY")
-    print("="*60)
-    print(f"STEP 1 - Links:    {summary['links']['success']} pages OK | {summary['links']['failed']} failed | {summary['links']['total_links']} total links")
-    print(f"STEP 2 - Products: {summary['products']['success']} scraped | {summary['products']['failed']} failed")
-    print(f"STEP 3 - Flatten:  {summary['flatten']['columns']} columns")
-    print(f"Total Time: {minutes}m {seconds}s")
-    print("="*60)
-
-if __name__ == "__main__":
-    main()
+        print(f"-> [WARNING] CSV Artifact NOT found at: {final_csv}")
+        failed += 1
+        
+    return {"uploaded": uploaded, "failed": failed}
