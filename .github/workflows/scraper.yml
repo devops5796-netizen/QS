@@ -1,6 +1,8 @@
 name: QatarSale Scraper
 
 on:
+  schedule:
+    - cron: '0 0 * * 1'
   workflow_dispatch:
 
 jobs:
@@ -8,6 +10,26 @@ jobs:
     runs-on: ubuntu-latest
     permissions:
       contents: write
+
+    strategy:
+      matrix:
+        include:
+          - {start: 1, end: 2}
+          - {start: 3, end: 4}
+          - {start: 5, end: 6}
+          - {start: 7, end: 8}
+          - {start: 9, end: 10}
+          - {start: 11, end: 12}
+          - {start: 13, end: 14}
+          - {start: 15, end: 16}
+          - {start: 17, end: 18}
+          - {start: 19, end: 20}
+          - {start: 21, end: 22}
+          - {start: 23, end: 24}
+          - {start: 25, end: 26}
+          - {start: 27, end: 28}
+          - {start: 29, end: 30}
+      fail-fast: false
 
     steps:
       - name: Checkout repo
@@ -40,13 +62,62 @@ jobs:
           CF_R2_ENDPOINT_URL: ${{ secrets.CF_R2_ENDPOINT_URL }}
           CF_R2_BUCKET_NAME: ${{ secrets.CF_R2_BUCKET_NAME }}
         run: |
-          python -u main.py 1 2 2>&1 | tee scrape_report_test.txt
+          python -u main.py ${{ matrix.start }} ${{ matrix.end }} 2>&1 | tee scrape_report_${{ matrix.start }}_${{ matrix.end }}.txt
 
-      - name: Commit results
+      - name: Upload CSV artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: csv-${{ matrix.start }}-${{ matrix.end }}
+          path: all_products_flat_${{ matrix.start }}_${{ matrix.end }}.csv
+
+      - name: Commit report
         run: |
           git config --global user.name "github-actions[bot]"
           git config --global user.email "github-actions[bot]@users.noreply.github.com"
-          git add scrape_report_test.txt all_products_flat_1_2.csv
-          git diff --staged --quiet || git commit -m "Test run: 1 page $(date +'%Y-%m-%d')"
+          git add scrape_report_${{ matrix.start }}_${{ matrix.end }}.txt
+          git diff --staged --quiet || git commit -m "Scrape pages ${{ matrix.start }}-${{ matrix.end }} $(date +'%Y-%m-%d')"
+          git pull --rebase origin main
+          git push
+
+  merge:
+    runs-on: ubuntu-latest
+    needs: scrape
+    permissions:
+      contents: write
+
+    steps:
+      - name: Checkout repo
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+
+      - name: Download all CSV artifacts
+        uses: actions/download-artifact@v4
+        with:
+          pattern: csv-*
+          merge-multiple: true
+          path: csv_parts/
+
+      - name: Merge CSVs
+        run: |
+          python -c "
+          import pandas as pd
+          import glob
+          files = glob.glob('csv_parts/*.csv')
+          dfs = [pd.read_csv(f) for f in files]
+          merged = pd.concat(dfs, ignore_index=True)
+          merged.to_csv('all_products_final.csv', index=False, encoding='utf-8-sig')
+          print(f'Merged {len(files)} files, total rows: {len(merged)}')
+          "
+
+      - name: Commit final CSV
+        run: |
+          git config --global user.name "github-actions[bot]"
+          git config --global user.email "github-actions[bot]@users.noreply.github.com"
+          git add all_products_final.csv
+          git diff --staged --quiet || git commit -m "Merged final CSV $(date +'%Y-%m-%d')"
           git pull --rebase origin main
           git push

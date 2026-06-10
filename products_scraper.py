@@ -15,43 +15,42 @@ def parse_product(page) -> dict:
     title = price = currency = listing_type = condition = seller_type = ""
     description = posted_time = showroom_name = showroom_url = ""
     fans_count = view_count = "0"
-    phones, whatsapps = [], []
+    latitude = longitude = ""
+    phones, whatsapps, images = [], [], []
     specs = {}
-    images = []
 
-    posted_time_el = page.find("[data-testid='at-show-product-info-productPosted-text']")
-    if posted_time_el:
-        posted_time = posted_time_el.text.strip()
-
+    # ── 1. serverApp-state ──
     state_script = page.find("script#serverApp-state")
     if state_script:
         try:
             raw = state_script.text.replace("&q;", '"').replace("&l;", "<").replace("&a;", "&").replace("&s;", "'")
             state_data = json.loads(raw)
             product_data = state_data.get("product", {}).get("product", {})
-            
+
             if isinstance(product_data, dict):
-                title = product_data.get("title", "")
-                price = str(product_data.get("startingPrice", ""))
+                title       = product_data.get("title", "")
+                price       = str(product_data.get("startingPrice", ""))
                 description = product_data.get("desc", product_data.get("arDesc", ""))
-                fans_count = str(product_data.get("fansCount", 0))
-                view_count = str(product_data.get("viewCount", 0))
+                fans_count  = str(product_data.get("fansCount", 0))
+                view_count  = str(product_data.get("viewCount", 0))
+                posted_time = product_data.get("timeAgo", "")
                 showroom_name = product_data.get("showroomName", "")
-                
-                if not posted_time:
-                    posted_time = product_data.get("timeAgo", "")
-                
+
                 s_uri = product_data.get("showroomUri", "")
                 if s_uri:
                     showroom_url = f"https://qatarsale.com/ar/showroom/{s_uri}"
-                
+
+                list_type_code = str(product_data.get("advertisedFor", ""))
+                listing_type = "للبيع" if list_type_code == "0" else ("للإيجار" if list_type_code == "1" else "")
+
                 cond_obj = product_data.get("condition", {})
                 if isinstance(cond_obj, dict):
                     condition = cond_obj.get("nameAr", "")
-                
-                list_type_code = str(product_data.get("advertisedFor", ""))
-                listing_type = "للبيع" if list_type_code == "0" else ("للإيجار" if list_type_code == "1" else list_type_code)
-                
+
+                curr_obj = product_data.get("currency", {})
+                if isinstance(curr_obj, dict):
+                    currency = curr_obj.get("nameAr", "")
+
                 owner_obj = product_data.get("owner", {})
                 if isinstance(owner_obj, dict):
                     seller_type = owner_obj.get("name", "")
@@ -61,52 +60,87 @@ def parse_product(page) -> dict:
                             if p.get("isPhone", True): phones.append(phone_num)
                             if p.get("isWhatsapp", False): whatsapps.append(phone_num)
 
-                curr_obj = product_data.get("currency", {})
-                if isinstance(curr_obj, dict):
-                    currency = curr_obj.get("nameAr", "رق")
+                location_obj = product_data.get("location", {})
+                if isinstance(location_obj, dict):
+                    latitude  = str(location_obj.get("latitude", ""))
+                    longitude = str(location_obj.get("longitude", ""))
 
         except Exception:
-            pass 
+            pass
 
+    # ── 2. HTML fallback ──
     if not title:
-        title_el = page.find("h1[title]")
-        title = title_el.text.strip() if title_el else ""
+        el = page.find("h1[title]")
+        title = el.text.strip() if el else ""
 
     if not price:
-        price_el = page.find("[data-testid='at-show-product-info-startingPrice-text']")
-        price = price_el.text.strip() if price_el else ""
+        el = page.find("[data-testid='at-show-product-info-startingPrice-text']")
+        price = el.text.strip() if el else ""
 
-    if not seller_type:
-        seller_type_el = page.find("[data-testid='at-show-product-info-personal-name-text']")
-        if seller_type_el:
-            p_tag = seller_type_el.find("p")
-            seller_type = p_tag.text.strip() if p_tag else seller_type_el.text.strip()
+    if not currency:
+        wrapper = page.find(".product-price")
+        if wrapper:
+            texts = [p.text for p in wrapper.find_all("p")]
+            currency = texts[1] if len(texts) > 1 else ""
 
-    if not condition:
-        condition_el = page.find("[data-testid*='condition']")
-        if condition_el:
-            p_tag = condition_el.find("p")
-            condition = p_tag.text.strip() if p_tag else condition_el.text.strip()
-        
-        if not condition:
-            pill_el = page.find(".pill")
-            if pill_el:
-                condition = pill_el.text.strip()
+    if not posted_time:
+        el = page.find("[data-testid='at-show-product-info-productPosted-text']")
+        posted_time = el.text.strip() if el else ""
+
+    if not fans_count or fans_count == "0":
+        el = page.find("[data-testid='at-show-product-info-fansCount-text']")
+        fans_count = el.text.strip() if el else "0"
+
+    if not view_count or view_count == "0":
+        el = page.find("[data-testid='at-show-product-info-viewCount-text']")
+        view_count = el.text.strip() if el else "0"
+
+    if not listing_type:
+        el = page.find("[data-testid='at-show-product-info-forSale-text']")
+        if el:
+            listing_type = el.attrib.get("title", "")
+            if not listing_type:
+                p = el.find("p")
+                listing_type = p.text.strip() if p else ""
+
+    if not showroom_name:
+        el = page.find("[data-testid='at-show-product-info-showroom-name-text']")
+        if el:
+            p = el.find("p")
+            showroom_name = p.text.strip() if p else el.text.strip()
+            href = el.attrib.get("href", "").strip()
+            if href and not href.startswith("http"):
+                showroom_url = f"https://qatarsale.com/{href}"
 
     if not description:
-        desc_el = page.find("[data-testid='at-show-product-description-text']")
-        description = desc_el.text.strip() if desc_el else ""
+        el = page.find("[data-testid='at-show-product-description-text']")
+        description = el.text.strip() if el else ""
 
+    if not seller_type:
+        el = page.find("[data-testid='at-show-product-info-personal-name-text']")
+        if el:
+            p = el.find("p")
+            seller_type = p.text.strip() if p else el.text.strip()
+
+    if not condition:
+        el = page.find("[data-testid*='condition']")
+        if el:
+            p = el.find("p")
+            condition = p.text.strip() if p else el.text.strip()
+
+    # ── 3. Specs ──
     seen = set()
-    labels = page.find_all("[data-testid^='at-show-product-parsedDefs-label-text-']")
-    values = page.find_all("[data-testid^='at-show-product-parsedDefs-value-text-']")
-    for label_el, value_el in zip(labels, values):
+    for label_el, value_el in zip(
+        page.find_all("[data-testid^='at-show-product-parsedDefs-label-text-']"),
+        page.find_all("[data-testid^='at-show-product-parsedDefs-value-text-']")
+    ):
         key = label_el.text.strip()
-        value = value_el.text.strip()
+        val = value_el.text.strip()
         if key and key not in seen:
-            specs[key] = value
+            specs[key] = val
             seen.add(key)
 
+    # ── 4. Images ──
     script = page.find("script[type='application/ld+json'][data-json-ld='true']")
     if script:
         try:
@@ -127,6 +161,7 @@ def parse_product(page) -> dict:
         "showroom_name": showroom_name, "showroom_url": showroom_url,
         "phones": phones, "whatsapps": whatsapps,
         "images": images, "images_count": len(images),
+        "latitude": latitude, "longitude": longitude,
         "specs": specs
     }
 
@@ -220,6 +255,8 @@ def run(links_csv: str, output_json: str, workers: int = 5):
                     "description": data.get("description"),
                     "phones": data.get("phones", []),
                     "whatsapps": data.get("whatsapps", []),
+                    "latitude": data.get("latitude"),
+                    "longitude": data.get("longitude"),
                     "images": data.get("images", []),
                     "images_count": data.get("images_count"),
                     "specifications": data.get("specs", {}),
