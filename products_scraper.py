@@ -14,8 +14,10 @@ from r2_uploader import upload_single_file
 
 
 def parse_product(page) -> dict:
-    title = price = currency = listing_type = posted_time = ""
+    title = price = currency = listing_type = posted_time = description = ""
     showroom_name = showroom_url = sold_date = ""
+    #map_placeholder_url = ""
+    #latitude = longitude = ""
     view_count = fans_count = "0"
     images = []
     specs = {}
