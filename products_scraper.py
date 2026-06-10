@@ -12,14 +12,15 @@ from concurrent.futures import ThreadPoolExecutor, as_completed
 
 from r2_uploader import upload_single_file
 
-
 def parse_product(page) -> dict:
     title = price = currency = listing_type = posted_time = description = ""
     showroom_name = showroom_url = sold_date = ""
-    #map_placeholder_url = ""
-    #latitude = longitude = ""
+    seller_type = ""  
+    condition = ""    
     view_count = fans_count = "0"
     images = []
+    phones = []       
+    whatsapps = []    
     specs = {}
 
     title_el = page.find("[data-testid='at-show-product-info-market-title-text']") or page.find("h1")
@@ -54,18 +55,43 @@ def parse_product(page) -> dict:
     if sold_el:
         sold_date = sold_el.text.strip()
 
-    showroom_el = (page.find("[data-testid='at-show-product-info-showroom-name-text']") or 
-                   page.find("[data-testid='at-show-product-info-personal-name-text']"))
-    if showroom_el:
-        showroom_name = showroom_el.text.strip()
-        href = showroom_el.attrib.get("href", "")
-        if href:
-            href = href.strip()
-            showroom_url = href if href.startswith("http") else f"https://qatarsale.com/{href}"
-    
     desc_el = page.find("[data-testid='at-show-product-description-text']")
     if desc_el:
         description = desc_el.text.strip()
+
+    showroom_el = page.find("[data-testid='at-show-product-info-showroom-name-text']")
+    personal_el = page.find("[data-testid='at-show-product-info-personal-name-text']")
+
+    if showroom_el:
+        seller_type = "showroom"
+        showroom_name = showroom_el.text.strip()
+        href = showroom_el.attrib.get("href", "").strip()
+        if href:
+            showroom_url = href if href.startswith("http") else f"https://qatarsale.com/{href}"
+    elif personal_el:
+        seller_type = "personal"
+        showroom_name = personal_el.text.strip()
+        personal_listings_el = page.find("[data-testid='at-show-product-info-personalOtherListings-name-text']")
+        if personal_listings_el:
+            p_href = personal_listings_el.attrib.get("href", "").strip()
+            if p_href:
+                showroom_url = p_href if p_href.startswith("http") else f"https://qatarsale.com/{p_href}"
+
+    condition_new_el = page.find("[data-testid='at-show-product-info-conditionNew-text']")
+    if condition_new_el:
+        condition = condition_new_el.text.strip()
+
+    phone_el = page.find("[data-testid='at-show-product-info-increaseCount-button']")
+    if phone_el:
+        phone_href = phone_el.attrib.get("href", "").replace("tel:", "").strip()
+        if phone_href:
+            phones.append(phone_href)
+            
+    whatsapp_el = page.find(".wtsup")
+    if whatsapp_el:
+        wa_href = whatsapp_el.attrib.get("href", "").strip()
+        if wa_href:
+            whatsapps.append(wa_href)
 
     seen_images = set()
     img_elements = page.find_all("[data-testid='at-show-product-gallery-galleryImages-normal-image'] img")
@@ -92,18 +118,21 @@ def parse_product(page) -> dict:
         "price": price,
         "currency": currency,
         "listing_type": listing_type,
+        "condition": condition,        
+        "seller_type": seller_type,    
         "posted_time": posted_time,
         "sold_date": sold_date,
         "view_count": view_count,
         "fans_count": fans_count,
         "showroom_name": showroom_name,
-        "showroom_url": showroom_url,
+        "showroom_url": showroom_url,  
         "description": description,
         "images": images,
         "images_count": len(images),
-        "specifications_json": json.dumps(specs, ensure_ascii=False)
+        "phones": phones,        
+        "whatsapps": whatsapps,  
+        "specs": specs           
     }
-
 
 def download_images(images: list, images_folder: str) -> list:
     Path(images_folder).mkdir(exist_ok=True)
