@@ -1,6 +1,7 @@
 import json
 import os
 import threading
+import html
 import pandas as pd
 import requests as req
 from pathlib import Path
@@ -23,13 +24,18 @@ def parse_product(page) -> dict:
     state_script = page.find("script#serverApp-state")
     if state_script:
         try:
-            raw = state_script.text.replace("&q;", '"').replace("&l;", "<").replace("&a;", "&").replace("&s;", "'")
+            raw = state_script.text
+            if "&q;" in raw:
+                raw = raw.replace("&q;", '"').replace("&l;", "<").replace("&a;", "&").replace("&s;", "'")
+            else:
+                raw = html.unescape(raw)
+                
             state_data = json.loads(raw)
             product_data = state_data.get("product", {}).get("product", {})
 
-            if isinstance(product_data, dict):
+            if isinstance(product_data, dict) and product_data:
                 title       = product_data.get("title", "")
-                price       = str(product_data.get("startingPrice", ""))
+                price       = str(product_data.get("startingPrice", "")) if product_data.get("startingPrice") is not None else ""
                 description = product_data.get("desc", product_data.get("arDesc", ""))
                 fans_count  = str(product_data.get("fansCount", 0))
                 view_count  = str(product_data.get("viewCount", 0))
@@ -64,24 +70,21 @@ def parse_product(page) -> dict:
                 if isinstance(location_obj, dict):
                     latitude  = str(location_obj.get("latitude", ""))
                     longitude = str(location_obj.get("longitude", ""))
+        except Exception as e:
+            print(f" [JSON Parsing Error]: {e}")
 
-        except Exception:
-            pass
-
-    # ── 2. HTML fallback ──
+    # ── 2. HTML Fallback المحدث للموقع ──
     if not title:
-        el = page.find("h1[title]")
+        el = page.find("h1") or page.find("[data-testid*='title']")
         title = el.text.strip() if el else ""
 
     if not price:
-        el = page.find("[data-testid='at-show-product-info-startingPrice-text']")
+        el = page.find("[data-testid='at-show-product-info-startingPrice-text']") or page.find(".product-price h2") or page.find(".price")
         price = el.text.strip() if el else ""
 
     if not currency:
-        wrapper = page.find(".product-price")
-        if wrapper:
-            texts = [p.text for p in wrapper.find_all("p")]
-            currency = texts[1] if len(texts) > 1 else ""
+        el = page.find("[data-testid='at-show-product-info-currency-text']") or page.find(".product-price span")
+        currency = el.text.strip() if el else ""
 
     if not posted_time:
         el = page.find("[data-testid='at-show-product-info-productPosted-text']")
@@ -98,35 +101,19 @@ def parse_product(page) -> dict:
     if not listing_type:
         el = page.find("[data-testid='at-show-product-info-forSale-text']")
         if el:
-            listing_type = el.attrib.get("title", "")
-            if not listing_type:
-                p = el.find("p")
-                listing_type = p.text.strip() if p else ""
+            listing_type = el.attrib.get("title", "").strip() or el.text.strip()
 
     if not showroom_name:
         el = page.find("[data-testid='at-show-product-info-showroom-name-text']")
         if el:
-            p = el.find("p")
-            showroom_name = p.text.strip() if p else el.text.strip()
+            showroom_name = el.text.strip()
             href = el.attrib.get("href", "").strip()
             if href and not href.startswith("http"):
                 showroom_url = f"https://qatarsale.com/{href}"
 
     if not description:
-        el = page.find("[data-testid='at-show-product-description-text']")
+        el = page.find("[data-testid='at-show-product-description-text']") or page.find(".product-description")
         description = el.text.strip() if el else ""
-
-    if not seller_type:
-        el = page.find("[data-testid='at-show-product-info-personal-name-text']")
-        if el:
-            p = el.find("p")
-            seller_type = p.text.strip() if p else el.text.strip()
-
-    if not condition:
-        el = page.find("[data-testid*='condition']")
-        if el:
-            p = el.find("p")
-            condition = p.text.strip() if p else el.text.strip()
 
     # ── 3. Specs ──
     seen = set()
@@ -145,8 +132,9 @@ def parse_product(page) -> dict:
     if script:
         try:
             ld_data = json.loads(script.text)
-            for item in ld_data.get("@graph", []):
-                if item.get("@type") == "Product":
+            graph = ld_data.get("@graph", []) if isinstance(ld_data, dict) else (ld_data if isinstance(ld_data, list) else [])
+            for item in graph:
+                if isinstance(item, dict) and item.get("@type") == "Product":
                     images = item.get("image", [])
         except Exception:
             pass
@@ -164,6 +152,7 @@ def parse_product(page) -> dict:
         "latitude": latitude, "longitude": longitude,
         "specs": specs
     }
+
 
 def download_images(images: list, images_folder: str) -> list:
     Path(images_folder).mkdir(exist_ok=True)
