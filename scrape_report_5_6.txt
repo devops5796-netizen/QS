@@ -14,921 +14,921 @@ STEP 2: Scraping product pages (4 workers)...
 ==================================================
 Loaded 72 URLs
 Remaining: 72 URLs
-[2026-06-10 06:03:05] INFO: Fetched (200) <GET https://qatarsale.com/ar/product/audi_q2_35_tfsi_2025_gray_automatic_suv-570378> (referer: https://www.google.com/)
-[2026-06-10 06:03:05] INFO: Fetched (200) <GET https://qatarsale.com/ar/product/bmw_5_series_540i_2022_black_automatic_suv-602889> (referer: https://www.google.com/)
-  [OK] Uploaded to R2: images/570378_0_20260523171642013627.webp
-  [OK] Uploaded to R2: images/602889_0_20260606103334793678.webp
-[2026-06-10 06:03:07] INFO: Fetched (200) <GET https://qatarsale.com/ar/product/nissan_patrol_platinum_2024_white_automatic_suv-605353> (referer: https://www.google.com/)
-  [OK] Uploaded to R2: images/570378_1_20260523171642015001.webp
-  [OK] Uploaded to R2: images/602889_1_20260606103334794138.webp
-  [OK] Uploaded to R2: images/605353_0_20260609104859616016.webp
-[2026-06-10 06:03:09] INFO: Fetched (200) <GET https://qatarsale.com/ar/product/lexus_lx_700_h_2025_black_automatic_suv-559258> (referer: https://www.google.com/)
-  [OK] Uploaded to R2: images/602889_2_20260606103334794510.webp
-  [OK] Uploaded to R2: images/570378_2_20260523171642015397.webp
-  [OK] Uploaded to R2: images/605353_1_20260609104859616410.webp
-  [OK] Uploaded to R2: images/559258_0_20260518103433047371.webp
-  [OK] Uploaded to R2: images/602889_3_20260606103334794853.webp
-  [OK] Uploaded to R2: images/605353_2_20260609104859616687.webp
-  [OK] Uploaded to R2: images/570378_3_20260523171642015791.webp
-  [OK] Uploaded to R2: images/559258_1_20260518103433047759.webp
-  [OK] Uploaded to R2: images/602889_4_20260606103334795235.webp
-  [OK] Uploaded to R2: images/605353_3_20260609104859617007.webp
-  [OK] Uploaded to R2: images/570378_4_20260523171642016104.webp
-  [OK] Uploaded to R2: images/559258_2_20260518103433048420.webp
-  [OK] Uploaded to R2: images/602889_5_20260606103334795527.webp
-  [OK] Uploaded to R2: images/605353_4_20260609104859617355.webp
-  [OK] Uploaded to R2: images/570378_5_20260523171642016490.webp
-  [OK] Uploaded to R2: images/605353_5_20260609104859617630.webp
-  Saved: نيسان  باترول  بلاتنيوم  2024  اوتوماتيك  37,000 كم  8 سلندر  دفع رباعي  اس يو في  أبيض  تحت الضمان
-  [OK] Uploaded to R2: images/602889_6_20260606103334795787.webp
-  [OK] Uploaded to R2: images/559258_3_20260518103433048691.webp
-  [OK] Uploaded to R2: images/570378_6_20260523171642016830.webp
-  [OK] Uploaded to R2: images/602889_7_20260606103334796097.webp
-  [OK] Uploaded to R2: images/559258_4_20260518103433048931.webp
-  [OK] Uploaded to R2: images/570378_7_20260523171642017085.webp
-  [OK] Uploaded to R2: images/602889_8_20260606103334796397.webp
-[2026-06-10 06:03:16] INFO: Fetched (200) <GET https://qatarsale.com/ar/product/audi_q7_45_tfsi_quattro_2018_black_automatic_suv-549401> (referer: https://www.google.com/)
-  [OK] Uploaded to R2: images/559258_5_20260518103433049163.webp
-  [OK] Uploaded to R2: images/601556_0_20260604081729011210.webp
-  [OK] Uploaded to R2: images/602889_9_20260606103334796662.webp
-  Saved: بي ام دبليو  الفئة - الخامسة  540i  2022  اوتوماتيك  50,863 كم  6 سلندر  دفع كلي مستمر  اس يو في  أسود
-  [OK] Uploaded to R2: images/559258_6_20260518103433049387.webp
-  [OK] Uploaded to R2: images/570378_8_20260523171642017393.webp
-  [OK] Uploaded to R2: images/549401_1_20260513113055108621.webp
-  [OK] Uploaded to R2: images/570378_9_20260523171642017715.webp
-  Saved: اودي  كيو 2  35 تي اف اس اي  2025  اوتوماتيك  13,000 كم  4 سلندر  سحب امامي  اس يو في  رمادي  تحت الضمان
-  [OK] Uploaded to R2: images/549401_2_20260513113055109050.webp
-  [OK] Uploaded to R2: images/559258_7_20260518103433049674.webp
-[2026-06-10 06:03:19] INFO: Fetched (200) <GET https://qatarsale.com/ar/product/lotus_exige_s_2021_red_manual_coupe_sport-318541> (referer: https://www.google.com/)
-  [OK] Uploaded to R2: images/559258_8_20260518103433049925.webp
-  [OK] Uploaded to R2: images/549401_3_20260513113055109285.webp
-  [OK] Uploaded to R2: images/318541_0_20250104081408737213.webp
-  [OK] Uploaded to R2: images/559258_9_20260518103433050176.webp
-  [OK] Uploaded to R2: images/549401_4_20260513113055109539.webp
-  [OK] Uploaded to R2: images/318541_1_20250104081408737379.webp
-  [OK] Uploaded to R2: images/559258_10_20260518103433050410.webp
-  Saved: لكزس  ال اكس  700 اتش  2025  اوتوماتيك  9,450 كم  6 سلندر  دفع كلي مستمر  اس يو في  أسود  تحت الضمان
-  [OK] Uploaded to R2: images/549401_5_20260513113055109738.webp
-  [OK] Uploaded to R2: images/549401_6_20260513113055109939.webp
-  [OK] Uploaded to R2: images/318541_2_20250104081408737455.webp
-[2026-06-10 06:03:24] INFO: Fetched (200) <GET https://qatarsale.com/ar/product/infiniti_qx_60_2025_white_automatic_suv-542129> (referer: https://www.google.com/)
-  [OK] Uploaded to R2: images/549401_7_20260513113055110239.webp
-  [OK] Uploaded to R2: images/542129_0_20260503103658919209.webp
-  [OK] Uploaded to R2: images/318541_3_20250104081408737512.webp
-  [OK] Uploaded to R2: images/549401_8_20260513113055110543.webp
-  Saved: اودي  كيو 7  45  تي اف اس اي كواترو  2018  اوتوماتيك  99,500 كم  6 سلندر  دفع كلي مستمر  اس يو في  أسود
-  [OK] Uploaded to R2: images/542129_1_20260503103658919686.webp
-  [OK] Uploaded to R2: images/318541_4_20250104081408737571.webp
-  [OK] Uploaded to R2: images/542129_2_20260503103658920016.webp
-[2026-06-10 06:03:27] INFO: Fetched (200) <GET https://qatarsale.com/ar/product/audi_a3_1.4_2023_silver_automatic_sedan-363820> (referer: https://www.google.com/)
-  [OK] Uploaded to R2: images/318541_5_20250104081408737628.webp
-[2026-06-10 06:03:28] INFO: Fetched (200) <GET https://qatarsale.com/ar/product/bmw_5_series_520i_2020_blue_automatic_sedan-577266> (referer: https://www.google.com/)
-  [OK] Uploaded to R2: images/542129_3_20260503103658920268.webp
-  [OK] Uploaded to R2: images/577266_0_20260530080726172942.webp
-  [OK] Uploaded to R2: images/363820_0_20250427184039134624.webp
-  [OK] Uploaded to R2: images/542129_4_20260503103658920525.webp
-  [OK] Uploaded to R2: images/318541_6_20250104081408737695.webp
-  [OK] Uploaded to R2: images/577266_1_20260530080726173440.webp
-  [OK] Uploaded to R2: images/318541_7_20250104081408737746.webp
-  [OK] Uploaded to R2: images/542129_5_20260503103658920770.webp
-  [OK] Uploaded to R2: images/363820_1_20250427184039139686.webp
-  [OK] Uploaded to R2: images/542129_6_20260503103658920994.webp
-  [OK] Uploaded to R2: images/577266_2_20260530080726173741.webp
-  [OK] Uploaded to R2: images/363820_2_20250427184039139836.webp
-  [OK] Uploaded to R2: images/318541_8_20250104081408737797.webp
-  [OK] Uploaded to R2: images/577266_3_20260530080726174027.webp
-  [OK] Uploaded to R2: images/318541_9_20250104081408737849.webp
-  Saved: لوتس  ايكسج اس  2021  عادي  14,000 كم  6 سلندر  دفع كلي مستمر  كوبيه \ سبورت  أحمر
-  [OK] Uploaded to R2: images/542129_7_20260503103658921630.webp
-  Saved: انفنيتي  كيو اكس  60  2025  اوتوماتيك  0 كم  4 سلندر  دفع كلي مستمر  اس يو في  أبيض
-  [OK] Uploaded to R2: images/577266_4_20260530080726174311.webp
-  [OK] Uploaded to R2: images/363820_3_20250427184039139908.webp
-  [OK] Uploaded to R2: images/577266_5_20260530080726174551.webp
-  [OK] Uploaded to R2: images/363820_4_20250427184039139983.webp
-  [OK] Uploaded to R2: images/577266_6_20260530080726174859.webp
-[2026-06-10 06:03:35] INFO: Fetched (200) <GET https://qatarsale.com/ar/product/mercedes_benz_maybach_gls_600_2024_black_and_gold_automatic_suv-605371> (referer: https://www.google.com/)
-[2026-06-10 06:03:36] INFO: Fetched (200) <GET https://qatarsale.com/ar/product/lexus_rx_350_2022_white_automatic_suv-449867> (referer: https://www.google.com/)
-  [OK] Uploaded to R2: images/605371_0_20260609111933375703.webp
-  [OK] Uploaded to R2: images/363820_5_20250427184039140047.webp
-  [OK] Uploaded to R2: images/449867_0_20251125090830422545.webp
-  [OK] Uploaded to R2: images/577266_7_20260530080726175193.webp
-  [OK] Uploaded to R2: images/605371_1_20260609111933376277.webp
-  [OK] Uploaded to R2: images/363820_6_20250427184039140102.webp
-  [OK] Uploaded to R2: images/577266_8_20260530080726175521.webp
-  [OK] Uploaded to R2: images/449867_1_20251125090830423064.webp
-  [OK] Uploaded to R2: images/605371_2_20260609111933376754.webp
-  [OK] Uploaded to R2: images/577266_9_20260530080726175805.webp
-  Saved: بي ام دبليو  الفئة - الخامسة  520i  2020  اوتوماتيك  46,400 كم  4 سلندر  دفع خلفي  سيدان  ازرق
-  [OK] Uploaded to R2: images/363820_7_20250427184039140163.webp
-  [OK] Uploaded to R2: images/449867_2_20251125090830423832.webp
-  [OK] Uploaded to R2: images/605371_3_20260609111933377061.webp
-  [OK] Uploaded to R2: images/363820_8_20250427184039140227.webp
-[2026-06-10 06:03:40] INFO: Fetched (200) <GET https://qatarsale.com/ar/product/audi_q3_2.0_t_2022_silver_automatic_suv-426275> (referer: https://www.google.com/)
-  [OK] Uploaded to R2: images/605371_4_20260609111933377383.webp
-  [OK] Uploaded to R2: images/449867_3_20251125090830424970.webp
-  [OK] Uploaded to R2: images/426275_0_20251005223921373998.webp
-  [OK] Uploaded to R2: images/363820_9_20250427184039140283.webp
-  Saved: اودي  أي 3  1.4  2023  اوتوماتيك  26,000 كم  4 سلندر  سحب امامي  سيدان  فضي  تحت الضمان
-  [OK] Uploaded to R2: images/449867_4_20251125090830425327.webp
-  [OK] Uploaded to R2: images/605371_5_20260609111933377646.webp
-  [OK] Uploaded to R2: images/426275_1_20251005223921374985.webp
-  [OK] Uploaded to R2: images/449867_5_20251125090830425666.webp
-  Saved: لكزس  ار اكس  350  2022  اوتوماتيك  0 كم  6 سلندر  دفع رباعي  اس يو في  أبيض  تحت الضمان
-  [OK] Uploaded to R2: images/605371_6_20260609111933377895.webp
-  Saved: مرسيدس - بنز  مايباخ  جي ال اس 600  2024  اوتوماتيك  17,400 كم  8 سلندر  دفع كلي مستمر  اس يو في  اسود و ذهبي  تحت الضمان
-  [OK] Uploaded to R2: images/426275_2_20251005223921375518.webp
-[2026-06-10 06:03:45] INFO: Fetched (200) <GET https://qatarsale.com/ar/product/audi_q3_2024_gray_automatic_suv-526272> (referer: https://www.google.com/)
-  [OK] Uploaded to R2: images/426275_3_20251005223921376211.webp
-[2026-06-10 06:03:46] INFO: Fetched (200) <GET https://qatarsale.com/ar/product/porsche_boxster_2015_black_automatic_convertible-542128> (referer: https://www.google.com/)
-  [OK] Uploaded to R2: images/526272_0_20260329103100281690.webp
-[2026-06-10 06:03:47] INFO: Fetched (200) <GET https://qatarsale.com/ar/product/bmw_x_series_x3_30i_2022_gray_automatic_suv-538807> (referer: https://www.google.com/)
-  [OK] Uploaded to R2: images/426275_4_20251005223921376957.webp
-  [OK] Uploaded to R2: images/542128_0_20260503103523634291.webp
-  [OK] Uploaded to R2: images/526272_1_20260329103100282112.webp
-  [OK] Uploaded to R2: images/538807_0_20260426103833286945.webp
-  [OK] Uploaded to R2: images/542128_1_20260503103523634800.webp
-  [OK] Uploaded to R2: images/426275_5_20251005223921377732.webp
-  Saved: اودي  كيو 3  2.0 T  2022  اوتوماتيك  28,000 كم  4 سلندر  دفع كلي مستمر  اس يو في  فضي  تحت الضمان
-  [OK] Uploaded to R2: images/538807_1_20260426103833287413.webp
-  [OK] Uploaded to R2: images/542128_2_20260503103523635120.webp
-  [OK] Uploaded to R2: images/538807_2_20260426103833287759.webp
-  [OK] Uploaded to R2: images/526272_2_20260329103100282389.webp
-  [OK] Uploaded to R2: images/538807_3_20260426103833288097.webp
-  [OK] Uploaded to R2: images/538807_4_20260426103833288413.webp
-  [OK] Uploaded to R2: images/542128_3_20260503103523635384.webp
-[2026-06-10 06:03:51] INFO: Fetched (200) <GET https://qatarsale.com/ar/product/maserati_levante_2017_blue_automatic_suv-559284> (referer: https://www.google.com/)
-  [OK] Uploaded to R2: images/526272_3_20260329103100282762.webp
-  [OK] Uploaded to R2: images/538807_5_20260426103833288741.webp
-  [OK] Uploaded to R2: images/559284_0_20260518105216030109.webp
-  [OK] Uploaded to R2: images/526272_4_20260329103100283047.webp
-  [OK] Uploaded to R2: images/542128_4_20260503103523635753.webp
-  [OK] Uploaded to R2: images/538807_6_20260426103833289127.webp
-  [OK] Uploaded to R2: images/542128_5_20260503103523636005.webp
-  [OK] Uploaded to R2: images/559284_1_20260518105216030748.webp
-  [OK] Uploaded to R2: images/526272_5_20260329103100283411.webp
-  [OK] Uploaded to R2: images/538807_7_20260426103833289444.webp
-  [OK] Uploaded to R2: images/559284_2_20260518105216031164.webp
-  [OK] Uploaded to R2: images/538807_8_20260426103833289758.webp
-  [OK] Uploaded to R2: images/526272_6_20260329103100283688.webp
-  [OK] Uploaded to R2: images/542128_6_20260503103523636312.webp
-  Saved: بورش  بوكستر  2015  اوتوماتيك  30,555 كم  6 سلندر  دفع خلفي  كشف  أسود  تحت الضمان
-  [OK] Uploaded to R2: images/526272_7_20260329103100284019.webp
-  [OK] Uploaded to R2: images/559284_3_20260518105216031482.webp
-  [OK] Uploaded to R2: images/538807_9_20260426103833290032.webp
-  [OK] Uploaded to R2: images/559284_4_20260518105216031736.webp
-  [OK] Uploaded to R2: images/526272_8_20260329103100284410.webp
-  [OK] Uploaded to R2: images/538807_10_20260426103833290353.webp
-  Saved: بي ام دبليو  الفئة - اكس  اكس 3 30 اي  2022  اوتوماتيك  19,450 كم  4 سلندر  دفع كلي مستمر  اس يو في  رمادي  تحت الضمان
-  [OK] Uploaded to R2: images/559284_5_20260518105216032040.webp
-  [OK] Uploaded to R2: images/526272_9_20260329103100284726.webp
-  Saved: اودي  كيو 3  2024  اوتوماتيك  36,000 كم  4 سلندر  سحب امامي  اس يو في  رمادي  تحت الضمان
-  [OK] Uploaded to R2: images/559284_6_20260518105216032350.webp
-  [OK] Uploaded to R2: images/559284_7_20260518105216032637.webp
-  [OK] Uploaded to R2: images/559284_8_20260518105216032870.webp
-  Saved: مزاراتي  ليفانت  2017  اوتوماتيك  69,046 كم  6 سلندر  دفع كلي مستمر  اس يو في  ازرق
-[2026-06-10 06:04:00] INFO: Fetched (200) <GET https://qatarsale.com/ar/product/tesla_cybertruck_foundation_series_2024_silver_automatic_pick_up-526688> (referer: https://www.google.com/)
-[2026-06-10 06:04:00] INFO: Fetched (200) <GET https://qatarsale.com/ar/product/mercedes_benz_s_class_400_2015_blue_automatic_sedan-539304> (referer: https://www.google.com/)
-  [OK] Uploaded to R2: images/539304_0_20260427100733537613.webp
-  [OK] Uploaded to R2: images/526688_0_20260330095653758875.webp
-  [OK] Uploaded to R2: images/539304_1_20260427100733538063.webp
-  [OK] Uploaded to R2: images/526688_1_20260330095653759441.webp
-[2026-06-10 06:04:02] INFO: Fetched (200) <GET https://qatarsale.com/ar/product/jeep_wrangler_392_rubicon_2025_gray_automatic_suv-605360> (referer: https://www.google.com/)
-  [OK] Uploaded to R2: images/539304_2_20260427100733538460.webp
-[2026-06-10 06:04:03] INFO: Fetched (200) <GET https://qatarsale.com/ar/product/voyah_free_2025_black_automatic_suv-605339> (referer: https://www.google.com/)
-  [OK] Uploaded to R2: images/539304_3_20260427100733538771.webp
-  [OK] Uploaded to R2: images/605339_0_20260609100925241736.webp
-  [OK] Uploaded to R2: images/605360_0_20260609105702643661.webp
-  [OK] Uploaded to R2: images/526688_2_20260330095653759965.webp
-  [OK] Uploaded to R2: images/539304_4_20260427100733539113.webp
-  [OK] Uploaded to R2: images/605339_1_20260609100925242147.webp
-  [OK] Uploaded to R2: images/526688_3_20260330095653760287.webp
-  [OK] Uploaded to R2: images/605360_1_20260609105702644074.webp
-  [OK] Uploaded to R2: images/605339_2_20260609100925242433.webp
-  [OK] Uploaded to R2: images/526688_4_20260330095653760669.webp
-  [OK] Uploaded to R2: images/539304_5_20260427100733539374.webp
-  [OK] Uploaded to R2: images/605360_2_20260609105702644368.webp
-  [OK] Uploaded to R2: images/539304_6_20260427100733539662.webp
-  Saved: مرسيدس - بنز  اس - كلاس  400  2015  اوتوماتيك  81,000 كم  6 سلندر  دفع خلفي  سيدان  ازرق
-  [OK] Uploaded to R2: images/526688_5_20260330095653761036.webp
-  [OK] Uploaded to R2: images/605339_3_20260609100925242764.webp
-  [OK] Uploaded to R2: images/526688_6_20260330095653761450.webp
-  Saved: تسلا  سايبر تراك  فئة فاونديشن  2024  اوتوماتيك  7,150 كم  0 سلندر  دفع كلي مستمر  بيكب  فضي
-  [OK] Uploaded to R2: images/605360_3_20260609105702644584.webp
-  [OK] Uploaded to R2: images/605339_4_20260609100925243008.webp
-  [OK] Uploaded to R2: images/605360_4_20260609105702644807.webp
-  [OK] Uploaded to R2: images/605339_5_20260609100925243238.webp
-[2026-06-10 06:04:09] INFO: Fetched (200) <GET https://qatarsale.com/ar/product/volkswagen_golf_gti_2025_blue_automatic_hatchback-545299> (referer: https://www.google.com/)
-  [OK] Uploaded to R2: images/545299_0_20260509110559240785.webp
-  [OK] Uploaded to R2: images/605360_5_20260609105702645032.webp
-[2026-06-10 06:04:10] INFO: Fetched (200) <GET https://qatarsale.com/ar/product/mercedes_benz_s_class_63_amg_2015_white_automatic_coupe_sport-605358> (referer: https://www.google.com/)
-  [OK] Uploaded to R2: images/605339_6_20260609100925243482.webp
-  [OK] Uploaded to R2: images/605419_0_20260609132654779548.webp
-  [OK] Uploaded to R2: images/545299_1_20260509110559241222.webp
-  [OK] Uploaded to R2: images/605419_0_20260609132655454738.webp
-  [OK] Uploaded to R2: images/605360_6_20260609105702645260.webp
-  [OK] Uploaded to R2: images/605339_7_20260609100925243719.webp
-  [OK] Uploaded to R2: images/545299_2_20260509110559241511.webp
-  [OK] Uploaded to R2: images/605419_0_20260609132655714237.webp
-  [OK] Uploaded to R2: images/605360_7_20260609105702645605.webp
-  [OK] Uploaded to R2: images/605419_0_20260609132655944259.webp
-  [OK] Uploaded to R2: images/605339_8_20260609100925244109.webp
-  [OK] Uploaded to R2: images/545299_3_20260509110559241812.webp
-  [OK] Uploaded to R2: images/605419_0_20260609132656203141.webp
-  [OK] Uploaded to R2: images/605360_8_20260609105702645881.webp
-  [OK] Uploaded to R2: images/545299_4_20260509110559242081.webp
-  [OK] Uploaded to R2: images/605419_0_20260609132656449043.webp
-  [OK] Uploaded to R2: images/605339_9_20260609100925244364.webp
-  [OK] Uploaded to R2: images/605360_9_20260609105702646099.webp
-  [OK] Uploaded to R2: images/545299_5_20260509110559242326.webp
-  [OK] Uploaded to R2: images/605339_10_20260609100925244629.webp
-  [OK] Uploaded to R2: images/545299_6_20260509110559242539.webp
-  [OK] Uploaded to R2: images/605360_10_20260609105702646420.webp
-  [OK] Uploaded to R2: images/605419_0_20260609132656676080.webp
-  [OK] Uploaded to R2: images/545299_7_20260509110559242854.webp
-  [OK] Uploaded to R2: images/605419_0_20260609132656919102.webp
-  Saved: مرسيدس - بنز  اس - كلاس  63 AMG  2015  اوتوماتيك  60,000 كم  8 سلندر  دفع خلفي  كوبيه \ سبورت  أبيض
-  [OK] Uploaded to R2: images/605360_11_20260609105702646644.webp
-  [OK] Uploaded to R2: images/605339_11_20260609100925244857.webp
-  [OK] Uploaded to R2: images/545299_8_20260509110559243145.webp
-  [OK] Uploaded to R2: images/605339_12_20260609100925245130.webp
-  [OK] Uploaded to R2: images/545299_9_20260509110559243439.webp
-  Saved: فوكس واغن  غولف  جي تي اي  2025  اوتوماتيك  15,200 كم  4 سلندر  سحب امامي  هاتشباك  ازرق  تحت الضمان
-  [OK] Uploaded to R2: images/605360_12_20260609105702646907.webp
-  [OK] Uploaded to R2: images/605339_13_20260609100925245388.webp
-  [OK] Uploaded to R2: images/605360_13_20260609105702647171.webp
-  [OK] Uploaded to R2: images/605360_14_20260609105702647440.webp
-  [OK] Uploaded to R2: images/605339_14_20260609100925245687.webp
-[2026-06-10 06:04:21] INFO: Fetched (200) <GET https://qatarsale.com/ar/product/audi_s_3_2023_gray_matte_automatic_sedan-574011> (referer: https://www.google.com/)
-  [OK] Uploaded to R2: images/605360_15_20260609105702647689.webp
-  [OK] Uploaded to R2: images/574011_0_20260525084655929474.webp
-  [OK] Uploaded to R2: images/605360_16_20260609105702647906.webp
-  [OK] Uploaded to R2: images/574011_1_20260525084655930084.webp
-  [OK] Uploaded to R2: images/605339_15_20260609100925245938.webp
-  Saved: فوياه  فري  2025  اوتوماتيك  15,000 كم  4 سلندر  دفع رباعي  اس يو في  أسود  تحت الضمان
-  [OK] Uploaded to R2: images/574011_2_20260525084655930392.webp
-  [OK] Uploaded to R2: images/605360_17_20260609105702648096.webp
-  [OK] Uploaded to R2: images/574011_3_20260525084655930793.webp
-  [OK] Uploaded to R2: images/605360_18_20260609105702648288.webp
-  [OK] Uploaded to R2: images/574011_4_20260525084655931071.webp
-[2026-06-10 06:04:24] INFO: Fetched (200) <GET https://qatarsale.com/ar/product/bmw_m_series_340_i_2021_white_automatic_sedan-549395> (referer: https://www.google.com/)
-  [OK] Uploaded to R2: images/605360_19_20260609105702648485.webp
-  [OK] Uploaded to R2: images/574011_5_20260525084655931322.webp
-  [OK] Uploaded to R2: images/549395_0_20260513111711117612.webp
-  [OK] Uploaded to R2: images/574011_6_20260525084655931683.webp
-  [OK] Uploaded to R2: images/605360_20_20260609105702648678.webp
-  [OK] Uploaded to R2: images/549395_1_20260513111711118100.webp
-  [OK] Uploaded to R2: images/574011_7_20260525084655931921.webp
-  [OK] Uploaded to R2: images/549395_2_20260513111711118406.webp
-  [OK] Uploaded to R2: images/605360_21_20260609105702648912.webp
-  [OK] Uploaded to R2: images/574011_8_20260525084655932149.webp
-  [OK] Uploaded to R2: images/605360_22_20260609105702649107.webp
-  [OK] Uploaded to R2: images/549395_3_20260513111711118704.webp
-  [OK] Uploaded to R2: images/574011_9_20260525084655932383.webp
-[2026-06-10 06:04:28] INFO: Fetched (200) <GET https://qatarsale.com/ar/product/audi_a6_40_tfsi_2024_black_automatic_sedan-531733> (referer: https://www.google.com/)
-  [OK] Uploaded to R2: images/605360_23_20260609105702649393.webp
-  [OK] Uploaded to R2: images/531733_0_20260411075739674362.webp
-  [OK] Uploaded to R2: images/574011_10_20260525084655932679.webp
-  Saved: اودي  أس  3  2023  اوتوماتيك  37,650 كم  4 سلندر  دفع كلي مستمر  سيدان  رمادي مطفي  تحت الضمان
-  [OK] Uploaded to R2: images/549395_4_20260513111711119004.webp
-  [OK] Uploaded to R2: images/605360_24_20260609105702649594.webp
-  [OK] Uploaded to R2: images/531733_1_20260411075739675889.webp
-  [OK] Uploaded to R2: images/549395_5_20260513111711119346.webp
-  [OK] Uploaded to R2: images/605360_25_20260609105702649831.webp
-  [OK] Uploaded to R2: images/549395_6_20260513111711119634.webp
-[2026-06-10 06:04:31] INFO: Fetched (200) <GET https://qatarsale.com/ar/product/mercedes_benz_a_class_45_amg_2015_gray_automatic_hatchback-579802> (referer: https://www.google.com/)
-  [OK] Uploaded to R2: images/531733_2_20260411075739676241.webp
-  [OK] Uploaded to R2: images/579802_0_20260601100358238107.webp
-  [OK] Uploaded to R2: images/605360_26_20260609105702650017.webp
-  [OK] Uploaded to R2: images/549395_7_20260513111711119925.webp
-  [OK] Uploaded to R2: images/531733_3_20260411075739676654.webp
-  [OK] Uploaded to R2: images/579802_1_20260601100358238650.webp
-  [OK] Uploaded to R2: images/605360_27_20260609105702650207.webp
-  [OK] Uploaded to R2: images/531733_4_20260411075739677041.webp
-  [OK] Uploaded to R2: images/549395_8_20260513111711120166.webp
-  [OK] Uploaded to R2: images/579802_2_20260601100358238952.webp
-  [OK] Uploaded to R2: images/605360_28_20260609105702650407.webp
-  [OK] Uploaded to R2: images/531733_5_20260411075739677374.webp
-  [OK] Uploaded to R2: images/549395_9_20260513111711120476.webp
-  [OK] Uploaded to R2: images/579802_3_20260601100358239387.webp
-  [OK] Uploaded to R2: images/605360_29_20260609105702650594.webp
-  Saved: جييب  رانجلار  392 روبيكون  2025  اوتوماتيك  0 كم  8 سلندر  دفع رباعي  اس يو في  رمادي  تحت الضمان
-  [OK] Uploaded to R2: images/531733_6_20260411075739677670.webp
-  [OK] Uploaded to R2: images/549395_10_20260513111711120754.webp
-  [OK] Uploaded to R2: images/579802_4_20260601100358239713.webp
-  [OK] Uploaded to R2: images/531733_7_20260411075739677953.webp
-  [OK] Uploaded to R2: images/549395_11_20260513111711121125.webp
-  Saved: بي ام دبليو  الفئة - ام  340 اي  2021  اوتوماتيك  28,250 كم  6 سلندر  دفع كلي مستمر  سيدان  أبيض
-  [OK] Uploaded to R2: images/531733_8_20260411075739678292.webp
-  [OK] Uploaded to R2: images/579802_5_20260601100358240057.webp
-  [OK] Uploaded to R2: images/531733_9_20260411075739678635.webp
-  [OK] Uploaded to R2: images/531733_10_20260411075739678980.webp
-  Saved: اودي  أي 6  40 تي اف اس اي  2024  اوتوماتيك  50,733 كم  4 سلندر  دفع خلفي  سيدان  أسود  تحت الضمان
-  [OK] Uploaded to R2: images/579802_6_20260601100358240356.webp
-[2026-06-10 06:04:40] INFO: Fetched (200) <GET https://qatarsale.com/ar/product/nissan_patrol_xe_2025_silver_automatic_suv-461655> (referer: https://www.google.com/)
-  [OK] Uploaded to R2: images/579802_7_20260601100358240619.webp
-  [OK] Uploaded to R2: images/461655_0_20251207110105973214.webp
-  [OK] Uploaded to R2: images/579802_8_20260601100358240878.webp
-[2026-06-10 06:04:41] INFO: Fetched (200) <GET https://qatarsale.com/ar/product/jetour_dashing_v5_2025_green_automatic_suv-542121> (referer: https://www.google.com/)
-  [OK] Uploaded to R2: images/461655_1_20251207110105973687.webp
-  [OK] Uploaded to R2: images/579802_9_20260601100358241155.webp
-  Saved: مرسيدس - بنز  ايه - كلاس  45 AMG  2015  اوتوماتيك  101,000 كم  4 سلندر  دفع خلفي  هاتشباك  رمادي
-[2026-06-10 06:04:42] INFO: Fetched (200) <GET https://qatarsale.com/ar/product/audi_a6_40_tfsi_2025_gray_nardo_automatic_sedan-579845> (referer: https://www.google.com/)
-  [OK] Uploaded to R2: images/542121_0_20260503103134974367.webp
-  [OK] Uploaded to R2: images/461655_2_20251207110105973977.webp
-  [OK] Uploaded to R2: images/579845_0_20260601100800106186.webp
-  [OK] Uploaded to R2: images/542121_1_20260503103134974906.webp
-  [OK] Uploaded to R2: images/461655_3_20251207110105974314.webp
-  [OK] Uploaded to R2: images/579845_1_20260601100800106725.webp
-  [OK] Uploaded to R2: images/542121_2_20260503103134975163.webp
-[2026-06-10 06:04:44] INFO: Fetched (200) <GET https://qatarsale.com/ar/product/porsche_911_turbo_2022_green_automatic_coupe_sport-605370> (referer: https://www.google.com/)
-  [OK] Uploaded to R2: images/461655_4_20251207110105974679.webp
-  [OK] Uploaded to R2: images/579845_2_20260601100800107026.webp
-  [OK] Uploaded to R2: images/605370_0_20260609111743902786.webp
-  [OK] Uploaded to R2: images/542121_3_20260503103134975405.webp
-  [OK] Uploaded to R2: images/579845_3_20260601100800107281.webp
-  [OK] Uploaded to R2: images/605370_1_20260609111743903291.webp
-  [OK] Uploaded to R2: images/579845_4_20260601100800107559.webp
-  [OK] Uploaded to R2: images/542121_4_20260503103134975629.webp
-  [OK] Uploaded to R2: images/461655_5_20251207110105975022.webp
-  Saved: نيسان  باترول  أكس أي  2025  اوتوماتيك  0 كم  6 سلندر  دفع رباعي  اس يو في  فضي  تحت الضمان
-  [OK] Uploaded to R2: images/605370_2_20260609111743903608.webp
-  [OK] Uploaded to R2: images/542121_5_20260503103134975820.webp
-  [OK] Uploaded to R2: images/579845_5_20260601100800107836.webp
-  [OK] Uploaded to R2: images/605370_3_20260609111743903898.webp
-  [OK] Uploaded to R2: images/542121_6_20260503103134976052.webp
-  Saved: جيتور  داشينغ  في 5  2025  اوتوماتيك  0 كم  4 سلندر  دفع رباعي  اس يو في  أخضر  تحت الضمان
-[2026-06-10 06:04:49] INFO: Fetched (200) <GET https://qatarsale.com/ar/product/byd_leopard_5_ultra_5_2026_black_automatic_suv-605349> (referer: https://www.google.com/)
-  [OK] Uploaded to R2: images/579845_6_20260601100800108135.webp
-  [OK] Uploaded to R2: images/605370_4_20260609111743904125.webp
-  [OK] Uploaded to R2: images/605349_0_20260609102620127971.webp
-  [OK] Uploaded to R2: images/579845_7_20260601100800108412.webp
-  [OK] Uploaded to R2: images/605370_5_20260609111743904392.webp
-  Saved: بورش  911  توربو  2022  اوتوماتيك  48,000 كم  6 سلندر  دفع خلفي  كوبيه \ سبورت  أخضر  تحت الضمان
-  [OK] Uploaded to R2: images/605349_1_20260609102620128455.webp
-[2026-06-10 06:04:51] INFO: Fetched (200) <GET https://qatarsale.com/ar/product/chevrolet_corvette_c3_1974_brown_manual_coupe_sport-579788> (referer: https://www.google.com/)
-  [OK] Uploaded to R2: images/579845_8_20260601100800108695.webp
-  [OK] Uploaded to R2: images/579788_0_20260601100258006356.webp
-  [OK] Uploaded to R2: images/605349_2_20260609102620128797.webp
-  [OK] Uploaded to R2: images/579845_9_20260601100800108948.webp
-  [OK] Uploaded to R2: images/579788_1_20260601100258006869.webp
-  [OK] Uploaded to R2: images/579845_10_20260601100800109160.webp
-  Saved: اودي  أي 6  40 تي اف اس اي  2025  اوتوماتيك  8,350 كم  4 سلندر  دفع خلفي  سيدان  رمادي ناردو  تحت الضمان
-  [OK] Uploaded to R2: images/605349_3_20260609102620129167.webp
-[2026-06-10 06:04:53] INFO: Fetched (200) <GET https://qatarsale.com/ar/product/volkswagen_golf_r_2023_blue_automatic_hatchback-579525> (referer: https://www.google.com/)
-  [OK] Uploaded to R2: images/579525_0_20260601093556858579.webp
-  [OK] Uploaded to R2: images/605349_4_20260609102620129515.webp
-  [OK] Uploaded to R2: images/579788_2_20260601100258007217.webp
-  [OK] Uploaded to R2: images/579525_1_20260601093556859032.webp
-  [OK] Uploaded to R2: images/605349_5_20260609102620129793.webp
-  Saved: بي واي دي  ليوبيرد 5  الترا 5  2026  اوتوماتيك  0 كم  4 سلندر  دفع رباعي  اس يو في  أسود
-[2026-06-10 06:04:55] INFO: Fetched (200) <GET https://qatarsale.com/ar/product/kia_sportage_2.0_2026_white_automatic_suv-605317> (referer: https://www.google.com/)
-  [OK] Uploaded to R2: images/579788_3_20260601100258007477.webp
-  [OK] Uploaded to R2: images/579525_2_20260601093556859361.webp
-  [OK] Uploaded to R2: images/605317_0_20260609093251286719.webp
-  [OK] Uploaded to R2: images/579525_3_20260601093556859661.webp
-  [OK] Uploaded to R2: images/579788_4_20260601100258007728.webp
-  [OK] Uploaded to R2: images/605317_1_20260609093251287265.webp
-[2026-06-10 06:04:57] INFO: Fetched (200) <GET https://qatarsale.com/ar/product/land_rover_defender_90_2012_green_manual_suv-531829> (referer: https://www.google.com/)
-  [OK] Uploaded to R2: images/579788_5_20260601100258008060.webp
-  [OK] Uploaded to R2: images/579525_4_20260601093556859973.webp
-  [OK] Uploaded to R2: images/605317_2_20260609093251287615.webp
-  [OK] Uploaded to R2: images/531829_0_20260411105002350015.webp
-  [OK] Uploaded to R2: images/579525_5_20260601093556860338.webp
-  [OK] Uploaded to R2: images/579788_6_20260601100258008264.webp
-  [OK] Uploaded to R2: images/531829_1_20260411105002350492.webp
-  [OK] Uploaded to R2: images/605317_3_20260609093251287982.webp
-  [OK] Uploaded to R2: images/579525_6_20260601093556860567.webp
-  [OK] Uploaded to R2: images/579788_7_20260601100258008568.webp
-  [OK] Uploaded to R2: images/531829_2_20260411105002350966.webp
-  [OK] Uploaded to R2: images/579525_7_20260601093556860841.webp
-  Saved: فوكس واغن  غولف  R  2023  اوتوماتيك  23,750 كم  4 سلندر  دفع خلفي  هاتشباك  ازرق  تحت الضمان
-  [OK] Uploaded to R2: images/605317_4_20260609093251288356.webp
-  [OK] Uploaded to R2: images/531829_3_20260411105002351320.webp
-  [OK] Uploaded to R2: images/579788_8_20260601100258008882.webp
-  Saved: شفروليه  كورفيت  اس 3  1974  عادي  137,000 كم  8 سلندر  دفع خلفي  كوبيه \ سبورت  بني
-  [OK] Uploaded to R2: images/605317_5_20260609093251288609.webp
-  [OK] Uploaded to R2: images/531829_4_20260411105002351636.webp
-  [OK] Uploaded to R2: images/605317_6_20260609093251288898.webp
-  [OK] Uploaded to R2: images/531829_5_20260411105002352060.webp
-[2026-06-10 06:05:03] INFO: Fetched (200) <GET https://qatarsale.com/ar/product/audi_a8_3.0_2019_black_automatic_suv-521746> (referer: https://www.google.com/)
-  [OK] Uploaded to R2: images/605317_7_20260609093251289199.webp
-  [OK] Uploaded to R2: images/531829_6_20260411105002352460.webp
-  Saved: لاند روفر  ديفيندر  90  2012  عادي  83,900 كم  6 سلندر  دفع رباعي  اس يو في  أخضر
-  [OK] Uploaded to R2: images/521746_0_20260314080841149274.webp
-  [OK] Uploaded to R2: images/605317_8_20260609093251289528.webp
-  [OK] Uploaded to R2: images/521746_1_20260314080841149923.webp
-  [OK] Uploaded to R2: images/605317_9_20260609093251289794.webp
-[2026-06-10 06:05:07] INFO: Fetched (200) <GET https://qatarsale.com/ar/product/infiniti_qx_60_2025_black_automatic_suv-605343> (referer: https://www.google.com/)
-[2026-06-10 06:05:07] INFO: Fetched (200) <GET https://qatarsale.com/ar/product/ford_mustang_gt_1990_red_automatic_convertible-554510> (referer: https://www.google.com/)
-  [OK] Uploaded to R2: images/521746_2_20260314080841150400.webp
-  [OK] Uploaded to R2: images/605317_10_20260609093251290038.webp
-  [OK] Uploaded to R2: images/605343_0_20260609101454496437.webp
-  [OK] Uploaded to R2: images/587229_0_20260602110530828722.webp
-  [OK] Uploaded to R2: images/605317_11_20260609093251290266.webp
-  [OK] Uploaded to R2: images/587229_0_20260602110531588427.webp
-  [OK] Uploaded to R2: images/521746_3_20260314080841150831.webp
-  [OK] Uploaded to R2: images/605343_1_20260609101454496713.webp
-  [OK] Uploaded to R2: images/605317_12_20260609093251290510.webp
-  [OK] Uploaded to R2: images/521746_4_20260314080841151292.webp
-  [OK] Uploaded to R2: images/587229_0_20260602110531886901.webp
-  [OK] Uploaded to R2: images/605317_13_20260609093251290782.webp
-  [OK] Uploaded to R2: images/605343_2_20260609101454497053.webp
-  [OK] Uploaded to R2: images/587229_0_20260602110532197948.webp
-  [OK] Uploaded to R2: images/605317_14_20260609093251291037.webp
-  [OK] Uploaded to R2: images/521746_5_20260314080841151597.webp
-  [OK] Uploaded to R2: images/605317_15_20260609093251291331.webp
-  Saved: كيا  سبورتج  2.0  2026  اوتوماتيك  0 كم  4 سلندر  سحب امامي  اس يو في  أبيض  تحت الضمان
-  [OK] Uploaded to R2: images/605343_3_20260609101454497317.webp
-  [OK] Uploaded to R2: images/587229_0_20260602110532428281.webp
-  [OK] Uploaded to R2: images/521746_6_20260314080841151963.webp
-  [OK] Uploaded to R2: images/605343_4_20260609101454497541.webp
-  [OK] Uploaded to R2: images/521746_7_20260314080841152339.webp
-  [OK] Uploaded to R2: images/587229_0_20260602110532666570.webp
-  [OK] Uploaded to R2: images/605343_5_20260609101454497873.webp
-[2026-06-10 06:05:14] INFO: Fetched (200) <GET https://qatarsale.com/ar/product/kia_sportage_2.0_2026_gray_nardo_automatic_suv-605320> (referer: https://www.google.com/)
-  [OK] Uploaded to R2: images/521746_8_20260314080841152669.webp
-  [OK] Uploaded to R2: images/587229_0_20260602110532909895.webp
-  [OK] Uploaded to R2: images/605320_0_20260609094213642953.webp
-  [OK] Uploaded to R2: images/605343_6_20260609101454498078.webp
-  [OK] Uploaded to R2: images/587229_0_20260602110533167170.webp
-  [OK] Uploaded to R2: images/521746_9_20260314080841153039.webp
-  [OK] Uploaded to R2: images/605343_7_20260609101454498344.webp
-  [OK] Uploaded to R2: images/605320_1_20260609094213643280.webp
-  [OK] Uploaded to R2: images/587229_0_20260602110533432364.webp
-  Saved: فورد  موستانغ  جي تي  1990  اوتوماتيك  120,000 كم  8 سلندر  دفع خلفي  كشف  أحمر
-  [OK] Uploaded to R2: images/521746_10_20260314080841153288.webp
-  [OK] Uploaded to R2: images/605343_8_20260609101454498555.webp
-  [OK] Uploaded to R2: images/605320_2_20260609094213643558.webp
-  [OK] Uploaded to R2: images/605343_9_20260609101454498901.webp
-  [OK] Uploaded to R2: images/521746_11_20260314080841153551.webp
-  Saved: اودي  أي 8  3.0  2019  اوتوماتيك  44,000 كم  6 سلندر  دفع كلي مستمر  اس يو في  أسود
-  [OK] Uploaded to R2: images/605320_3_20260609094213643805.webp
-  [OK] Uploaded to R2: images/605343_10_20260609101454499181.webp
-[2026-06-10 06:05:19] INFO: Fetched (200) <GET https://qatarsale.com/ar/product/mini_cooper_jcw_2022_gray_nardo_automatic_hatchback-540798> (referer: https://www.google.com/)
-  [OK] Uploaded to R2: images/605343_11_20260609101454499404.webp
-  [OK] Uploaded to R2: images/605320_4_20260609094213644088.webp
-  [OK] Uploaded to R2: images/540798_0_20260430100555383952.webp
-  [OK] Uploaded to R2: images/605343_12_20260609101454499648.webp
-[2026-06-10 06:05:20] INFO: Fetched (200) <GET https://qatarsale.com/ar/product/bmw_x_series_x5_40i_2024_black_automatic_suv-545767> (referer: https://www.google.com/)
-  [OK] Uploaded to R2: images/540798_1_20260430100555384432.webp
-  [OK] Uploaded to R2: images/545767_0_20260510104001289960.webp
-  [OK] Uploaded to R2: images/605320_5_20260609094213644395.webp
-  [OK] Uploaded to R2: images/540798_2_20260430100555384836.webp
-  [OK] Uploaded to R2: images/605343_13_20260609101454499960.webp
-  [OK] Uploaded to R2: images/540798_3_20260430100555385176.webp
-  [OK] Uploaded to R2: images/545767_1_20260510104001290477.webp
-  [OK] Uploaded to R2: images/605320_6_20260609094213644649.webp
-  [OK] Uploaded to R2: images/605343_14_20260609101454500196.webp
-  [OK] Uploaded to R2: images/540798_4_20260430100555385445.webp
-  [OK] Uploaded to R2: images/605320_7_20260609094213644978.webp
-  [OK] Uploaded to R2: images/545767_2_20260510104001290789.webp
-  [OK] Uploaded to R2: images/540798_5_20260430100555385734.webp
-  [OK] Uploaded to R2: images/545767_3_20260510104001291093.webp
-  [OK] Uploaded to R2: images/605343_15_20260609101454500400.webp
-  [OK] Uploaded to R2: images/605320_8_20260609094213645228.webp
-  [OK] Uploaded to R2: images/545767_4_20260510104001291421.webp
-  [OK] Uploaded to R2: images/540798_6_20260430100555386024.webp
-  [OK] Uploaded to R2: images/605343_16_20260609101454500605.webp
-  [OK] Uploaded to R2: images/605320_9_20260609094213645499.webp
-  [OK] Uploaded to R2: images/540798_7_20260430100555386304.webp
-  [OK] Uploaded to R2: images/605343_17_20260609101454500842.webp
-  [OK] Uploaded to R2: images/545767_5_20260510104001291660.webp
-  [OK] Uploaded to R2: images/605320_10_20260609094213645767.webp
-  [OK] Uploaded to R2: images/605343_18_20260609101454501028.webp
-  Saved: انفنيتي  كيو اكس  60  2025  اوتوماتيك  90 كم  6 سلندر  دفع كلي مستمر  اس يو في  أسود  تحت الضمان
-  [OK] Uploaded to R2: images/540798_8_20260430100555386624.webp
-  [OK] Uploaded to R2: images/605320_11_20260609094213646084.webp
-  [OK] Uploaded to R2: images/545767_6_20260510104001291895.webp
-  [OK] Uploaded to R2: images/605320_12_20260609094213646359.webp
-  [OK] Uploaded to R2: images/540798_9_20260430100555386904.webp
-  Saved: ميني  كوبر  جي سي دبليو  2022  اوتوماتيك  61,480 كم  4 سلندر  سحب امامي  هاتشباك  رمادي ناردو  تحت الضمان
-  [OK] Uploaded to R2: images/545767_7_20260510104001292205.webp
-  [OK] Uploaded to R2: images/605320_13_20260609094213646638.webp
-[2026-06-10 06:05:29] INFO: Fetched (200) <GET https://qatarsale.com/ar/product/audi_s_7_2020_gray_automatic_sedan-605364> (referer: https://www.google.com/)
-  [OK] Uploaded to R2: images/545767_8_20260510104001292581.webp
-  [OK] Uploaded to R2: images/605320_14_20260609094213646905.webp
-  [OK] Uploaded to R2: images/545767_9_20260510104001292934.webp
-  Saved: بي ام دبليو  الفئة - اكس  اكس 5 40 اي  2024  اوتوماتيك  18,985 كم  6 سلندر  دفع كلي مستمر  اس يو في  أسود  تحت الضمان
-  [OK] Uploaded to R2: images/605364_0_20260609110603222509.webp
-[2026-06-10 06:05:30] INFO: Fetched (200) <GET https://qatarsale.com/ar/product/land_rover_defender_110_kahn_2016_white_manual_suv-538251> (referer: https://www.google.com/)
-  [OK] Uploaded to R2: images/605320_15_20260609094213647151.webp
-  Saved: كيا  سبورتج  2.0  2026  اوتوماتيك  0 كم  4 سلندر  سحب امامي  اس يو في  رمادي ناردو  تحت الضمان
+[2026-06-10 06:29:35] INFO: Fetched (200) <GET https://qatarsale.com/ar/product/land_rover_defender_110_kahn_2016_white_manual_suv-538251> (referer: https://www.google.com/)
+[2026-06-10 06:29:37] INFO: Fetched (200) <GET https://qatarsale.com/ar/product/kia_sportage_2.0_2026_gray_nardo_automatic_suv-605320> (referer: https://www.google.com/)
   [OK] Uploaded to R2: images/538251_0_20260425103620208510.webp
-  [OK] Uploaded to R2: images/605364_1_20260609110603222906.webp
+[2026-06-10 06:29:37] INFO: Fetched (200) <GET https://qatarsale.com/ar/product/bmw_x_series_x3_30i_2022_gray_automatic_suv-538807> (referer: https://www.google.com/)
+  [OK] Uploaded to R2: images/605320_0_20260609094213642953.webp
   [OK] Uploaded to R2: images/538251_1_20260425103620209126.webp
-  [OK] Uploaded to R2: images/605364_2_20260609110603223190.webp
-[2026-06-10 06:05:33] INFO: Fetched (200) <GET https://qatarsale.com/ar/product/aston_martin_db_9_2009_gray_automatic_coupe_sport-528612> (referer: https://www.google.com/)
+  [OK] Uploaded to R2: images/538807_0_20260426103833286945.webp
+[2026-06-10 06:29:38] INFO: Fetched (200) <GET https://qatarsale.com/ar/product/audi_q3_2024_gray_automatic_suv-526272> (referer: https://www.google.com/)
+  [OK] Uploaded to R2: images/526272_0_20260329103100281690.webp
   [OK] Uploaded to R2: images/538251_2_20260425103620209482.webp
-[2026-06-10 06:05:33] INFO: Fetched (200) <GET https://qatarsale.com/ar/product/mitsubishi_lancer_evolution_2005_red_manual_sedan-605357> (referer: https://www.google.com/)
-  [OK] Uploaded to R2: images/528612_0_20260404110337168020.webp
+  [OK] Uploaded to R2: images/538807_1_20260426103833287413.webp
+  [OK] Uploaded to R2: images/605320_1_20260609094213643280.webp
   [OK] Uploaded to R2: images/538251_3_20260425103620209859.webp
-  [OK] Uploaded to R2: images/605422_0_20260609133030071585.webp
-  [OK] Uploaded to R2: images/605364_3_20260609110603223512.webp
-  [OK] Uploaded to R2: images/528612_1_20260404110337168513.webp
-  [OK] Uploaded to R2: images/528612_2_20260404110337168817.webp
-  [OK] Uploaded to R2: images/605364_4_20260609110603223806.webp
-  [OK] Uploaded to R2: images/605422_0_20260609133030617188.webp
+  [OK] Uploaded to R2: images/605320_2_20260609094213643558.webp
+  [OK] Uploaded to R2: images/538807_2_20260426103833287759.webp
+  [OK] Uploaded to R2: images/526272_1_20260329103100282112.webp
+  [OK] Uploaded to R2: images/526272_2_20260329103100282389.webp
   [OK] Uploaded to R2: images/538251_4_20260425103620210112.webp
-  [OK] Uploaded to R2: images/605422_0_20260609133030872397.webp
-  [OK] Uploaded to R2: images/605364_5_20260609110603224095.webp
+  [OK] Uploaded to R2: images/605320_3_20260609094213643805.webp
+  [OK] Uploaded to R2: images/538807_3_20260426103833288097.webp
+  [OK] Uploaded to R2: images/526272_3_20260329103100282762.webp
   [OK] Uploaded to R2: images/538251_5_20260425103620210434.webp
-  [OK] Uploaded to R2: images/528612_3_20260404110337169203.webp
-  [OK] Uploaded to R2: images/605422_0_20260609133031132117.webp
-  [OK] Uploaded to R2: images/605364_6_20260609110603224458.webp
-  [OK] Uploaded to R2: images/605422_0_20260609133031359470.webp
-  [OK] Uploaded to R2: images/528612_4_20260404110337169950.webp
+  [OK] Uploaded to R2: images/538807_4_20260426103833288413.webp
+  [OK] Uploaded to R2: images/605320_4_20260609094213644088.webp
+  [OK] Uploaded to R2: images/526272_4_20260329103100283047.webp
   [OK] Uploaded to R2: images/538251_6_20260425103620210694.webp
-  [OK] Uploaded to R2: images/605422_0_20260609133031589668.webp
-  [OK] Uploaded to R2: images/605364_7_20260609110603224790.webp
+  [OK] Uploaded to R2: images/538807_5_20260426103833288741.webp
+  [OK] Uploaded to R2: images/605320_5_20260609094213644395.webp
+  [OK] Uploaded to R2: images/526272_5_20260329103100283411.webp
   [OK] Uploaded to R2: images/538251_7_20260425103620210984.webp
   Saved: لاند روفر  ديفيندر  110 خان  2016  عادي  26,500 كم  4 سلندر  دفع رباعي  اس يو في  أبيض
-  [OK] Uploaded to R2: images/528612_5_20260404110337170437.webp
-  [OK] Uploaded to R2: images/605422_0_20260609133031804215.webp
-  [OK] Uploaded to R2: images/605364_8_20260609110603225122.webp
-  [OK] Uploaded to R2: images/528612_6_20260404110337170813.webp
-  Saved: أستون مارتن  دي بي  9  2009  اوتوماتيك  40,670 كم  12 سلندر  دفع خلفي  كوبيه \ سبورت  رمادي
-  [OK] Uploaded to R2: images/605422_0_20260609133032058117.webp
-  Saved: ميتسوبيشي  لانسر  إيفليوشن  2005  عادي  14,000 كم  4 سلندر  دفع رباعي  سيدان  أحمر
-  [OK] Uploaded to R2: images/605364_9_20260609110603225430.webp
-[2026-06-10 06:05:41] INFO: Fetched (200) <GET https://qatarsale.com/ar/product/bmw_x_series_x5_40i_2023_gray_automatic_suv-532263> (referer: https://www.google.com/)
-  [OK] Uploaded to R2: images/605364_10_20260609110603225710.webp
-  Saved: اودي  أس  7  2020  اوتوماتيك  75,224 كم  6 سلندر  دفع كلي مستمر  سيدان  رمادي  تحت الضمان
-  [OK] Uploaded to R2: images/532263_0_20260412100055556315.webp
-  [OK] Uploaded to R2: images/532263_1_20260412100055556832.webp
-[2026-06-10 06:05:43] INFO: Fetched (200) <GET https://qatarsale.com/ar/product/audi_a6_2.0_t_2025_gray_automatic_sedan-545314> (referer: https://www.google.com/)
-  [OK] Uploaded to R2: images/532263_2_20260412100055557272.webp
-  [OK] Uploaded to R2: images/545314_0_20260509112923132815.webp
-[2026-06-10 06:05:45] INFO: Fetched (200) <GET https://qatarsale.com/ar/product/chevrolet_tahoe_z71_2024_gray_automatic_suv-605356> (referer: https://www.google.com/)
-  [OK] Uploaded to R2: images/532263_3_20260412100055557572.webp
-  [OK] Uploaded to R2: images/545314_1_20260509112923133187.webp
-[2026-06-10 06:05:45] INFO: Fetched (200) <GET https://qatarsale.com/ar/product/volkswagen_teramont_comfortline_2024_silver_automatic_suv-531740> (referer: https://www.google.com/)
-  [OK] Uploaded to R2: images/531740_0_20260411080809199825.webp
-  [OK] Uploaded to R2: images/605356_0_20260609105201498229.webp
-  [OK] Uploaded to R2: images/532263_4_20260412100055557826.webp
-  [OK] Uploaded to R2: images/605356_1_20260609105201498764.webp
-  [OK] Uploaded to R2: images/545314_2_20260509112923133512.webp
-  [OK] Uploaded to R2: images/531740_1_20260411080809200366.webp
-  [OK] Uploaded to R2: images/605356_2_20260609105201499032.webp
-  [OK] Uploaded to R2: images/532263_5_20260412100055558112.webp
-  [OK] Uploaded to R2: images/605356_3_20260609105201499287.webp
-  [OK] Uploaded to R2: images/545314_3_20260509112923133860.webp
-  [OK] Uploaded to R2: images/531740_2_20260411080809200680.webp
-  [OK] Uploaded to R2: images/532263_6_20260412100055558405.webp
-  [OK] Uploaded to R2: images/605356_4_20260609105201499507.webp
-  [OK] Uploaded to R2: images/531740_3_20260411080809200969.webp
-  [OK] Uploaded to R2: images/532263_7_20260412100055558723.webp
-  [OK] Uploaded to R2: images/545314_4_20260509112923134318.webp
-  [OK] Uploaded to R2: images/605356_5_20260609105201499809.webp
-  [OK] Uploaded to R2: images/531740_4_20260411080809201245.webp
-  [OK] Uploaded to R2: images/605356_6_20260609105201500102.webp
-  [OK] Uploaded to R2: images/531740_5_20260411080809201560.webp
-  [OK] Uploaded to R2: images/532263_8_20260412100055559013.webp
-  [OK] Uploaded to R2: images/605356_7_20260609105201500363.webp
-  [OK] Uploaded to R2: images/545314_5_20260509112923134625.webp
-  [OK] Uploaded to R2: images/532263_9_20260412100055559293.webp
-  [OK] Uploaded to R2: images/531740_6_20260411080809201879.webp
-  [OK] Uploaded to R2: images/605356_8_20260609105201500763.webp
-  [OK] Uploaded to R2: images/605356_9_20260609105201501009.webp
-  [OK] Uploaded to R2: images/532263_10_20260412100055559592.webp
-  Saved: بي ام دبليو  الفئة - اكس  اكس 5 40 اي  2023  اوتوماتيك  39,500 كم  6 سلندر  دفع كلي مستمر  اس يو في  رمادي  تحت الضمان
-  [OK] Uploaded to R2: images/531740_7_20260411080809202188.webp
-  [OK] Uploaded to R2: images/545314_6_20260509112923134995.webp
-  [OK] Uploaded to R2: images/531740_8_20260411080809202477.webp
-  [OK] Uploaded to R2: images/605356_10_20260609105201501257.webp
-  [OK] Uploaded to R2: images/531740_9_20260411080809202732.webp
-  [OK] Uploaded to R2: images/545314_7_20260509112923135305.webp
-[2026-06-10 06:05:55] INFO: Fetched (200) <GET https://qatarsale.com/ar/product/audi_q5_45_tfsi_quattro_s_line_2021_black_automatic_suv-541975> (referer: https://www.google.com/)
-  [OK] Uploaded to R2: images/531740_10_20260411080809203086.webp
-  Saved: فوكس واغن  تيراماونت  كومفورت لاين  2024  اوتوماتيك  18,500 كم  4 سلندر  دفع كلي مستمر  اس يو في  فضي  تحت الضمان
-  [OK] Uploaded to R2: images/605356_11_20260609105201501468.webp
-  [OK] Uploaded to R2: images/541975_0_20260503082934561670.webp
-  [OK] Uploaded to R2: images/545314_8_20260509112923135634.webp
-  [OK] Uploaded to R2: images/541975_1_20260503082934562234.webp
-  [OK] Uploaded to R2: images/605356_12_20260609105201501761.webp
-  Saved: شفروليه  تاهو  زد 71  2024  اوتوماتيك  2,000 كم  8 سلندر  دفع رباعي  اس يو في  رمادي  تحت الضمان
-  [OK] Uploaded to R2: images/541975_2_20260503082934562581.webp
-  [OK] Uploaded to R2: images/545314_9_20260509112923135956.webp
-[2026-06-10 06:05:58] INFO: Fetched (200) <GET https://qatarsale.com/ar/product/volkswagen_touareg_r_line_2022_beige_automatic_suv-549385> (referer: https://www.google.com/)
-  [OK] Uploaded to R2: images/541975_3_20260503082934562850.webp
-  [OK] Uploaded to R2: images/549385_0_20260513110114279880.webp
-  [OK] Uploaded to R2: images/541975_4_20260503082934563079.webp
-  [OK] Uploaded to R2: images/545314_10_20260509112923136293.webp
-  Saved: اودي  أي 6  2.0 T  2025  اوتوماتيك  30,000 كم  4 سلندر  سحب امامي  سيدان  رمادي  تحت الضمان
-[2026-06-10 06:06:00] INFO: Fetched (200) <GET https://qatarsale.com/ar/product/mercedes_benz_280_se_1971_green_automatic_coupe_sport-525814> (referer: https://www.google.com/)
-  [OK] Uploaded to R2: images/549385_1_20260513110114280404.webp
-  [OK] Uploaded to R2: images/525814_0_20260328094700874367.webp
-  [OK] Uploaded to R2: images/541975_5_20260503082934563291.webp
-  [OK] Uploaded to R2: images/549385_2_20260513110114280726.webp
-  [OK] Uploaded to R2: images/549385_3_20260513110114280984.webp
-  [OK] Uploaded to R2: images/525814_1_20260328094700874780.webp
-  [OK] Uploaded to R2: images/541975_6_20260503082934563577.webp
-  [OK] Uploaded to R2: images/549385_4_20260513110114281309.webp
-  [OK] Uploaded to R2: images/525814_2_20260328094700875187.webp
-  [OK] Uploaded to R2: images/541975_7_20260503082934563849.webp
-  [OK] Uploaded to R2: images/549385_5_20260513110114281536.webp
-  [OK] Uploaded to R2: images/525814_3_20260328094700875544.webp
-  [OK] Uploaded to R2: images/541975_8_20260503082934564132.webp
-  [OK] Uploaded to R2: images/549385_6_20260513110114281803.webp
-[2026-06-10 06:06:04] INFO: Fetched (200) <GET https://qatarsale.com/ar/product/tesla_model_x_plaid_2024_black_automatic_sedan-537238> (referer: https://www.google.com/)
-  [OK] Uploaded to R2: images/525814_4_20260328094700875983.webp
-  [OK] Uploaded to R2: images/537238_0_20260422111254223820.webp
-  [OK] Uploaded to R2: images/541975_9_20260503082934564379.webp
-  [OK] Uploaded to R2: images/549385_7_20260513110114282058.webp
-  [OK] Uploaded to R2: images/549385_8_20260513110114282317.webp
-  [OK] Uploaded to R2: images/525814_5_20260328094700876334.webp
-  [OK] Uploaded to R2: images/541975_10_20260503082934564621.webp
-  Saved: اودي  كيو 5  45 تي اف اس اي كواترو اس-لاين  2021  اوتوماتيك  68,000 كم  4 سلندر  دفع كلي مستمر  اس يو في  أسود  تحت الضمان
-  [OK] Uploaded to R2: images/537238_1_20260422111254224358.webp
-  [OK] Uploaded to R2: images/537238_2_20260422111254224611.webp
-  [OK] Uploaded to R2: images/549385_9_20260513110114282644.webp
-  [OK] Uploaded to R2: images/525814_6_20260328094700876712.webp
-  Saved: مرسيدس - بنز  280 اس اي  1971  اوتوماتيك  85,000 كم  8 سلندر  دفع خلفي  كوبيه \ سبورت  أخضر
-  [OK] Uploaded to R2: images/537238_3_20260422111254224890.webp
-  [OK] Uploaded to R2: images/549385_10_20260513110114282908.webp
-  Saved: فوكس واغن  طوارق  R line  2022  اوتوماتيك  62,197 كم  6 سلندر  دفع كلي مستمر  اس يو في  بيج  تحت الضمان
-[2026-06-10 06:06:09] INFO: Fetched (200) <GET https://qatarsale.com/ar/product/mercedes_benz_g_class_63_amg_2025_black_automatic_suv-539294> (referer: https://www.google.com/)
-  [OK] Uploaded to R2: images/537238_4_20260422111254225109.webp
-  [OK] Uploaded to R2: images/539294_0_20260427100244731255.webp
-  [OK] Uploaded to R2: images/537238_5_20260422111254225369.webp
-[2026-06-10 06:06:10] INFO: Fetched (200) <GET https://qatarsale.com/ar/product/mg_rx9_luxury_2025_black_automatic_suv-545763> (referer: https://www.google.com/)
-  [OK] Uploaded to R2: images/537238_6_20260422111254225609.webp
-  [OK] Uploaded to R2: images/545763_0_20260510102455544647.webp
-  [OK] Uploaded to R2: images/539294_1_20260427100244731672.webp
-  [OK] Uploaded to R2: images/537238_7_20260422111254225902.webp
-  Saved: تسلا  مودل اكس  بليد  2024  اوتوماتيك  17,600 كم  0 سلندر  دفع كلي مستمر  سيدان  أسود  تحت الضمان
-  [OK] Uploaded to R2: images/539294_2_20260427100244731989.webp
-  [OK] Uploaded to R2: images/545763_1_20260510102455545100.webp
-  [OK] Uploaded to R2: images/539294_3_20260427100244732263.webp
-  [OK] Uploaded to R2: images/545763_2_20260510102455545416.webp
-  [OK] Uploaded to R2: images/539294_4_20260427100244732627.webp
-  [OK] Uploaded to R2: images/545763_3_20260510102455545716.webp
-  [OK] Uploaded to R2: images/539294_5_20260427100244733085.webp
-[2026-06-10 06:06:14] INFO: Fetched (200) <GET https://qatarsale.com/ar/product/mini_cooper_s_2025_black_automatic_hatchback-543230> (referer: https://www.google.com/)
-  [OK] Uploaded to R2: images/587232_0_20260602111027102208.webp
-  [OK] Uploaded to R2: images/539294_6_20260427100244733468.webp
-  Saved: مرسيدس - بنز  جي - كلاس  63 اي ام جي  2025  اوتوماتيك  4,800 كم  8 سلندر  دفع رباعي  اس يو في  أسود
-  [OK] Uploaded to R2: images/545763_4_20260510102455546018.webp
-  [OK] Uploaded to R2: images/587232_0_20260602111027666481.webp
-  [OK] Uploaded to R2: images/545763_5_20260510102455546263.webp
-[2026-06-10 06:06:16] INFO: Fetched (200) <GET https://qatarsale.com/ar/product/jetour_t2_luxury_plus_2026_purple_automatic_suv-605337> (referer: https://www.google.com/)
-  [OK] Uploaded to R2: images/587232_0_20260602111027883162.webp
-  [OK] Uploaded to R2: images/545763_6_20260510102455546540.webp
-  [OK] Uploaded to R2: images/605337_0_20260609100814704137.webp
-  [OK] Uploaded to R2: images/545763_7_20260510102455546890.webp
-  [OK] Uploaded to R2: images/587232_0_20260602111028135989.webp
-  [OK] Uploaded to R2: images/605337_1_20260609100814704681.webp
-  [OK] Uploaded to R2: images/545763_8_20260510102455547123.webp
-  [OK] Uploaded to R2: images/545763_9_20260510102455547440.webp
-  [OK] Uploaded to R2: images/587232_0_20260602111028365821.webp
-[2026-06-10 06:06:20] INFO: Fetched (200) <GET https://qatarsale.com/ar/product/dongfeng_shine_2026_white_automatic_sedan-605341> (referer: https://www.google.com/)
-  [OK] Uploaded to R2: images/605337_2_20260609100814705047.webp
-  [OK] Uploaded to R2: images/587232_0_20260602111028601780.webp
-  [OK] Uploaded to R2: images/545763_10_20260510102455547690.webp
-  Saved: ام جي  ار اكس 9  لكجري  2025  اوتوماتيك  7,720 كم  4 سلندر  دفع كلي مستمر  اس يو في  أسود  تحت الضمان
-  [OK] Uploaded to R2: images/605341_0_20260609101303037476.webp
-  [OK] Uploaded to R2: images/587232_0_20260602111028846152.webp
-  [OK] Uploaded to R2: images/605337_3_20260609100814707393.webp
-  [OK] Uploaded to R2: images/605341_1_20260609101303037965.webp
-  [OK] Uploaded to R2: images/605337_4_20260609100814707747.webp
-  [OK] Uploaded to R2: images/605341_2_20260609101303038330.webp
-  [OK] Uploaded to R2: images/587232_0_20260602111029099933.webp
-  Saved: ميني  كوبر  اس  2025  اوتوماتيك  13,000 كم  4 سلندر  سحب امامي  هاتشباك  أسود  تحت الضمان
-  [OK] Uploaded to R2: images/605337_5_20260609100814708153.webp
-  [OK] Uploaded to R2: images/605341_3_20260609101303038780.webp
-[2026-06-10 06:06:25] INFO: Fetched (200) <GET https://qatarsale.com/ar/product/bentley_mulsanne_2015_black_automatic_sedan-534267> (referer: https://www.google.com/)
-  [OK] Uploaded to R2: images/605341_4_20260609101303039118.webp
-  [OK] Uploaded to R2: images/605337_6_20260609100814708416.webp
-  [OK] Uploaded to R2: images/534267_0_20260416095745112876.webp
-  [OK] Uploaded to R2: images/534267_1_20260416095745113285.webp
-  [OK] Uploaded to R2: images/605341_5_20260609101303039528.webp
-  [OK] Uploaded to R2: images/605337_7_20260609100814708999.webp
-  [OK] Uploaded to R2: images/534267_2_20260416095745113621.webp
-  [OK] Uploaded to R2: images/534267_3_20260416095745113904.webp
-  [OK] Uploaded to R2: images/605337_8_20260609100814709271.webp
-  [OK] Uploaded to R2: images/605341_6_20260609101303039863.webp
-  [OK] Uploaded to R2: images/605341_7_20260609101303040144.webp
-  [OK] Uploaded to R2: images/534267_4_20260416095745114330.webp
-  [OK] Uploaded to R2: images/605337_9_20260609100814709545.webp
-  [OK] Uploaded to R2: images/605341_8_20260609101303040433.webp
-  [OK] Uploaded to R2: images/534267_5_20260416095745114751.webp
-  [OK] Uploaded to R2: images/605341_9_20260609101303040685.webp
-  [OK] Uploaded to R2: images/605337_10_20260609100814709841.webp
-  [OK] Uploaded to R2: images/534267_6_20260416095745115112.webp
-  Saved: بنتلي  مولسان  2015  اوتوماتيك  21,000 كم  8 سلندر  دفع كلي مستمر  سيدان  أسود
-  [OK] Uploaded to R2: images/605337_11_20260609100814710142.webp
-  [OK] Uploaded to R2: images/605341_10_20260609101303040938.webp
-  [OK] Uploaded to R2: images/605341_11_20260609101303041190.webp
-  [OK] Uploaded to R2: images/605337_12_20260609100814710415.webp
-  [OK] Uploaded to R2: images/605341_12_20260609101303041472.webp
-  [OK] Uploaded to R2: images/605337_13_20260609100814710643.webp
-  [OK] Uploaded to R2: images/605341_13_20260609101303041719.webp
-  [OK] Uploaded to R2: images/605337_14_20260609100814710903.webp
-  [OK] Uploaded to R2: images/605341_14_20260609101303041943.webp
-[2026-06-10 06:06:36] INFO: Fetched (200) <GET https://qatarsale.com/ar/product/jetour_t2_luxury_2025_black_automatic_suv-480216> (referer: https://www.google.com/)
-[2026-06-10 06:06:36] INFO: Fetched (200) <GET https://qatarsale.com/ar/product/audi_q7_55_tfsi_2021_blue_automatic_suv-554704> (referer: https://www.google.com/)
-  [OK] Uploaded to R2: images/605337_15_20260609100814711152.webp
-  Saved: جيتور  تي 2  لكجري بلس  2026  اوتوماتيك  17,000 كم  4 سلندر  دفع رباعي  اس يو في  بنفسجي  تحت الضمان
-  [OK] Uploaded to R2: images/605341_15_20260609101303042193.webp
-  Saved: دونج فنج  شاين  2026  اوتوماتيك  12,000 كم  4 سلندر  سحب امامي  سيدان  أبيض  تحت الضمان
-  [OK] Uploaded to R2: images/480216_0_20251225101838840895.webp
-  [OK] Uploaded to R2: images/554704_0_20260516180659383852.webp
-  [OK] Uploaded to R2: images/480216_1_20251225101838843163.webp
-  [OK] Uploaded to R2: images/554704_1_20260516180659384284.webp
-  [OK] Uploaded to R2: images/480216_2_20251225101838843492.webp
-  [OK] Uploaded to R2: images/554704_2_20260516180659384567.webp
-[2026-06-10 06:06:39] INFO: Fetched (200) <GET https://qatarsale.com/ar/product/toyota_land_cruiser_vxr_2021_white_automatic_suv-551388> (referer: https://www.google.com/)
-[2026-06-10 06:06:40] INFO: Fetched (200) <GET https://qatarsale.com/ar/product/dodge_ram_1500_2026_blue_automatic_pick_up-605350> (referer: https://www.google.com/)
-  [OK] Uploaded to R2: images/480216_3_20251225101838843731.webp
-  [OK] Uploaded to R2: images/605350_0_20260609104359538076.webp
-  [OK] Uploaded to R2: images/554704_3_20260516180659384934.webp
-  [OK] Uploaded to R2: images/551388_0_20260514100005006358.webp
-  [OK] Uploaded to R2: images/480216_4_20251225101838843993.webp
-  [OK] Uploaded to R2: images/554704_4_20260516180659385224.webp
-  [OK] Uploaded to R2: images/480216_5_20251225101838844240.webp
-  [OK] Uploaded to R2: images/605350_1_20260609104359538533.webp
-  [OK] Uploaded to R2: images/551388_1_20260514100005006964.webp
-  [OK] Uploaded to R2: images/480216_6_20251225101838844490.webp
-  [OK] Uploaded to R2: images/554704_5_20260516180659385557.webp
-  [OK] Uploaded to R2: images/551388_2_20260514100005007446.webp
-  [OK] Uploaded to R2: images/605350_2_20260609104359538851.webp
-  [OK] Uploaded to R2: images/480216_7_20251225101838844755.webp
-  [OK] Uploaded to R2: images/554704_6_20260516180659385811.webp
-  [OK] Uploaded to R2: images/551388_3_20260514100005007786.webp
-  [OK] Uploaded to R2: images/605350_3_20260609104359539131.webp
-  [OK] Uploaded to R2: images/554704_7_20260516180659386156.webp
-  [OK] Uploaded to R2: images/480216_8_20251225101838845038.webp
-  Saved: جيتور  تي 2  لكجري  2025  اوتوماتيك  0 كم  4 سلندر  دفع رباعي  اس يو في  أسود  تحت الضمان
-  [OK] Uploaded to R2: images/551388_4_20260514100005008133.webp
-  [OK] Uploaded to R2: images/554704_8_20260516180659386492.webp
-  [OK] Uploaded to R2: images/605350_4_20260609104359539469.webp
-  [OK] Uploaded to R2: images/554704_9_20260516180659386849.webp
-  Saved: اودي  كيو 7  55 تي اف اس اي  2021  اوتوماتيك  57,030 كم  6 سلندر  دفع كلي مستمر  اس يو في  ازرق
-  [OK] Uploaded to R2: images/551388_5_20260514100005008396.webp
-[2026-06-10 06:06:48] INFO: Fetched (200) <GET https://qatarsale.com/ar/product/mercedes_benz_a_class_200_amg_2025_black_automatic_sedan-602892> (referer: https://www.google.com/)
-  [OK] Uploaded to R2: images/605350_5_20260609104359539716.webp
-  [OK] Uploaded to R2: images/602892_0_20260606103812554640.webp
-  [OK] Uploaded to R2: images/551388_6_20260514100005008714.webp
-  Saved: تويوتا  لاند كروزر  في اكس ار  2021  اوتوماتيك  206,000 كم  8 سلندر  دفع رباعي  اس يو في  أبيض
-  [OK] Uploaded to R2: images/605350_6_20260609104359539988.webp
-  [OK] Uploaded to R2: images/602892_1_20260606103812555230.webp
-[2026-06-10 06:06:50] INFO: Fetched (200) <GET https://qatarsale.com/ar/product/tesla_cybertruck_beast_2024_silver_automatic_pick_up-542686> (referer: https://www.google.com/)
-  [OK] Uploaded to R2: images/605350_7_20260609104359540250.webp
-  [OK] Uploaded to R2: images/602892_2_20260606103812555693.webp
-  [OK] Uploaded to R2: images/542686_0_20260504105119008408.webp
-  [OK] Uploaded to R2: images/605350_8_20260609104359540596.webp
-  [OK] Uploaded to R2: images/542686_1_20260504105119008825.webp
-  [OK] Uploaded to R2: images/602892_3_20260606103812555957.webp
-  [OK] Uploaded to R2: images/542686_2_20260504105119009190.webp
-  [OK] Uploaded to R2: images/602892_4_20260606103812556235.webp
-  [OK] Uploaded to R2: images/605350_9_20260609104359540872.webp
-  [OK] Uploaded to R2: images/542686_3_20260504105119009503.webp
-  [OK] Uploaded to R2: images/602892_5_20260606103812556663.webp
-  [OK] Uploaded to R2: images/542686_4_20260504105119009788.webp
-  [OK] Uploaded to R2: images/605350_10_20260609104359541094.webp
-  [OK] Uploaded to R2: images/542686_5_20260504105119010071.webp
-  [OK] Uploaded to R2: images/605350_11_20260609104359541323.webp
-  [OK] Uploaded to R2: images/602892_6_20260606103812556982.webp
-  [OK] Uploaded to R2: images/542686_6_20260504105119010395.webp
-  [OK] Uploaded to R2: images/605350_12_20260609104359541583.webp
-  [OK] Uploaded to R2: images/602892_7_20260606103812557334.webp
-[2026-06-10 06:06:57] INFO: Fetched (200) <GET https://qatarsale.com/ar/product/ford_ranger_xlt_2021_gray_automatic_pick_up-605324> (referer: https://www.google.com/)
-  [OK] Uploaded to R2: images/542686_7_20260504105119010695.webp
-  [OK] Uploaded to R2: images/605350_13_20260609104359541849.webp
-  [OK] Uploaded to R2: images/602892_8_20260606103812557580.webp
-  [OK] Uploaded to R2: images/605324_0_20260609094614756486.webp
-  [OK] Uploaded to R2: images/542686_8_20260504105119010981.webp
-  [OK] Uploaded to R2: images/605350_14_20260609104359542056.webp
-  [OK] Uploaded to R2: images/602892_9_20260606103812557809.webp
-  [OK] Uploaded to R2: images/605324_1_20260609094614756916.webp
-  [OK] Uploaded to R2: images/542686_9_20260504105119011307.webp
-  [OK] Uploaded to R2: images/602892_10_20260606103812558040.webp
-  Saved: مرسيدس - بنز  ايه - كلاس  200 ايه ام جي  2025  اوتوماتيك  12,250 كم  4 سلندر  دفع خلفي  سيدان  أسود  تحت الضمان
-  [OK] Uploaded to R2: images/605350_15_20260609104359542282.webp
-  [OK] Uploaded to R2: images/542686_10_20260504105119011605.webp
-  [OK] Uploaded to R2: images/605324_2_20260609094614757234.webp
-  [OK] Uploaded to R2: images/605350_16_20260609104359542489.webp
-  [OK] Uploaded to R2: images/542686_11_20260504105119011842.webp
-  [OK] Uploaded to R2: images/605324_3_20260609094614757569.webp
-  [OK] Uploaded to R2: images/605350_17_20260609104359542711.webp
-  [OK] Uploaded to R2: images/542686_12_20260504105119012123.webp
-  [OK] Uploaded to R2: images/605324_4_20260609094614757824.webp
-  [OK] Uploaded to R2: images/542686_13_20260504105119012419.webp
-  [OK] Uploaded to R2: images/605350_18_20260609104359542941.webp
-[2026-06-10 06:07:04] INFO: Fetched (200) <GET https://qatarsale.com/ar/product/dodge_ram_1500_rho_2026_black_automatic_pick_up-605322> (referer: https://www.google.com/)
-  [OK] Uploaded to R2: images/542686_14_20260504105119012675.webp
-  [OK] Uploaded to R2: images/605350_19_20260609104359543160.webp
-  [OK] Uploaded to R2: images/605322_0_20260609094416352853.webp
-  [OK] Uploaded to R2: images/605324_5_20260609094614758055.webp
-  Saved: فورد  رانجر  اكس ال تي  2021  اوتوماتيك  165,000 كم  4 سلندر  دفع رباعي  بيكب  رمادي
-  [OK] Uploaded to R2: images/542686_15_20260504105119012916.webp
-  Saved: تسلا  سايبر تراك  بيست  2024  اوتوماتيك  0 كم  0 سلندر  دفع كلي مستمر  بيكب  فضي  تحت الضمان
-  [OK] Uploaded to R2: images/605350_20_20260609104359543451.webp
-  [OK] Uploaded to R2: images/605322_1_20260609094416353304.webp
-  [OK] Uploaded to R2: images/605350_21_20260609104359543645.webp
-  [OK] Uploaded to R2: images/605322_2_20260609094416353597.webp
-[2026-06-10 06:07:08] INFO: Fetched (200) <GET https://qatarsale.com/ar/product/mg_rx5_turbo_2024_white_automatic_suv-605314> (referer: https://www.google.com/)
-[2026-06-10 06:07:09] INFO: Fetched (200) <GET https://qatarsale.com/ar/product/chevrolet_classic_1999_red_automatic_pick_up-605355> (referer: https://www.google.com/)
-  [OK] Uploaded to R2: images/605350_22_20260609104359543839.webp
+  [OK] Uploaded to R2: images/538807_6_20260426103833289127.webp
+  [OK] Uploaded to R2: images/605320_6_20260609094213644649.webp
+  [OK] Uploaded to R2: images/538807_7_20260426103833289444.webp
+  [OK] Uploaded to R2: images/526272_6_20260329103100283688.webp
+  [OK] Uploaded to R2: images/605320_7_20260609094213644978.webp
+[2026-06-10 06:29:48] INFO: Fetched (200) <GET https://qatarsale.com/ar/product/mg_rx5_turbo_2024_white_automatic_suv-605314> (referer: https://www.google.com/)
+  [OK] Uploaded to R2: images/526272_7_20260329103100284019.webp
+  [OK] Uploaded to R2: images/538807_8_20260426103833289758.webp
+  [OK] Uploaded to R2: images/605320_8_20260609094213645228.webp
   [OK] Uploaded to R2: images/605314_0_20260609093200362585.webp
-  [OK] Uploaded to R2: images/605322_3_20260609094416353904.webp
-  [OK] Uploaded to R2: images/605355_0_20260609105118506589.webp
-  [OK] Uploaded to R2: images/605350_23_20260609104359544027.webp
+  [OK] Uploaded to R2: images/538807_9_20260426103833290032.webp
+  [OK] Uploaded to R2: images/526272_8_20260329103100284410.webp
+  [OK] Uploaded to R2: images/605320_9_20260609094213645499.webp
+  [OK] Uploaded to R2: images/538807_10_20260426103833290353.webp
+  Saved: بي ام دبليو  الفئة - اكس  اكس 3 30 اي  2022  اوتوماتيك  19,450 كم  4 سلندر  دفع كلي مستمر  اس يو في  رمادي  تحت الضمان
   [OK] Uploaded to R2: images/605314_1_20260609093200363045.webp
-  [OK] Uploaded to R2: images/605355_1_20260609105118507091.webp
-  [OK] Uploaded to R2: images/605350_24_20260609104359544336.webp
-  [OK] Uploaded to R2: images/605322_4_20260609094416354199.webp
+  [OK] Uploaded to R2: images/526272_9_20260329103100284726.webp
+  Saved: اودي  كيو 3  2024  اوتوماتيك  36,000 كم  4 سلندر  سحب امامي  اس يو في  رمادي  تحت الضمان
+  [OK] Uploaded to R2: images/605320_10_20260609094213645767.webp
   [OK] Uploaded to R2: images/605314_2_20260609093200363375.webp
-  [OK] Uploaded to R2: images/605355_2_20260609105118507370.webp
-  [OK] Uploaded to R2: images/605350_25_20260609104359544509.webp
+  [OK] Uploaded to R2: images/605320_11_20260609094213646084.webp
+[2026-06-10 06:29:53] INFO: Fetched (200) <GET https://qatarsale.com/ar/product/porsche_911_turbo_2022_green_automatic_coupe_sport-605370> (referer: https://www.google.com/)
   [OK] Uploaded to R2: images/605314_3_20260609093200363671.webp
-  [OK] Uploaded to R2: images/605322_5_20260609094416354426.webp
-  [OK] Uploaded to R2: images/605355_3_20260609105118507609.webp
+  [OK] Uploaded to R2: images/605320_12_20260609094213646359.webp
+  [OK] Uploaded to R2: images/605370_0_20260609111743902786.webp
   [OK] Uploaded to R2: images/605314_4_20260609093200363925.webp
-  [OK] Uploaded to R2: images/605350_26_20260609104359544683.webp
-  [OK] Uploaded to R2: images/605322_6_20260609094416354691.webp
-  [OK] Uploaded to R2: images/605355_4_20260609105118507884.webp
-  [OK] Uploaded to R2: images/605350_27_20260609104359544890.webp
+[2026-06-10 06:29:54] INFO: Fetched (200) <GET https://qatarsale.com/ar/product/lotus_exige_s_2021_red_manual_coupe_sport-318541> (referer: https://www.google.com/)
   [OK] Uploaded to R2: images/605314_5_20260609093200364209.webp
-  [OK] Uploaded to R2: images/605322_7_20260609094416354979.webp
-  [OK] Uploaded to R2: images/605355_5_20260609105118508159.webp
-  [OK] Uploaded to R2: images/605350_28_20260609104359545095.webp
+  [OK] Uploaded to R2: images/605370_1_20260609111743903291.webp
+  [OK] Uploaded to R2: images/318541_0_20250104081408737213.webp
+  [OK] Uploaded to R2: images/605320_13_20260609094213646638.webp
   [OK] Uploaded to R2: images/605314_6_20260609093200364494.webp
-  [OK] Uploaded to R2: images/605322_8_20260609094416355293.webp
-  [OK] Uploaded to R2: images/605355_6_20260609105118508427.webp
-  Saved: شفروليه  كلاسك  1999  اوتوماتيك  175,000 كم  8 سلندر  دفع خلفي  بيكب  أحمر
-  [OK] Uploaded to R2: images/605350_29_20260609104359545328.webp
+  [OK] Uploaded to R2: images/605320_14_20260609094213646905.webp
+  [OK] Uploaded to R2: images/318541_1_20250104081408737379.webp
+  [OK] Uploaded to R2: images/605370_2_20260609111743903608.webp
   [OK] Uploaded to R2: images/605314_7_20260609093200364808.webp
-  [OK] Uploaded to R2: images/605322_9_20260609094416355559.webp
-  [OK] Uploaded to R2: images/605350_30_20260609104359545527.webp
   [OK] Uploaded to R2: images/605314_8_20260609093200365156.webp
-[2026-06-10 06:07:20] INFO: Fetched (200) <GET https://qatarsale.com/ar/product/audi_q8_s_line_2025_green_automatic_suv-533382> (referer: https://www.google.com/)
-  [OK] Uploaded to R2: images/605322_10_20260609094416355796.webp
+  [OK] Uploaded to R2: images/605320_15_20260609094213647151.webp
+  Saved: كيا  سبورتج  2.0  2026  اوتوماتيك  0 كم  4 سلندر  سحب امامي  اس يو في  رمادي ناردو  تحت الضمان
+  [OK] Uploaded to R2: images/318541_2_20250104081408737455.webp
+  [OK] Uploaded to R2: images/605370_3_20260609111743903898.webp
+  [OK] Uploaded to R2: images/318541_3_20250104081408737512.webp
   [OK] Uploaded to R2: images/605314_9_20260609093200365468.webp
   Saved: ام جي  ار اكس 5  توربو  2024  اوتوماتيك  44,000 كم  4 سلندر  دفع رباعي  اس يو في  أبيض  تحت الضمان
+  [OK] Uploaded to R2: images/605370_4_20260609111743904125.webp
+  [OK] Uploaded to R2: images/318541_4_20250104081408737571.webp
+[2026-06-10 06:30:00] INFO: Fetched (200) <GET https://qatarsale.com/ar/product/maserati_levante_2017_blue_automatic_suv-559284> (referer: https://www.google.com/)
+  [OK] Uploaded to R2: images/605370_5_20260609111743904392.webp
+  Saved: بورش  911  توربو  2022  اوتوماتيك  48,000 كم  6 سلندر  دفع خلفي  كوبيه \ سبورت  أخضر  تحت الضمان
+  [OK] Uploaded to R2: images/318541_5_20250104081408737628.webp
+  [OK] Uploaded to R2: images/559284_0_20260518105216030109.webp
+[2026-06-10 06:30:01] INFO: Fetched (200) <GET https://qatarsale.com/ar/product/jetour_t2_luxury_plus_2026_purple_automatic_suv-605337> (referer: https://www.google.com/)
+  [OK] Uploaded to R2: images/318541_6_20250104081408737695.webp
+  [OK] Uploaded to R2: images/559284_1_20260518105216030748.webp
+  [OK] Uploaded to R2: images/605337_0_20260609100814704137.webp
+  [OK] Uploaded to R2: images/559284_2_20260518105216031164.webp
+  [OK] Uploaded to R2: images/318541_7_20250104081408737746.webp
+  [OK] Uploaded to R2: images/559284_3_20260518105216031482.webp
+  [OK] Uploaded to R2: images/605337_1_20260609100814704681.webp
+  [OK] Uploaded to R2: images/318541_8_20250104081408737797.webp
+  [OK] Uploaded to R2: images/605337_2_20260609100814705047.webp
+  [OK] Uploaded to R2: images/559284_4_20260518105216031736.webp
+  [OK] Uploaded to R2: images/318541_9_20250104081408737849.webp
+  Saved: لوتس  ايكسج اس  2021  عادي  14,000 كم  6 سلندر  دفع كلي مستمر  كوبيه \ سبورت  أحمر
+  [OK] Uploaded to R2: images/605337_3_20260609100814707393.webp
+[2026-06-10 06:30:06] INFO: Fetched (200) <GET https://qatarsale.com/ar/product/audi_a3_1.4_2023_silver_automatic_sedan-363820> (referer: https://www.google.com/)
+  [OK] Uploaded to R2: images/559284_5_20260518105216032040.webp
+  [OK] Uploaded to R2: images/605337_4_20260609100814707747.webp
+  [OK] Uploaded to R2: images/559284_6_20260518105216032350.webp
+  [OK] Uploaded to R2: images/605337_5_20260609100814708153.webp
+  [OK] Uploaded to R2: images/363820_0_20250427184039134624.webp
+[2026-06-10 06:30:08] INFO: Fetched (200) <GET https://qatarsale.com/ar/product/tesla_model_x_plaid_2024_black_automatic_sedan-537238> (referer: https://www.google.com/)
+  [OK] Uploaded to R2: images/363820_1_20250427184039139686.webp
+  [OK] Uploaded to R2: images/537238_0_20260422111254223820.webp
+  [OK] Uploaded to R2: images/559284_7_20260518105216032637.webp
+  [OK] Uploaded to R2: images/605337_6_20260609100814708416.webp
+  [OK] Uploaded to R2: images/559284_8_20260518105216032870.webp
+  Saved: مزاراتي  ليفانت  2017  اوتوماتيك  69,046 كم  6 سلندر  دفع كلي مستمر  اس يو في  ازرق
+  [OK] Uploaded to R2: images/363820_2_20250427184039139836.webp
+  [OK] Uploaded to R2: images/537238_1_20260422111254224358.webp
+  [OK] Uploaded to R2: images/605337_7_20260609100814708999.webp
+  [OK] Uploaded to R2: images/537238_2_20260422111254224611.webp
+  [OK] Uploaded to R2: images/605337_8_20260609100814709271.webp
+  [OK] Uploaded to R2: images/363820_3_20250427184039139908.webp
+  [OK] Uploaded to R2: images/537238_3_20260422111254224890.webp
+[2026-06-10 06:30:12] INFO: Fetched (200) <GET https://qatarsale.com/ar/product/audi_s_3_2023_gray_matte_automatic_sedan-574011> (referer: https://www.google.com/)
+  [OK] Uploaded to R2: images/605337_9_20260609100814709545.webp
+  [OK] Uploaded to R2: images/537238_4_20260422111254225109.webp
+  [OK] Uploaded to R2: images/574011_0_20260525084655929474.webp
+  [OK] Uploaded to R2: images/605337_10_20260609100814709841.webp
+  [OK] Uploaded to R2: images/363820_4_20250427184039139983.webp
+  [OK] Uploaded to R2: images/363820_5_20250427184039140047.webp
+  [OK] Uploaded to R2: images/537238_5_20260422111254225369.webp
+  [OK] Uploaded to R2: images/574011_1_20260525084655930084.webp
+  [OK] Uploaded to R2: images/605337_11_20260609100814710142.webp
+  [OK] Uploaded to R2: images/363820_6_20250427184039140102.webp
+  [OK] Uploaded to R2: images/574011_2_20260525084655930392.webp
+  [OK] Uploaded to R2: images/537238_6_20260422111254225609.webp
+  [OK] Uploaded to R2: images/574011_3_20260525084655930793.webp
+  [OK] Uploaded to R2: images/363820_7_20250427184039140163.webp
+  [OK] Uploaded to R2: images/605337_12_20260609100814710415.webp
+  [OK] Uploaded to R2: images/574011_4_20260525084655931071.webp
+  [OK] Uploaded to R2: images/537238_7_20260422111254225902.webp
+  Saved: تسلا  مودل اكس  بليد  2024  اوتوماتيك  17,600 كم  0 سلندر  دفع كلي مستمر  سيدان  أسود  تحت الضمان
+  [OK] Uploaded to R2: images/363820_8_20250427184039140227.webp
+  [OK] Uploaded to R2: images/574011_5_20260525084655931322.webp
+  [OK] Uploaded to R2: images/605337_13_20260609100814710643.webp
+  [OK] Uploaded to R2: images/363820_9_20250427184039140283.webp
+  Saved: اودي  أي 3  1.4  2023  اوتوماتيك  26,000 كم  4 سلندر  سحب امامي  سيدان  فضي  تحت الضمان
+  [OK] Uploaded to R2: images/574011_6_20260525084655931683.webp
+  [OK] Uploaded to R2: images/605337_14_20260609100814710903.webp
+  [OK] Uploaded to R2: images/574011_7_20260525084655931921.webp
+  [OK] Uploaded to R2: images/605337_15_20260609100814711152.webp
+  Saved: جيتور  تي 2  لكجري بلس  2026  اوتوماتيك  17,000 كم  4 سلندر  دفع رباعي  اس يو في  بنفسجي  تحت الضمان
+  [OK] Uploaded to R2: images/574011_8_20260525084655932149.webp
+  [OK] Uploaded to R2: images/574011_9_20260525084655932383.webp
+  [OK] Uploaded to R2: images/574011_10_20260525084655932679.webp
+  Saved: اودي  أس  3  2023  اوتوماتيك  37,650 كم  4 سلندر  دفع كلي مستمر  سيدان  رمادي مطفي  تحت الضمان
+[2026-06-10 06:30:22] INFO: Fetched (200) <GET https://qatarsale.com/ar/product/tesla_cybertruck_beast_2024_silver_automatic_pick_up-542686> (referer: https://www.google.com/)
+  [OK] Uploaded to R2: images/542686_0_20260504105119008408.webp
+  [OK] Uploaded to R2: images/542686_1_20260504105119008825.webp
+  [OK] Uploaded to R2: images/542686_2_20260504105119009190.webp
+[2026-06-10 06:30:24] INFO: Fetched (200) <GET https://qatarsale.com/ar/product/voyah_free_2025_black_automatic_suv-605339> (referer: https://www.google.com/)
+  [OK] Uploaded to R2: images/542686_3_20260504105119009503.webp
+  [OK] Uploaded to R2: images/605339_0_20260609100925241736.webp
+[2026-06-10 06:30:26] INFO: Fetched (200) <GET https://qatarsale.com/ar/product/mercedes_benz_maybach_gls_600_2024_black_and_gold_automatic_suv-605371> (referer: https://www.google.com/)
+  [OK] Uploaded to R2: images/542686_4_20260504105119009788.webp
+  [OK] Uploaded to R2: images/605339_1_20260609100925242147.webp
+  [OK] Uploaded to R2: images/542686_5_20260504105119010071.webp
+  [OK] Uploaded to R2: images/605371_0_20260609111933375703.webp
+[2026-06-10 06:30:27] INFO: Fetched (200) <GET https://qatarsale.com/ar/product/mini_cooper_s_2025_black_automatic_hatchback-543230> (referer: https://www.google.com/)
+  [OK] Uploaded to R2: images/542686_6_20260504105119010395.webp
+  [OK] Uploaded to R2: images/605371_1_20260609111933376277.webp
+  [OK] Uploaded to R2: images/605339_2_20260609100925242433.webp
+  [OK] Uploaded to R2: images/587232_0_20260602111027102208.webp
+  [OK] Uploaded to R2: images/542686_7_20260504105119010695.webp
+  [OK] Uploaded to R2: images/587232_0_20260602111027666481.webp
+  [OK] Uploaded to R2: images/605371_2_20260609111933376754.webp
+  [OK] Uploaded to R2: images/605339_3_20260609100925242764.webp
+  [OK] Uploaded to R2: images/542686_8_20260504105119010981.webp
+  [OK] Uploaded to R2: images/605371_3_20260609111933377061.webp
+  [OK] Uploaded to R2: images/587232_0_20260602111027883162.webp
+  [OK] Uploaded to R2: images/542686_9_20260504105119011307.webp
+  [OK] Uploaded to R2: images/605339_4_20260609100925243008.webp
+  [OK] Uploaded to R2: images/605371_4_20260609111933377383.webp
+  [OK] Uploaded to R2: images/587232_0_20260602111028135989.webp
+  [OK] Uploaded to R2: images/542686_10_20260504105119011605.webp
+  [OK] Uploaded to R2: images/605339_5_20260609100925243238.webp
+  [OK] Uploaded to R2: images/605371_5_20260609111933377646.webp
+  [OK] Uploaded to R2: images/587232_0_20260602111028365821.webp
+  [OK] Uploaded to R2: images/605339_6_20260609100925243482.webp
+  [OK] Uploaded to R2: images/605371_6_20260609111933377895.webp
+  Saved: مرسيدس - بنز  مايباخ  جي ال اس 600  2024  اوتوماتيك  17,400 كم  8 سلندر  دفع كلي مستمر  اس يو في  اسود و ذهبي  تحت الضمان
+  [OK] Uploaded to R2: images/542686_11_20260504105119011842.webp
+  [OK] Uploaded to R2: images/587232_0_20260602111028601780.webp
+  [OK] Uploaded to R2: images/605339_7_20260609100925243719.webp
+  [OK] Uploaded to R2: images/542686_12_20260504105119012123.webp
+  [OK] Uploaded to R2: images/587232_0_20260602111028846152.webp
+  [OK] Uploaded to R2: images/605339_8_20260609100925244109.webp
+  [OK] Uploaded to R2: images/587232_0_20260602111029099933.webp
+  Saved: ميني  كوبر  اس  2025  اوتوماتيك  13,000 كم  4 سلندر  سحب امامي  هاتشباك  أسود  تحت الضمان
+  [OK] Uploaded to R2: images/542686_13_20260504105119012419.webp
+[2026-06-10 06:30:35] INFO: Fetched (200) <GET https://qatarsale.com/ar/product/audi_q8_s_line_2025_green_automatic_suv-533382> (referer: https://www.google.com/)
   [OK] Uploaded to R2: images/533382_0_20260414110847114574.webp
-  [OK] Uploaded to R2: images/605350_31_20260609104359545726.webp
-  [OK] Uploaded to R2: images/605322_11_20260609094416356056.webp
+  [OK] Uploaded to R2: images/542686_14_20260504105119012675.webp
+  [OK] Uploaded to R2: images/605339_9_20260609100925244364.webp
+  [OK] Uploaded to R2: images/542686_15_20260504105119012916.webp
+  Saved: تسلا  سايبر تراك  بيست  2024  اوتوماتيك  0 كم  0 سلندر  دفع كلي مستمر  بيكب  فضي  تحت الضمان
   [OK] Uploaded to R2: images/533382_1_20260414110847115286.webp
-  [OK] Uploaded to R2: images/605322_12_20260609094416356319.webp
-  [OK] Uploaded to R2: images/605350_32_20260609104359545916.webp
-[2026-06-10 06:07:23] INFO: Fetched (200) <GET https://qatarsale.com/ar/product/porsche_911_turbo_s_2017_blue_automatic_coupe_sport-539300> (referer: https://www.google.com/)
+[2026-06-10 06:30:37] INFO: Fetched (200) <GET https://qatarsale.com/ar/product/volkswagen_golf_gti_2025_blue_automatic_hatchback-545299> (referer: https://www.google.com/)
+  [OK] Uploaded to R2: images/605339_10_20260609100925244629.webp
+  [OK] Uploaded to R2: images/545299_0_20260509110559240785.webp
   [OK] Uploaded to R2: images/533382_2_20260414110847115587.webp
-  [OK] Uploaded to R2: images/539300_0_20260427100453894624.webp
-  [OK] Uploaded to R2: images/605350_33_20260609104359546089.webp
-  [OK] Uploaded to R2: images/605322_13_20260609094416356631.webp
+  [OK] Uploaded to R2: images/605339_11_20260609100925244857.webp
+  [OK] Uploaded to R2: images/545299_1_20260509110559241222.webp
   [OK] Uploaded to R2: images/533382_3_20260414110847115926.webp
-  [OK] Uploaded to R2: images/539300_1_20260427100453896328.webp
+  [OK] Uploaded to R2: images/545299_2_20260509110559241511.webp
+[2026-06-10 06:30:39] INFO: Fetched (200) <GET https://qatarsale.com/ar/product/bmw_5_series_540i_2022_black_automatic_suv-602889> (referer: https://www.google.com/)
   [OK] Uploaded to R2: images/533382_4_20260414110847116244.webp
-  [OK] Uploaded to R2: images/605350_34_20260609104359546319.webp
-  [OK] Uploaded to R2: images/605322_14_20260609094416356893.webp
-  [OK] Uploaded to R2: images/539300_2_20260427100453896689.webp
+  [OK] Uploaded to R2: images/605339_12_20260609100925245130.webp
+  [OK] Uploaded to R2: images/545299_3_20260509110559241812.webp
+  [OK] Uploaded to R2: images/602889_0_20260606103334793678.webp
   [OK] Uploaded to R2: images/533382_5_20260414110847116523.webp
-  [OK] Uploaded to R2: images/605322_15_20260609094416357231.webp
-  [OK] Uploaded to R2: images/605350_35_20260609104359546521.webp
-  Saved: دودج  رام  1500  2026  اوتوماتيك  0 كم  6 سلندر  دفع رباعي  بيكب  ازرق  تحت الضمان
-  [OK] Uploaded to R2: images/539300_3_20260427100453897033.webp
-  [OK] Uploaded to R2: images/605322_16_20260609094416357445.webp
+  [OK] Uploaded to R2: images/545299_4_20260509110559242081.webp
+  [OK] Uploaded to R2: images/602889_1_20260606103334794138.webp
   [OK] Uploaded to R2: images/533382_6_20260414110847116819.webp
   Saved: اودي  كيو 8  اس لاين  2025  اوتوماتيك  4,120 كم  6 سلندر  دفع كلي مستمر  اس يو في  أخضر  تحت الضمان
-  [OK] Uploaded to R2: images/539300_4_20260427100453897387.webp
-  [OK] Uploaded to R2: images/605322_17_20260609094416357706.webp
-  [OK] Uploaded to R2: images/539300_5_20260427100453897676.webp
-  [OK] Uploaded to R2: images/605322_18_20260609094416357934.webp
-  [OK] Uploaded to R2: images/539300_6_20260427100453897996.webp
-  Saved: بورش  911  توربو اس  2017  اوتوماتيك  83,150 كم  6 سلندر  دفع خلفي  كوبيه \ سبورت  ازرق  تحت الضمان
-[2026-06-10 06:07:32] INFO: Fetched (200) <GET https://qatarsale.com/ar/product/audi_a8_3.0_2024_black_automatic_sedan-500996> (referer: https://www.google.com/)
-  [OK] Uploaded to R2: images/605322_19_20260609094416358214.webp
-  [OK] Uploaded to R2: images/605322_20_20260609094416358428.webp
+  [OK] Uploaded to R2: images/605339_13_20260609100925245388.webp
+  [OK] Uploaded to R2: images/602889_2_20260606103334794510.webp
+  [OK] Uploaded to R2: images/545299_5_20260509110559242326.webp
+  [OK] Uploaded to R2: images/605339_14_20260609100925245687.webp
+  [OK] Uploaded to R2: images/545299_6_20260509110559242539.webp
+  [OK] Uploaded to R2: images/602889_3_20260606103334794853.webp
+  [OK] Uploaded to R2: images/605339_15_20260609100925245938.webp
+  Saved: فوياه  فري  2025  اوتوماتيك  15,000 كم  4 سلندر  دفع رباعي  اس يو في  أسود  تحت الضمان
+  [OK] Uploaded to R2: images/545299_7_20260509110559242854.webp
+  [OK] Uploaded to R2: images/602889_4_20260606103334795235.webp
+  [OK] Uploaded to R2: images/545299_8_20260509110559243145.webp
+  [OK] Uploaded to R2: images/602889_5_20260606103334795527.webp
+  [OK] Uploaded to R2: images/545299_9_20260509110559243439.webp
+  Saved: فوكس واغن  غولف  جي تي اي  2025  اوتوماتيك  15,200 كم  4 سلندر  سحب امامي  هاتشباك  ازرق  تحت الضمان
+  [OK] Uploaded to R2: images/602889_6_20260606103334795787.webp
+[2026-06-10 06:30:46] INFO: Fetched (200) <GET https://qatarsale.com/ar/product/tesla_cybertruck_foundation_series_2024_silver_automatic_pick_up-526688> (referer: https://www.google.com/)
+  [OK] Uploaded to R2: images/602889_7_20260606103334796097.webp
+  [OK] Uploaded to R2: images/526688_0_20260330095653758875.webp
+  [OK] Uploaded to R2: images/602889_8_20260606103334796397.webp
+  [OK] Uploaded to R2: images/526688_1_20260330095653759441.webp
+[2026-06-10 06:30:48] INFO: Fetched (200) <GET https://qatarsale.com/ar/product/mitsubishi_lancer_evolution_2005_red_manual_sedan-605357> (referer: https://www.google.com/)
+  [OK] Uploaded to R2: images/526688_2_20260330095653759965.webp
+  [OK] Uploaded to R2: images/602889_9_20260606103334796662.webp
+  Saved: بي ام دبليو  الفئة - الخامسة  540i  2022  اوتوماتيك  50,863 كم  6 سلندر  دفع كلي مستمر  اس يو في  أسود
+[2026-06-10 06:30:49] INFO: Fetched (200) <GET https://qatarsale.com/ar/product/mercedes_benz_s_class_400_2015_blue_automatic_sedan-539304> (referer: https://www.google.com/)
+  [OK] Uploaded to R2: images/526688_3_20260330095653760287.webp
+  [OK] Uploaded to R2: images/605422_0_20260609133030071585.webp
+  [OK] Uploaded to R2: images/539304_0_20260427100733537613.webp
+  [OK] Uploaded to R2: images/526688_4_20260330095653760669.webp
+  [OK] Uploaded to R2: images/605422_0_20260609133030617188.webp
+  [OK] Uploaded to R2: images/526688_5_20260330095653761036.webp
+  [OK] Uploaded to R2: images/605422_0_20260609133030872397.webp
+  [OK] Uploaded to R2: images/539304_1_20260427100733538063.webp
+  [OK] Uploaded to R2: images/605422_0_20260609133031132117.webp
+  [OK] Uploaded to R2: images/539304_2_20260427100733538460.webp
+  [OK] Uploaded to R2: images/526688_6_20260330095653761450.webp
+  Saved: تسلا  سايبر تراك  فئة فاونديشن  2024  اوتوماتيك  7,150 كم  0 سلندر  دفع كلي مستمر  بيكب  فضي
+[2026-06-10 06:30:52] INFO: Fetched (200) <GET https://qatarsale.com/ar/product/audi_a6_40_tfsi_2024_black_automatic_sedan-531733> (referer: https://www.google.com/)
+  [OK] Uploaded to R2: images/605422_0_20260609133031359470.webp
+  [OK] Uploaded to R2: images/539304_3_20260427100733538771.webp
+  [OK] Uploaded to R2: images/531733_0_20260411075739674362.webp
+  [OK] Uploaded to R2: images/605422_0_20260609133031589668.webp
+  [OK] Uploaded to R2: images/539304_4_20260427100733539113.webp
+  [OK] Uploaded to R2: images/605422_0_20260609133031804215.webp
+  [OK] Uploaded to R2: images/531733_1_20260411075739675889.webp
+  [OK] Uploaded to R2: images/539304_5_20260427100733539374.webp
+  [OK] Uploaded to R2: images/531733_2_20260411075739676241.webp
+  [OK] Uploaded to R2: images/605422_0_20260609133032058117.webp
+  Saved: ميتسوبيشي  لانسر  إيفليوشن  2005  عادي  14,000 كم  4 سلندر  دفع رباعي  سيدان  أحمر
+[2026-06-10 06:30:56] INFO: Fetched (200) <GET https://qatarsale.com/ar/product/land_rover_defender_90_2012_green_manual_suv-531829> (referer: https://www.google.com/)
+  [OK] Uploaded to R2: images/539304_6_20260427100733539662.webp
+  Saved: مرسيدس - بنز  اس - كلاس  400  2015  اوتوماتيك  81,000 كم  6 سلندر  دفع خلفي  سيدان  ازرق
+  [OK] Uploaded to R2: images/531733_3_20260411075739676654.webp
+  [OK] Uploaded to R2: images/531829_0_20260411105002350015.webp
+  [OK] Uploaded to R2: images/531733_4_20260411075739677041.webp
+  [OK] Uploaded to R2: images/531829_1_20260411105002350492.webp
+  [OK] Uploaded to R2: images/531829_2_20260411105002350966.webp
+  [OK] Uploaded to R2: images/531733_5_20260411075739677374.webp
+[2026-06-10 06:30:59] INFO: Fetched (200) <GET https://qatarsale.com/ar/product/nissan_patrol_xe_2025_silver_automatic_suv-461655> (referer: https://www.google.com/)
+  [OK] Uploaded to R2: images/531829_3_20260411105002351320.webp
+[2026-06-10 06:30:59] INFO: Fetched (200) <GET https://qatarsale.com/ar/product/mg_rx9_luxury_2025_black_automatic_suv-545763> (referer: https://www.google.com/)
+  [OK] Uploaded to R2: images/531733_6_20260411075739677670.webp
+  [OK] Uploaded to R2: images/461655_0_20251207110105973214.webp
+  [OK] Uploaded to R2: images/531829_4_20260411105002351636.webp
+  [OK] Uploaded to R2: images/531733_7_20260411075739677953.webp
+  [OK] Uploaded to R2: images/545763_0_20260510102455544647.webp
+  [OK] Uploaded to R2: images/531829_5_20260411105002352060.webp
+  [OK] Uploaded to R2: images/461655_1_20251207110105973687.webp
+  [OK] Uploaded to R2: images/531733_8_20260411075739678292.webp
+  [OK] Uploaded to R2: images/545763_1_20260510102455545100.webp
+  [OK] Uploaded to R2: images/531829_6_20260411105002352460.webp
+  Saved: لاند روفر  ديفيندر  90  2012  عادي  83,900 كم  6 سلندر  دفع رباعي  اس يو في  أخضر
+  [OK] Uploaded to R2: images/531733_9_20260411075739678635.webp
+  [OK] Uploaded to R2: images/545763_2_20260510102455545416.webp
+  [OK] Uploaded to R2: images/461655_2_20251207110105973977.webp
+  [OK] Uploaded to R2: images/531733_10_20260411075739678980.webp
+  Saved: اودي  أي 6  40 تي اف اس اي  2024  اوتوماتيك  50,733 كم  4 سلندر  دفع خلفي  سيدان  أسود  تحت الضمان
+  [OK] Uploaded to R2: images/545763_3_20260510102455545716.webp
+  [OK] Uploaded to R2: images/545763_4_20260510102455546018.webp
+  [OK] Uploaded to R2: images/461655_3_20251207110105974314.webp
+[2026-06-10 06:31:04] INFO: Fetched (200) <GET https://qatarsale.com/ar/product/chevrolet_corvette_c3_1974_brown_manual_coupe_sport-579788> (referer: https://www.google.com/)
+  [OK] Uploaded to R2: images/545763_5_20260510102455546263.webp
+  [OK] Uploaded to R2: images/579788_0_20260601100258006356.webp
+  [OK] Uploaded to R2: images/461655_4_20251207110105974679.webp
+  [OK] Uploaded to R2: images/545763_6_20260510102455546540.webp
+  [OK] Uploaded to R2: images/579788_1_20260601100258006869.webp
+  [OK] Uploaded to R2: images/461655_5_20251207110105975022.webp
+  Saved: نيسان  باترول  أكس أي  2025  اوتوماتيك  0 كم  6 سلندر  دفع رباعي  اس يو في  فضي  تحت الضمان
+  [OK] Uploaded to R2: images/545763_7_20260510102455546890.webp
+  [OK] Uploaded to R2: images/579788_2_20260601100258007217.webp
+  [OK] Uploaded to R2: images/545763_8_20260510102455547123.webp
+  [OK] Uploaded to R2: images/579788_3_20260601100258007477.webp
+  [OK] Uploaded to R2: images/545763_9_20260510102455547440.webp
+  [OK] Uploaded to R2: images/579788_4_20260601100258007728.webp
+[2026-06-10 06:31:08] INFO: Fetched (200) <GET https://qatarsale.com/ar/product/audi_a8_3.0_2024_black_automatic_sedan-500996> (referer: https://www.google.com/)
+  [OK] Uploaded to R2: images/545763_10_20260510102455547690.webp
+  Saved: ام جي  ار اكس 9  لكجري  2025  اوتوماتيك  7,720 كم  4 سلندر  دفع كلي مستمر  اس يو في  أسود  تحت الضمان
+  [OK] Uploaded to R2: images/579788_5_20260601100258008060.webp
   [OK] Uploaded to R2: images/500996_0_20260117120740102974.webp
-  [OK] Uploaded to R2: images/605322_21_20260609094416358658.webp
+[2026-06-10 06:31:10] INFO: Fetched (200) <GET https://qatarsale.com/ar/product/bmw_5_series_520i_2020_blue_automatic_sedan-577266> (referer: https://www.google.com/)
   [OK] Uploaded to R2: images/500996_1_20260117120740103671.webp
-  [OK] Uploaded to R2: images/605322_22_20260609094416358885.webp
+  [OK] Uploaded to R2: images/577266_0_20260530080726172942.webp
+  [OK] Uploaded to R2: images/579788_6_20260601100258008264.webp
   [OK] Uploaded to R2: images/500996_2_20260117120740104010.webp
-  [OK] Uploaded to R2: images/605322_23_20260609094416359198.webp
+  [OK] Uploaded to R2: images/577266_1_20260530080726173440.webp
+  [OK] Uploaded to R2: images/579788_7_20260601100258008568.webp
   [OK] Uploaded to R2: images/500996_3_20260117120740104336.webp
-  [OK] Uploaded to R2: images/605322_24_20260609094416359403.webp
+  [OK] Uploaded to R2: images/577266_2_20260530080726173741.webp
+  [OK] Uploaded to R2: images/579788_8_20260601100258008882.webp
+  Saved: شفروليه  كورفيت  اس 3  1974  عادي  137,000 كم  8 سلندر  دفع خلفي  كوبيه \ سبورت  بني
   [OK] Uploaded to R2: images/500996_4_20260117120740104597.webp
-  [OK] Uploaded to R2: images/605322_25_20260609094416359653.webp
+  [OK] Uploaded to R2: images/577266_3_20260530080726174027.webp
+[2026-06-10 06:31:14] INFO: Fetched (200) <GET https://qatarsale.com/ar/product/lexus_lx_700_h_2025_black_automatic_suv-559258> (referer: https://www.google.com/)
   [OK] Uploaded to R2: images/500996_5_20260117120740104865.webp
-  [OK] Uploaded to R2: images/605322_26_20260609094416359842.webp
+  [OK] Uploaded to R2: images/559258_0_20260518103433047371.webp
+  [OK] Uploaded to R2: images/577266_4_20260530080726174311.webp
+[2026-06-10 06:31:16] INFO: Fetched (200) <GET https://qatarsale.com/ar/product/audi_q3_2.0_t_2022_silver_automatic_suv-426275> (referer: https://www.google.com/)
   [OK] Uploaded to R2: images/500996_6_20260117120740105098.webp
-  [OK] Uploaded to R2: images/605322_27_20260609094416360171.webp
+  [OK] Uploaded to R2: images/577266_5_20260530080726174551.webp
+  [OK] Uploaded to R2: images/559258_1_20260518103433047759.webp
   [OK] Uploaded to R2: images/500996_7_20260117120740105426.webp
-  [OK] Uploaded to R2: images/605322_28_20260609094416360432.webp
-  [OK] Uploaded to R2: images/605322_29_20260609094416360642.webp
+  [OK] Uploaded to R2: images/426275_0_20251005223921373998.webp
+  [OK] Uploaded to R2: images/577266_6_20260530080726174859.webp
+  [OK] Uploaded to R2: images/559258_2_20260518103433048420.webp
+  [OK] Uploaded to R2: images/426275_1_20251005223921374985.webp
+  [OK] Uploaded to R2: images/577266_7_20260530080726175193.webp
   [OK] Uploaded to R2: images/500996_8_20260117120740105691.webp
+  [OK] Uploaded to R2: images/559258_3_20260518103433048691.webp
+  [OK] Uploaded to R2: images/426275_2_20251005223921375518.webp
   [OK] Uploaded to R2: images/500996_9_20260117120740105931.webp
-  [OK] Uploaded to R2: images/605322_30_20260609094416360842.webp
+  [OK] Uploaded to R2: images/559258_4_20260518103433048931.webp
+  [OK] Uploaded to R2: images/577266_8_20260530080726175521.webp
+  [OK] Uploaded to R2: images/426275_3_20251005223921376211.webp
+  [OK] Uploaded to R2: images/577266_9_20260530080726175805.webp
+  Saved: بي ام دبليو  الفئة - الخامسة  520i  2020  اوتوماتيك  46,400 كم  4 سلندر  دفع خلفي  سيدان  ازرق
+  [OK] Uploaded to R2: images/559258_5_20260518103433049163.webp
   [OK] Uploaded to R2: images/500996_10_20260117120740106187.webp
   Saved: اودي  أي 8  3.0  2024  اوتوماتيك  41,000 كم  6 سلندر  دفع كلي مستمر  سيدان  أسود  تحت الضمان
+  [OK] Uploaded to R2: images/426275_4_20251005223921376957.webp
+  [OK] Uploaded to R2: images/559258_6_20260518103433049387.webp
+  [OK] Uploaded to R2: images/426275_5_20251005223921377732.webp
+  Saved: اودي  كيو 3  2.0 T  2022  اوتوماتيك  28,000 كم  4 سلندر  دفع كلي مستمر  اس يو في  فضي  تحت الضمان
+[2026-06-10 06:31:24] INFO: Fetched (200) <GET https://qatarsale.com/ar/product/volkswagen_teramont_comfortline_2024_silver_automatic_suv-531740> (referer: https://www.google.com/)
+  [OK] Uploaded to R2: images/559258_7_20260518103433049674.webp
+  [OK] Uploaded to R2: images/531740_0_20260411080809199825.webp
+  [OK] Uploaded to R2: images/559258_8_20260518103433049925.webp
+  [OK] Uploaded to R2: images/531740_1_20260411080809200366.webp
+  [OK] Uploaded to R2: images/559258_9_20260518103433050176.webp
+  [OK] Uploaded to R2: images/531740_2_20260411080809200680.webp
+  [OK] Uploaded to R2: images/531740_3_20260411080809200969.webp
+  [OK] Uploaded to R2: images/559258_10_20260518103433050410.webp
+  Saved: لكزس  ال اكس  700 اتش  2025  اوتوماتيك  9,450 كم  6 سلندر  دفع كلي مستمر  اس يو في  أسود  تحت الضمان
+  [OK] Uploaded to R2: images/531740_4_20260411080809201245.webp
+[2026-06-10 06:31:30] INFO: Fetched (200) <GET https://qatarsale.com/ar/product/audi_a6_2.0_t_2025_gray_automatic_sedan-545314> (referer: https://www.google.com/)
+[2026-06-10 06:31:30] INFO: Fetched (200) <GET https://qatarsale.com/ar/product/porsche_911_turbo_s_2017_blue_automatic_coupe_sport-539300> (referer: https://www.google.com/)
+  [OK] Uploaded to R2: images/531740_5_20260411080809201560.webp
+  [OK] Uploaded to R2: images/545314_0_20260509112923132815.webp
+  [OK] Uploaded to R2: images/539300_0_20260427100453894624.webp
+  [OK] Uploaded to R2: images/531740_6_20260411080809201879.webp
+  [OK] Uploaded to R2: images/539300_1_20260427100453896328.webp
+  [OK] Uploaded to R2: images/531740_7_20260411080809202188.webp
+  [OK] Uploaded to R2: images/545314_1_20260509112923133187.webp
+  [OK] Uploaded to R2: images/539300_2_20260427100453896689.webp
+  [OK] Uploaded to R2: images/531740_8_20260411080809202477.webp
+  [OK] Uploaded to R2: images/545314_2_20260509112923133512.webp
+  [OK] Uploaded to R2: images/539300_3_20260427100453897033.webp
+  [OK] Uploaded to R2: images/531740_9_20260411080809202732.webp
+[2026-06-10 06:31:34] INFO: Fetched (200) <GET https://qatarsale.com/ar/product/nissan_patrol_platinum_2024_white_automatic_suv-605353> (referer: https://www.google.com/)
+  [OK] Uploaded to R2: images/545314_3_20260509112923133860.webp
+  [OK] Uploaded to R2: images/605353_0_20260609104859616016.webp
+  [OK] Uploaded to R2: images/539300_4_20260427100453897387.webp
+  [OK] Uploaded to R2: images/531740_10_20260411080809203086.webp
+  Saved: فوكس واغن  تيراماونت  كومفورت لاين  2024  اوتوماتيك  18,500 كم  4 سلندر  دفع كلي مستمر  اس يو في  فضي  تحت الضمان
+  [OK] Uploaded to R2: images/539300_5_20260427100453897676.webp
+  [OK] Uploaded to R2: images/605353_1_20260609104859616410.webp
+  [OK] Uploaded to R2: images/545314_4_20260509112923134318.webp
+  [OK] Uploaded to R2: images/539300_6_20260427100453897996.webp
+  Saved: بورش  911  توربو اس  2017  اوتوماتيك  83,150 كم  6 سلندر  دفع خلفي  كوبيه \ سبورت  ازرق  تحت الضمان
+  [OK] Uploaded to R2: images/545314_5_20260509112923134625.webp
+  [OK] Uploaded to R2: images/605353_2_20260609104859616687.webp
+  [OK] Uploaded to R2: images/605353_3_20260609104859617007.webp
+  [OK] Uploaded to R2: images/545314_6_20260509112923134995.webp
+  [OK] Uploaded to R2: images/605353_4_20260609104859617355.webp
+  [OK] Uploaded to R2: images/545314_7_20260509112923135305.webp
+  [OK] Uploaded to R2: images/605353_5_20260609104859617630.webp
+  Saved: نيسان  باترول  بلاتنيوم  2024  اوتوماتيك  37,000 كم  8 سلندر  دفع رباعي  اس يو في  أبيض  تحت الضمان
+  [OK] Uploaded to R2: images/545314_8_20260509112923135634.webp
+[2026-06-10 06:31:42] INFO: Fetched (200) <GET https://qatarsale.com/ar/product/audi_q7_55_tfsi_2021_blue_automatic_suv-554704> (referer: https://www.google.com/)
+  [OK] Uploaded to R2: images/545314_9_20260509112923135956.webp
+  [OK] Uploaded to R2: images/554704_0_20260516180659383852.webp
+  [OK] Uploaded to R2: images/545314_10_20260509112923136293.webp
+  Saved: اودي  أي 6  2.0 T  2025  اوتوماتيك  30,000 كم  4 سلندر  سحب امامي  سيدان  رمادي  تحت الضمان
+[2026-06-10 06:31:44] INFO: Fetched (200) <GET https://qatarsale.com/ar/product/kia_sportage_2.0_2026_white_automatic_suv-605317> (referer: https://www.google.com/)
+  [OK] Uploaded to R2: images/554704_1_20260516180659384284.webp
+  [OK] Uploaded to R2: images/605317_0_20260609093251286719.webp
+[2026-06-10 06:31:45] INFO: Fetched (200) <GET https://qatarsale.com/ar/product/audi_q7_45_tfsi_quattro_2018_black_automatic_suv-549401> (referer: https://www.google.com/)
+  [OK] Uploaded to R2: images/554704_2_20260516180659384567.webp
+  [OK] Uploaded to R2: images/605317_1_20260609093251287265.webp
+  [OK] Uploaded to R2: images/601556_0_20260604081729011210.webp
+[2026-06-10 06:31:46] INFO: Fetched (200) <GET https://qatarsale.com/ar/product/bmw_x_series_x5_40i_2023_gray_automatic_suv-532263> (referer: https://www.google.com/)
+  [OK] Uploaded to R2: images/554704_3_20260516180659384934.webp
+  [OK] Uploaded to R2: images/605317_2_20260609093251287615.webp
+  [OK] Uploaded to R2: images/549401_1_20260513113055108621.webp
+  [OK] Uploaded to R2: images/554704_4_20260516180659385224.webp
+  [OK] Uploaded to R2: images/532263_0_20260412100055556315.webp
+  [OK] Uploaded to R2: images/605317_3_20260609093251287982.webp
+  [OK] Uploaded to R2: images/549401_2_20260513113055109050.webp
+  [OK] Uploaded to R2: images/532263_1_20260412100055556832.webp
+  [OK] Uploaded to R2: images/605317_4_20260609093251288356.webp
+  [OK] Uploaded to R2: images/549401_3_20260513113055109285.webp
+  [OK] Uploaded to R2: images/554704_5_20260516180659385557.webp
+  [OK] Uploaded to R2: images/532263_2_20260412100055557272.webp
+  [OK] Uploaded to R2: images/605317_5_20260609093251288609.webp
+  [OK] Uploaded to R2: images/549401_4_20260513113055109539.webp
+  [OK] Uploaded to R2: images/554704_6_20260516180659385811.webp
+  [OK] Uploaded to R2: images/532263_3_20260412100055557572.webp
+  [OK] Uploaded to R2: images/605317_6_20260609093251288898.webp
+  [OK] Uploaded to R2: images/532263_4_20260412100055557826.webp
+  [OK] Uploaded to R2: images/549401_5_20260513113055109738.webp
+  [OK] Uploaded to R2: images/605317_7_20260609093251289199.webp
+  [OK] Uploaded to R2: images/554704_7_20260516180659386156.webp
+  [OK] Uploaded to R2: images/532263_5_20260412100055558112.webp
+  [OK] Uploaded to R2: images/605317_8_20260609093251289528.webp
+  [OK] Uploaded to R2: images/549401_6_20260513113055109939.webp
+  [OK] Uploaded to R2: images/554704_8_20260516180659386492.webp
+  [OK] Uploaded to R2: images/532263_6_20260412100055558405.webp
+  [OK] Uploaded to R2: images/549401_7_20260513113055110239.webp
+  [OK] Uploaded to R2: images/605317_9_20260609093251289794.webp
+  [OK] Uploaded to R2: images/554704_9_20260516180659386849.webp
+  Saved: اودي  كيو 7  55 تي اف اس اي  2021  اوتوماتيك  57,030 كم  6 سلندر  دفع كلي مستمر  اس يو في  ازرق
+  [OK] Uploaded to R2: images/532263_7_20260412100055558723.webp
+  [OK] Uploaded to R2: images/549401_8_20260513113055110543.webp
+  Saved: اودي  كيو 7  45  تي اف اس اي كواترو  2018  اوتوماتيك  99,500 كم  6 سلندر  دفع كلي مستمر  اس يو في  أسود
+  [OK] Uploaded to R2: images/605317_10_20260609093251290038.webp
+  [OK] Uploaded to R2: images/532263_8_20260412100055559013.webp
+  [OK] Uploaded to R2: images/605317_11_20260609093251290266.webp
+  [OK] Uploaded to R2: images/532263_9_20260412100055559293.webp
+[2026-06-10 06:31:58] INFO: Fetched (200) <GET https://qatarsale.com/ar/product/audi_s_7_2020_gray_automatic_sedan-605364> (referer: https://www.google.com/)
+  [OK] Uploaded to R2: images/605317_12_20260609093251290510.webp
+[2026-06-10 06:31:58] INFO: Fetched (200) <GET https://qatarsale.com/ar/product/dodge_ram_1500_2026_blue_automatic_pick_up-605350> (referer: https://www.google.com/)
+  [OK] Uploaded to R2: images/532263_10_20260412100055559592.webp
+  Saved: بي ام دبليو  الفئة - اكس  اكس 5 40 اي  2023  اوتوماتيك  39,500 كم  6 سلندر  دفع كلي مستمر  اس يو في  رمادي  تحت الضمان
+  [OK] Uploaded to R2: images/605364_0_20260609110603222509.webp
+  [OK] Uploaded to R2: images/605350_0_20260609104359538076.webp
+  [OK] Uploaded to R2: images/605317_13_20260609093251290782.webp
+  [OK] Uploaded to R2: images/605364_1_20260609110603222906.webp
+  [OK] Uploaded to R2: images/605350_1_20260609104359538533.webp
+  [OK] Uploaded to R2: images/605317_14_20260609093251291037.webp
+  [OK] Uploaded to R2: images/605364_2_20260609110603223190.webp
+[2026-06-10 06:32:02] INFO: Fetched (200) <GET https://qatarsale.com/ar/product/bmw_m_series_340_i_2021_white_automatic_sedan-549395> (referer: https://www.google.com/)
+  [OK] Uploaded to R2: images/605350_2_20260609104359538851.webp
+  [OK] Uploaded to R2: images/605317_15_20260609093251291331.webp
+  Saved: كيا  سبورتج  2.0  2026  اوتوماتيك  0 كم  4 سلندر  سحب امامي  اس يو في  أبيض  تحت الضمان
+  [OK] Uploaded to R2: images/605364_3_20260609110603223512.webp
+  [OK] Uploaded to R2: images/549395_0_20260513111711117612.webp
+  [OK] Uploaded to R2: images/605350_3_20260609104359539131.webp
+  [OK] Uploaded to R2: images/605364_4_20260609110603223806.webp
+  [OK] Uploaded to R2: images/549395_1_20260513111711118100.webp
+  [OK] Uploaded to R2: images/605350_4_20260609104359539469.webp
+[2026-06-10 06:32:04] INFO: Fetched (200) <GET https://qatarsale.com/ar/product/mercedes_benz_a_class_45_amg_2015_gray_automatic_hatchback-579802> (referer: https://www.google.com/)
+  [OK] Uploaded to R2: images/605364_5_20260609110603224095.webp
+  [OK] Uploaded to R2: images/549395_2_20260513111711118406.webp
+  [OK] Uploaded to R2: images/579802_0_20260601100358238107.webp
+  [OK] Uploaded to R2: images/605364_6_20260609110603224458.webp
+  [OK] Uploaded to R2: images/549395_3_20260513111711118704.webp
+  [OK] Uploaded to R2: images/605350_5_20260609104359539716.webp
+  [OK] Uploaded to R2: images/579802_1_20260601100358238650.webp
+  [OK] Uploaded to R2: images/549395_4_20260513111711119004.webp
+  [OK] Uploaded to R2: images/605350_6_20260609104359539988.webp
+  [OK] Uploaded to R2: images/605364_7_20260609110603224790.webp
+  [OK] Uploaded to R2: images/549395_5_20260513111711119346.webp
+  [OK] Uploaded to R2: images/579802_2_20260601100358238952.webp
+  [OK] Uploaded to R2: images/605364_8_20260609110603225122.webp
+  [OK] Uploaded to R2: images/605350_7_20260609104359540250.webp
+  [OK] Uploaded to R2: images/549395_6_20260513111711119634.webp
+  [OK] Uploaded to R2: images/579802_3_20260601100358239387.webp
+  [OK] Uploaded to R2: images/605350_8_20260609104359540596.webp
+  [OK] Uploaded to R2: images/605364_9_20260609110603225430.webp
+  [OK] Uploaded to R2: images/549395_7_20260513111711119925.webp
+  [OK] Uploaded to R2: images/605350_9_20260609104359540872.webp
+  [OK] Uploaded to R2: images/605364_10_20260609110603225710.webp
+  Saved: اودي  أس  7  2020  اوتوماتيك  75,224 كم  6 سلندر  دفع كلي مستمر  سيدان  رمادي  تحت الضمان
+  [OK] Uploaded to R2: images/579802_4_20260601100358239713.webp
+  [OK] Uploaded to R2: images/549395_8_20260513111711120166.webp
+  [OK] Uploaded to R2: images/605350_10_20260609104359541094.webp
+  [OK] Uploaded to R2: images/579802_5_20260601100358240057.webp
+  [OK] Uploaded to R2: images/549395_9_20260513111711120476.webp
+  [OK] Uploaded to R2: images/605350_11_20260609104359541323.webp
+  [OK] Uploaded to R2: images/549395_10_20260513111711120754.webp
+  [OK] Uploaded to R2: images/605350_12_20260609104359541583.webp
+  [OK] Uploaded to R2: images/579802_6_20260601100358240356.webp
+[2026-06-10 06:32:13] INFO: Fetched (200) <GET https://qatarsale.com/ar/product/volkswagen_touareg_r_line_2022_beige_automatic_suv-549385> (referer: https://www.google.com/)
+  [OK] Uploaded to R2: images/549395_11_20260513111711121125.webp
+  Saved: بي ام دبليو  الفئة - ام  340 اي  2021  اوتوماتيك  28,250 كم  6 سلندر  دفع كلي مستمر  سيدان  أبيض
+  [OK] Uploaded to R2: images/579802_7_20260601100358240619.webp
+  [OK] Uploaded to R2: images/605350_13_20260609104359541849.webp
+  [OK] Uploaded to R2: images/549385_0_20260513110114279880.webp
+  [OK] Uploaded to R2: images/579802_8_20260601100358240878.webp
+  [OK] Uploaded to R2: images/605350_14_20260609104359542056.webp
+  [OK] Uploaded to R2: images/549385_1_20260513110114280404.webp
+  [OK] Uploaded to R2: images/579802_9_20260601100358241155.webp
+  Saved: مرسيدس - بنز  ايه - كلاس  45 AMG  2015  اوتوماتيك  101,000 كم  4 سلندر  دفع خلفي  هاتشباك  رمادي
+[2026-06-10 06:32:16] INFO: Fetched (200) <GET https://qatarsale.com/ar/product/infiniti_qx_60_2025_black_automatic_suv-605343> (referer: https://www.google.com/)
+  [OK] Uploaded to R2: images/605350_15_20260609104359542282.webp
+  [OK] Uploaded to R2: images/549385_2_20260513110114280726.webp
+  [OK] Uploaded to R2: images/605343_0_20260609101454496437.webp
+  [OK] Uploaded to R2: images/605350_16_20260609104359542489.webp
+  [OK] Uploaded to R2: images/549385_3_20260513110114280984.webp
+  [OK] Uploaded to R2: images/605343_1_20260609101454496713.webp
+  [OK] Uploaded to R2: images/605350_17_20260609104359542711.webp
+  [OK] Uploaded to R2: images/549385_4_20260513110114281309.webp
+  [OK] Uploaded to R2: images/605343_2_20260609101454497053.webp
+  [OK] Uploaded to R2: images/605350_18_20260609104359542941.webp
+  [OK] Uploaded to R2: images/549385_5_20260513110114281536.webp
+  [OK] Uploaded to R2: images/605343_3_20260609101454497317.webp
+  [OK] Uploaded to R2: images/605350_19_20260609104359543160.webp
+[2026-06-10 06:32:21] INFO: Fetched (200) <GET https://qatarsale.com/ar/product/lexus_rx_350_2022_white_automatic_suv-449867> (referer: https://www.google.com/)
+  [OK] Uploaded to R2: images/605343_4_20260609101454497541.webp
+  [OK] Uploaded to R2: images/549385_6_20260513110114281803.webp
+  [OK] Uploaded to R2: images/605350_20_20260609104359543451.webp
+  [OK] Uploaded to R2: images/449867_0_20251125090830422545.webp
+  [OK] Uploaded to R2: images/605343_5_20260609101454497873.webp
+  [OK] Uploaded to R2: images/549385_7_20260513110114282058.webp
+  [OK] Uploaded to R2: images/605350_21_20260609104359543645.webp
+  [OK] Uploaded to R2: images/605343_6_20260609101454498078.webp
+  [OK] Uploaded to R2: images/449867_1_20251125090830423064.webp
+  [OK] Uploaded to R2: images/549385_8_20260513110114282317.webp
+  [OK] Uploaded to R2: images/605350_22_20260609104359543839.webp
+  [OK] Uploaded to R2: images/605343_7_20260609101454498344.webp
+  [OK] Uploaded to R2: images/449867_2_20251125090830423832.webp
+  [OK] Uploaded to R2: images/549385_9_20260513110114282644.webp
+  [OK] Uploaded to R2: images/605343_8_20260609101454498555.webp
+  [OK] Uploaded to R2: images/605350_23_20260609104359544027.webp
+  [OK] Uploaded to R2: images/449867_3_20251125090830424970.webp
+  [OK] Uploaded to R2: images/549385_10_20260513110114282908.webp
+  Saved: فوكس واغن  طوارق  R line  2022  اوتوماتيك  62,197 كم  6 سلندر  دفع كلي مستمر  اس يو في  بيج  تحت الضمان
+  [OK] Uploaded to R2: images/605343_9_20260609101454498901.webp
+  [OK] Uploaded to R2: images/605350_24_20260609104359544336.webp
+  [OK] Uploaded to R2: images/605343_10_20260609101454499181.webp
+  [OK] Uploaded to R2: images/449867_4_20251125090830425327.webp
+  [OK] Uploaded to R2: images/605350_25_20260609104359544509.webp
+  [OK] Uploaded to R2: images/605343_11_20260609101454499404.webp
+  [OK] Uploaded to R2: images/605350_26_20260609104359544683.webp
+[2026-06-10 06:32:29] INFO: Fetched (200) <GET https://qatarsale.com/ar/product/mercedes_benz_g_class_63_amg_2025_black_automatic_suv-539294> (referer: https://www.google.com/)
+  [OK] Uploaded to R2: images/449867_5_20251125090830425666.webp
+  Saved: لكزس  ار اكس  350  2022  اوتوماتيك  0 كم  6 سلندر  دفع رباعي  اس يو في  أبيض  تحت الضمان
+  [OK] Uploaded to R2: images/605343_12_20260609101454499648.webp
+  [OK] Uploaded to R2: images/605350_27_20260609104359544890.webp
+  [OK] Uploaded to R2: images/539294_0_20260427100244731255.webp
+  [OK] Uploaded to R2: images/605343_13_20260609101454499960.webp
+  [OK] Uploaded to R2: images/605350_28_20260609104359545095.webp
+  [OK] Uploaded to R2: images/539294_1_20260427100244731672.webp
+[2026-06-10 06:32:31] INFO: Fetched (200) <GET https://qatarsale.com/ar/product/bmw_x_series_x5_40i_2024_black_automatic_suv-545767> (referer: https://www.google.com/)
+  [OK] Uploaded to R2: images/605343_14_20260609101454500196.webp
+  [OK] Uploaded to R2: images/605350_29_20260609104359545328.webp
+  [OK] Uploaded to R2: images/545767_0_20260510104001289960.webp
+  [OK] Uploaded to R2: images/539294_2_20260427100244731989.webp
+  [OK] Uploaded to R2: images/605343_15_20260609101454500400.webp
+  [OK] Uploaded to R2: images/605350_30_20260609104359545527.webp
+  [OK] Uploaded to R2: images/545767_1_20260510104001290477.webp
+  [OK] Uploaded to R2: images/605343_16_20260609101454500605.webp
+  [OK] Uploaded to R2: images/539294_3_20260427100244732263.webp
+  [OK] Uploaded to R2: images/605350_31_20260609104359545726.webp
+  [OK] Uploaded to R2: images/545767_2_20260510104001290789.webp
+  [OK] Uploaded to R2: images/605343_17_20260609101454500842.webp
+  [OK] Uploaded to R2: images/539294_4_20260427100244732627.webp
+  [OK] Uploaded to R2: images/605350_32_20260609104359545916.webp
+  [OK] Uploaded to R2: images/545767_3_20260510104001291093.webp
+  [OK] Uploaded to R2: images/539294_5_20260427100244733085.webp
+  [OK] Uploaded to R2: images/605343_18_20260609101454501028.webp
+  Saved: انفنيتي  كيو اكس  60  2025  اوتوماتيك  90 كم  6 سلندر  دفع كلي مستمر  اس يو في  أسود  تحت الضمان
+  [OK] Uploaded to R2: images/605350_33_20260609104359546089.webp
+  [OK] Uploaded to R2: images/545767_4_20260510104001291421.webp
+  [OK] Uploaded to R2: images/605350_34_20260609104359546319.webp
+  [OK] Uploaded to R2: images/539294_6_20260427100244733468.webp
+  Saved: مرسيدس - بنز  جي - كلاس  63 اي ام جي  2025  اوتوماتيك  4,800 كم  8 سلندر  دفع رباعي  اس يو في  أسود
+  [OK] Uploaded to R2: images/545767_5_20260510104001291660.webp
+  [OK] Uploaded to R2: images/605350_35_20260609104359546521.webp
+  Saved: دودج  رام  1500  2026  اوتوماتيك  0 كم  6 سلندر  دفع رباعي  بيكب  ازرق  تحت الضمان
+[2026-06-10 06:32:38] INFO: Fetched (200) <GET https://qatarsale.com/ar/product/jetour_t2_luxury_2025_black_automatic_suv-480216> (referer: https://www.google.com/)
+  [OK] Uploaded to R2: images/545767_6_20260510104001291895.webp
+  [OK] Uploaded to R2: images/545767_7_20260510104001292205.webp
+  [OK] Uploaded to R2: images/480216_0_20251225101838840895.webp
+[2026-06-10 06:32:40] INFO: Fetched (200) <GET https://qatarsale.com/ar/product/ford_ranger_xlt_2021_gray_automatic_pick_up-605324> (referer: https://www.google.com/)
+  [OK] Uploaded to R2: images/545767_8_20260510104001292581.webp
+[2026-06-10 06:32:41] INFO: Fetched (200) <GET https://qatarsale.com/ar/product/ford_mustang_gt_1990_red_automatic_convertible-554510> (referer: https://www.google.com/)
+  [OK] Uploaded to R2: images/480216_1_20251225101838843163.webp
+  [OK] Uploaded to R2: images/605324_0_20260609094614756486.webp
+  [OK] Uploaded to R2: images/545767_9_20260510104001292934.webp
+  Saved: بي ام دبليو  الفئة - اكس  اكس 5 40 اي  2024  اوتوماتيك  18,985 كم  6 سلندر  دفع كلي مستمر  اس يو في  أسود  تحت الضمان
+  [OK] Uploaded to R2: images/587229_0_20260602110530828722.webp
+  [OK] Uploaded to R2: images/480216_2_20251225101838843492.webp
+  [OK] Uploaded to R2: images/605324_1_20260609094614756916.webp
+  [OK] Uploaded to R2: images/587229_0_20260602110531588427.webp
+  [OK] Uploaded to R2: images/480216_3_20251225101838843731.webp
+  [OK] Uploaded to R2: images/605324_2_20260609094614757234.webp
+  [OK] Uploaded to R2: images/587229_0_20260602110531886901.webp
+[2026-06-10 06:32:44] INFO: Fetched (200) <GET https://qatarsale.com/ar/product/jeep_wrangler_392_rubicon_2025_gray_automatic_suv-605360> (referer: https://www.google.com/)
+  [OK] Uploaded to R2: images/480216_4_20251225101838843993.webp
+  [OK] Uploaded to R2: images/605324_3_20260609094614757569.webp
+  [OK] Uploaded to R2: images/587229_0_20260602110532197948.webp
+  [OK] Uploaded to R2: images/605360_0_20260609105702643661.webp
+  [OK] Uploaded to R2: images/480216_5_20251225101838844240.webp
+  [OK] Uploaded to R2: images/605324_4_20260609094614757824.webp
+  [OK] Uploaded to R2: images/605360_1_20260609105702644074.webp
+  [OK] Uploaded to R2: images/587229_0_20260602110532428281.webp
+  [OK] Uploaded to R2: images/480216_6_20251225101838844490.webp
+  [OK] Uploaded to R2: images/605324_5_20260609094614758055.webp
+  Saved: فورد  رانجر  اكس ال تي  2021  اوتوماتيك  165,000 كم  4 سلندر  دفع رباعي  بيكب  رمادي
+  [OK] Uploaded to R2: images/605360_2_20260609105702644368.webp
+  [OK] Uploaded to R2: images/587229_0_20260602110532666570.webp
+  [OK] Uploaded to R2: images/480216_7_20251225101838844755.webp
+  [OK] Uploaded to R2: images/605360_3_20260609105702644584.webp
+  [OK] Uploaded to R2: images/587229_0_20260602110532909895.webp
+  [OK] Uploaded to R2: images/605360_4_20260609105702644807.webp
+  [OK] Uploaded to R2: images/480216_8_20251225101838845038.webp
+  Saved: جيتور  تي 2  لكجري  2025  اوتوماتيك  0 كم  4 سلندر  دفع رباعي  اس يو في  أسود  تحت الضمان
+  [OK] Uploaded to R2: images/587229_0_20260602110533167170.webp
+  [OK] Uploaded to R2: images/605360_5_20260609105702645032.webp
+  [OK] Uploaded to R2: images/587229_0_20260602110533432364.webp
+  Saved: فورد  موستانغ  جي تي  1990  اوتوماتيك  120,000 كم  8 سلندر  دفع خلفي  كشف  أحمر
+[2026-06-10 06:32:52] INFO: Fetched (200) <GET https://qatarsale.com/ar/product/audi_a6_40_tfsi_2025_gray_nardo_automatic_sedan-579845> (referer: https://www.google.com/)
+  [OK] Uploaded to R2: images/605360_6_20260609105702645260.webp
+[2026-06-10 06:32:53] INFO: Fetched (200) <GET https://qatarsale.com/ar/product/mercedes_benz_280_se_1971_green_automatic_coupe_sport-525814> (referer: https://www.google.com/)
+  [OK] Uploaded to R2: images/579845_0_20260601100800106186.webp
+  [OK] Uploaded to R2: images/525814_0_20260328094700874367.webp
+  [OK] Uploaded to R2: images/605360_7_20260609105702645605.webp
+  [OK] Uploaded to R2: images/579845_1_20260601100800106725.webp
+  [OK] Uploaded to R2: images/605360_8_20260609105702645881.webp
+  [OK] Uploaded to R2: images/525814_1_20260328094700874780.webp
+  [OK] Uploaded to R2: images/579845_2_20260601100800107026.webp
+  [OK] Uploaded to R2: images/605360_9_20260609105702646099.webp
+  [OK] Uploaded to R2: images/525814_2_20260328094700875187.webp
+  [OK] Uploaded to R2: images/579845_3_20260601100800107281.webp
+  [OK] Uploaded to R2: images/605360_10_20260609105702646420.webp
+  [OK] Uploaded to R2: images/525814_3_20260328094700875544.webp
+[2026-06-10 06:32:58] INFO: Fetched (200) <GET https://qatarsale.com/ar/product/jetour_dashing_v5_2025_green_automatic_suv-542121> (referer: https://www.google.com/)
+  [OK] Uploaded to R2: images/579845_4_20260601100800107559.webp
+  [OK] Uploaded to R2: images/605360_11_20260609105702646644.webp
+  [OK] Uploaded to R2: images/542121_0_20260503103134974367.webp
+  [OK] Uploaded to R2: images/525814_4_20260328094700875983.webp
+  [OK] Uploaded to R2: images/579845_5_20260601100800107836.webp
+  [OK] Uploaded to R2: images/605360_12_20260609105702646907.webp
+  [OK] Uploaded to R2: images/542121_1_20260503103134974906.webp
+  [OK] Uploaded to R2: images/525814_5_20260328094700876334.webp
+  [OK] Uploaded to R2: images/605360_13_20260609105702647171.webp
+  [OK] Uploaded to R2: images/542121_2_20260503103134975163.webp
+  [OK] Uploaded to R2: images/579845_6_20260601100800108135.webp
+  [OK] Uploaded to R2: images/605360_14_20260609105702647440.webp
+  [OK] Uploaded to R2: images/525814_6_20260328094700876712.webp
+  Saved: مرسيدس - بنز  280 اس اي  1971  اوتوماتيك  85,000 كم  8 سلندر  دفع خلفي  كوبيه \ سبورت  أخضر
+  [OK] Uploaded to R2: images/542121_3_20260503103134975405.webp
+  [OK] Uploaded to R2: images/579845_7_20260601100800108412.webp
+  [OK] Uploaded to R2: images/605360_15_20260609105702647689.webp
+  [OK] Uploaded to R2: images/542121_4_20260503103134975629.webp
+  [OK] Uploaded to R2: images/605360_16_20260609105702647906.webp
+[2026-06-10 06:33:04] INFO: Fetched (200) <GET https://qatarsale.com/ar/product/infiniti_qx_60_2025_white_automatic_suv-542129> (referer: https://www.google.com/)
+  [OK] Uploaded to R2: images/579845_8_20260601100800108695.webp
+  [OK] Uploaded to R2: images/605360_17_20260609105702648096.webp
+  [OK] Uploaded to R2: images/542121_5_20260503103134975820.webp
+  [OK] Uploaded to R2: images/542129_0_20260503103658919209.webp
+  [OK] Uploaded to R2: images/579845_9_20260601100800108948.webp
+  [OK] Uploaded to R2: images/605360_18_20260609105702648288.webp
+  [OK] Uploaded to R2: images/542129_1_20260503103658919686.webp
+  [OK] Uploaded to R2: images/542121_6_20260503103134976052.webp
+  Saved: جيتور  داشينغ  في 5  2025  اوتوماتيك  0 كم  4 سلندر  دفع رباعي  اس يو في  أخضر  تحت الضمان
+  [OK] Uploaded to R2: images/605360_19_20260609105702648485.webp
+  [OK] Uploaded to R2: images/579845_10_20260601100800109160.webp
+  Saved: اودي  أي 6  40 تي اف اس اي  2025  اوتوماتيك  8,350 كم  4 سلندر  دفع خلفي  سيدان  رمادي ناردو  تحت الضمان
+  [OK] Uploaded to R2: images/542129_2_20260503103658920016.webp
+  [OK] Uploaded to R2: images/605360_20_20260609105702648678.webp
+[2026-06-10 06:33:09] INFO: Fetched (200) <GET https://qatarsale.com/ar/product/dongfeng_shine_2026_white_automatic_sedan-605341> (referer: https://www.google.com/)
+  [OK] Uploaded to R2: images/542129_3_20260503103658920268.webp
+  [OK] Uploaded to R2: images/605360_21_20260609105702648912.webp
+  [OK] Uploaded to R2: images/605341_0_20260609101303037476.webp
+  [OK] Uploaded to R2: images/542129_4_20260503103658920525.webp
+[2026-06-10 06:33:10] INFO: Fetched (200) <GET https://qatarsale.com/ar/product/audi_q2_35_tfsi_2025_gray_automatic_suv-570378> (referer: https://www.google.com/)
+  [OK] Uploaded to R2: images/605360_22_20260609105702649107.webp
+  [OK] Uploaded to R2: images/605341_1_20260609101303037965.webp
+  [OK] Uploaded to R2: images/570378_0_20260523171642013627.webp
+  [OK] Uploaded to R2: images/542129_5_20260503103658920770.webp
+  [OK] Uploaded to R2: images/605360_23_20260609105702649393.webp
+  [OK] Uploaded to R2: images/570378_1_20260523171642015001.webp
+  [OK] Uploaded to R2: images/605341_2_20260609101303038330.webp
+  [OK] Uploaded to R2: images/605360_24_20260609105702649594.webp
+  [OK] Uploaded to R2: images/542129_6_20260503103658920994.webp
+  [OK] Uploaded to R2: images/605341_3_20260609101303038780.webp
+  [OK] Uploaded to R2: images/570378_2_20260523171642015397.webp
+  [OK] Uploaded to R2: images/605360_25_20260609105702649831.webp
+  [OK] Uploaded to R2: images/542129_7_20260503103658921630.webp
+  Saved: انفنيتي  كيو اكس  60  2025  اوتوماتيك  0 كم  4 سلندر  دفع كلي مستمر  اس يو في  أبيض
+  [OK] Uploaded to R2: images/570378_3_20260523171642015791.webp
+  [OK] Uploaded to R2: images/605341_4_20260609101303039118.webp
+  [OK] Uploaded to R2: images/605360_26_20260609105702650017.webp
+  [OK] Uploaded to R2: images/570378_4_20260523171642016104.webp
+  [OK] Uploaded to R2: images/605341_5_20260609101303039528.webp
+  [OK] Uploaded to R2: images/605360_27_20260609105702650207.webp
+  [OK] Uploaded to R2: images/570378_5_20260523171642016490.webp
+  [OK] Uploaded to R2: images/605341_6_20260609101303039863.webp
+  [OK] Uploaded to R2: images/605360_28_20260609105702650407.webp
+  [OK] Uploaded to R2: images/570378_6_20260523171642016830.webp
+  [OK] Uploaded to R2: images/605341_7_20260609101303040144.webp
+[2026-06-10 06:33:18] INFO: Fetched (200) <GET https://qatarsale.com/ar/product/mercedes_benz_s_class_63_amg_2015_white_automatic_coupe_sport-605358> (referer: https://www.google.com/)
+  [OK] Uploaded to R2: images/605360_29_20260609105702650594.webp
+  Saved: جييب  رانجلار  392 روبيكون  2025  اوتوماتيك  0 كم  8 سلندر  دفع رباعي  اس يو في  رمادي  تحت الضمان
+[2026-06-10 06:33:21] INFO: Fetched (200) <GET https://qatarsale.com/ar/product/dodge_ram_1500_rho_2026_black_automatic_pick_up-605322> (referer: https://www.google.com/)
+  [OK] Uploaded to R2: images/605419_0_20260609132654779548.webp
+  [OK] Uploaded to R2: images/605341_8_20260609101303040433.webp
+  [OK] Uploaded to R2: images/570378_7_20260523171642017085.webp
+  [OK] Uploaded to R2: images/605322_0_20260609094416352853.webp
+  [OK] Uploaded to R2: images/605419_0_20260609132655454738.webp
+  [OK] Uploaded to R2: images/605341_9_20260609101303040685.webp
+  [OK] Uploaded to R2: images/605322_1_20260609094416353304.webp
+  [OK] Uploaded to R2: images/570378_8_20260523171642017393.webp
+  [OK] Uploaded to R2: images/605341_10_20260609101303040938.webp
+  [OK] Uploaded to R2: images/605419_0_20260609132655714237.webp
+  [OK] Uploaded to R2: images/570378_9_20260523171642017715.webp
+  Saved: اودي  كيو 2  35 تي اف اس اي  2025  اوتوماتيك  13,000 كم  4 سلندر  سحب امامي  اس يو في  رمادي  تحت الضمان
+  [OK] Uploaded to R2: images/605322_2_20260609094416353597.webp
+  [OK] Uploaded to R2: images/605419_0_20260609132655944259.webp
+  [OK] Uploaded to R2: images/605341_11_20260609101303041190.webp
+  [OK] Uploaded to R2: images/605322_3_20260609094416353904.webp
+  [OK] Uploaded to R2: images/605419_0_20260609132656203141.webp
+  [OK] Uploaded to R2: images/605341_12_20260609101303041472.webp
+[2026-06-10 06:33:29] INFO: Fetched (200) <GET https://qatarsale.com/ar/product/porsche_boxster_2015_black_automatic_convertible-542128> (referer: https://www.google.com/)
+  [OK] Uploaded to R2: images/605419_0_20260609132656449043.webp
+  [OK] Uploaded to R2: images/605322_4_20260609094416354199.webp
+  [OK] Uploaded to R2: images/542128_0_20260503103523634291.webp
+  [OK] Uploaded to R2: images/605341_13_20260609101303041719.webp
+  [OK] Uploaded to R2: images/542128_1_20260503103523634800.webp
+  [OK] Uploaded to R2: images/605419_0_20260609132656676080.webp
+  [OK] Uploaded to R2: images/605322_5_20260609094416354426.webp
+  [OK] Uploaded to R2: images/605341_14_20260609101303041943.webp
+  [OK] Uploaded to R2: images/542128_2_20260503103523635120.webp
+  [OK] Uploaded to R2: images/605419_0_20260609132656919102.webp
+  Saved: مرسيدس - بنز  اس - كلاس  63 AMG  2015  اوتوماتيك  60,000 كم  8 سلندر  دفع خلفي  كوبيه \ سبورت  أبيض
+  [OK] Uploaded to R2: images/605322_6_20260609094416354691.webp
+  [OK] Uploaded to R2: images/605341_15_20260609101303042193.webp
+  Saved: دونج فنج  شاين  2026  اوتوماتيك  12,000 كم  4 سلندر  سحب امامي  سيدان  أبيض  تحت الضمان
+  [OK] Uploaded to R2: images/542128_3_20260503103523635384.webp
+  [OK] Uploaded to R2: images/605322_7_20260609094416354979.webp
+  [OK] Uploaded to R2: images/542128_4_20260503103523635753.webp
+  [OK] Uploaded to R2: images/605322_8_20260609094416355293.webp
+[2026-06-10 06:33:35] INFO: Fetched (200) <GET https://qatarsale.com/ar/product/aston_martin_db_9_2009_gray_automatic_coupe_sport-528612> (referer: https://www.google.com/)
+  [OK] Uploaded to R2: images/542128_5_20260503103523636005.webp
+  [OK] Uploaded to R2: images/605322_9_20260609094416355559.webp
+  [OK] Uploaded to R2: images/528612_0_20260404110337168020.webp
+  [OK] Uploaded to R2: images/542128_6_20260503103523636312.webp
+  Saved: بورش  بوكستر  2015  اوتوماتيك  30,555 كم  6 سلندر  دفع خلفي  كشف  أسود  تحت الضمان
+  [OK] Uploaded to R2: images/605322_10_20260609094416355796.webp
+  [OK] Uploaded to R2: images/528612_1_20260404110337168513.webp
+[2026-06-10 06:33:37] INFO: Fetched (200) <GET https://qatarsale.com/ar/product/mercedes_benz_a_class_200_amg_2025_black_automatic_sedan-602892> (referer: https://www.google.com/)
+  [OK] Uploaded to R2: images/602892_0_20260606103812554640.webp
+  [OK] Uploaded to R2: images/605322_11_20260609094416356056.webp
+  [OK] Uploaded to R2: images/528612_2_20260404110337168817.webp
+[2026-06-10 06:33:39] INFO: Fetched (200) <GET https://qatarsale.com/ar/product/chevrolet_tahoe_z71_2024_gray_automatic_suv-605356> (referer: https://www.google.com/)
+  [OK] Uploaded to R2: images/605322_12_20260609094416356319.webp
+  [OK] Uploaded to R2: images/602892_1_20260606103812555230.webp
+  [OK] Uploaded to R2: images/528612_3_20260404110337169203.webp
+  [OK] Uploaded to R2: images/605322_13_20260609094416356631.webp
+  [OK] Uploaded to R2: images/605356_0_20260609105201498229.webp
+  [OK] Uploaded to R2: images/602892_2_20260606103812555693.webp
+  [OK] Uploaded to R2: images/528612_4_20260404110337169950.webp
+  [OK] Uploaded to R2: images/605322_14_20260609094416356893.webp
+  [OK] Uploaded to R2: images/602892_3_20260606103812555957.webp
+  [OK] Uploaded to R2: images/605356_1_20260609105201498764.webp
+  [OK] Uploaded to R2: images/528612_5_20260404110337170437.webp
+  [OK] Uploaded to R2: images/605322_15_20260609094416357231.webp
+  [OK] Uploaded to R2: images/602892_4_20260606103812556235.webp
+  [OK] Uploaded to R2: images/528612_6_20260404110337170813.webp
+  Saved: أستون مارتن  دي بي  9  2009  اوتوماتيك  40,670 كم  12 سلندر  دفع خلفي  كوبيه \ سبورت  رمادي
+  [OK] Uploaded to R2: images/605356_2_20260609105201499032.webp
+  [OK] Uploaded to R2: images/602892_5_20260606103812556663.webp
+  [OK] Uploaded to R2: images/605322_16_20260609094416357445.webp
+  [OK] Uploaded to R2: images/605356_3_20260609105201499287.webp
+[2026-06-10 06:33:45] INFO: Fetched (200) <GET https://qatarsale.com/ar/product/chevrolet_classic_1999_red_automatic_pick_up-605355> (referer: https://www.google.com/)
+  [OK] Uploaded to R2: images/605322_17_20260609094416357706.webp
+  [OK] Uploaded to R2: images/605356_4_20260609105201499507.webp
+  [OK] Uploaded to R2: images/602892_6_20260606103812556982.webp
+  [OK] Uploaded to R2: images/605322_18_20260609094416357934.webp
+  [OK] Uploaded to R2: images/602892_7_20260606103812557334.webp
+  [OK] Uploaded to R2: images/605356_5_20260609105201499809.webp
+  [OK] Uploaded to R2: images/605355_0_20260609105118506589.webp
+  [OK] Uploaded to R2: images/605322_19_20260609094416358214.webp
+  [OK] Uploaded to R2: images/605356_6_20260609105201500102.webp
+  [OK] Uploaded to R2: images/602892_8_20260606103812557580.webp
+  [OK] Uploaded to R2: images/605322_20_20260609094416358428.webp
+  [OK] Uploaded to R2: images/605355_1_20260609105118507091.webp
+  [OK] Uploaded to R2: images/605356_7_20260609105201500363.webp
+  [OK] Uploaded to R2: images/605322_21_20260609094416358658.webp
+  [OK] Uploaded to R2: images/602892_9_20260606103812557809.webp
+  [OK] Uploaded to R2: images/605355_2_20260609105118507370.webp
+  [OK] Uploaded to R2: images/605356_8_20260609105201500763.webp
+  [OK] Uploaded to R2: images/605322_22_20260609094416358885.webp
+  [OK] Uploaded to R2: images/605355_3_20260609105118507609.webp
+  [OK] Uploaded to R2: images/605356_9_20260609105201501009.webp
+  [OK] Uploaded to R2: images/605322_23_20260609094416359198.webp
+  [OK] Uploaded to R2: images/605355_4_20260609105118507884.webp
+  [OK] Uploaded to R2: images/602892_10_20260606103812558040.webp
+  Saved: مرسيدس - بنز  ايه - كلاس  200 ايه ام جي  2025  اوتوماتيك  12,250 كم  4 سلندر  دفع خلفي  سيدان  أسود  تحت الضمان
+  [OK] Uploaded to R2: images/605356_10_20260609105201501257.webp
+  [OK] Uploaded to R2: images/605355_5_20260609105118508159.webp
+  [OK] Uploaded to R2: images/605322_24_20260609094416359403.webp
+  [OK] Uploaded to R2: images/605356_11_20260609105201501468.webp
+  [OK] Uploaded to R2: images/605322_25_20260609094416359653.webp
+[2026-06-10 06:33:54] INFO: Fetched (200) <GET https://qatarsale.com/ar/product/byd_leopard_5_ultra_5_2026_black_automatic_suv-605349> (referer: https://www.google.com/)
+  [OK] Uploaded to R2: images/605355_6_20260609105118508427.webp
+  Saved: شفروليه  كلاسك  1999  اوتوماتيك  175,000 كم  8 سلندر  دفع خلفي  بيكب  أحمر
+  [OK] Uploaded to R2: images/605356_12_20260609105201501761.webp
+  Saved: شفروليه  تاهو  زد 71  2024  اوتوماتيك  2,000 كم  8 سلندر  دفع رباعي  اس يو في  رمادي  تحت الضمان
+  [OK] Uploaded to R2: images/605322_26_20260609094416359842.webp
+  [OK] Uploaded to R2: images/605349_0_20260609102620127971.webp
+  [OK] Uploaded to R2: images/605322_27_20260609094416360171.webp
+  [OK] Uploaded to R2: images/605349_1_20260609102620128455.webp
+[2026-06-10 06:33:57] INFO: Fetched (200) <GET https://qatarsale.com/ar/product/bentley_mulsanne_2015_black_automatic_sedan-534267> (referer: https://www.google.com/)
+[2026-06-10 06:33:57] INFO: Fetched (200) <GET https://qatarsale.com/ar/product/mini_cooper_jcw_2022_gray_nardo_automatic_hatchback-540798> (referer: https://www.google.com/)
+  [OK] Uploaded to R2: images/605322_28_20260609094416360432.webp
+  [OK] Uploaded to R2: images/605349_2_20260609102620128797.webp
+  [OK] Uploaded to R2: images/534267_0_20260416095745112876.webp
+  [OK] Uploaded to R2: images/540798_0_20260430100555383952.webp
+  [OK] Uploaded to R2: images/605322_29_20260609094416360642.webp
+  [OK] Uploaded to R2: images/605349_3_20260609102620129167.webp
+  [OK] Uploaded to R2: images/534267_1_20260416095745113285.webp
+  [OK] Uploaded to R2: images/540798_1_20260430100555384432.webp
+  [OK] Uploaded to R2: images/605322_30_20260609094416360842.webp
+  [OK] Uploaded to R2: images/605349_4_20260609102620129515.webp
+  [OK] Uploaded to R2: images/534267_2_20260416095745113621.webp
+  [OK] Uploaded to R2: images/540798_2_20260430100555384836.webp
+  [OK] Uploaded to R2: images/605349_5_20260609102620129793.webp
+  Saved: بي واي دي  ليوبيرد 5  الترا 5  2026  اوتوماتيك  0 كم  4 سلندر  دفع رباعي  اس يو في  أسود
+  [OK] Uploaded to R2: images/540798_3_20260430100555385176.webp
   [OK] Uploaded to R2: images/605322_31_20260609094416361133.webp
+  [OK] Uploaded to R2: images/534267_3_20260416095745113904.webp
+  [OK] Uploaded to R2: images/540798_4_20260430100555385445.webp
   [OK] Uploaded to R2: images/605322_32_20260609094416361367.webp
+  [OK] Uploaded to R2: images/534267_4_20260416095745114330.webp
+[2026-06-10 06:34:03] INFO: Fetched (200) <GET https://qatarsale.com/ar/product/audi_a8_3.0_2019_black_automatic_suv-521746> (referer: https://www.google.com/)
   [OK] Uploaded to R2: images/605322_33_20260609094416361627.webp
+  [OK] Uploaded to R2: images/534267_5_20260416095745114751.webp
+  [OK] Uploaded to R2: images/540798_5_20260430100555385734.webp
+  [OK] Uploaded to R2: images/521746_0_20260314080841149274.webp
+  [OK] Uploaded to R2: images/534267_6_20260416095745115112.webp
+  Saved: بنتلي  مولسان  2015  اوتوماتيك  21,000 كم  8 سلندر  دفع كلي مستمر  سيدان  أسود
+  [OK] Uploaded to R2: images/540798_6_20260430100555386024.webp
   [OK] Uploaded to R2: images/605322_34_20260609094416361874.webp
+  [OK] Uploaded to R2: images/521746_1_20260314080841149923.webp
   [OK] Uploaded to R2: images/605322_35_20260609094416362175.webp
+  [OK] Uploaded to R2: images/540798_7_20260430100555386304.webp
+  [OK] Uploaded to R2: images/521746_2_20260314080841150400.webp
   [OK] Uploaded to R2: images/605322_36_20260609094416362396.webp
+  [OK] Uploaded to R2: images/540798_8_20260430100555386624.webp
+  [OK] Uploaded to R2: images/521746_3_20260314080841150831.webp
+  [OK] Uploaded to R2: images/540798_9_20260430100555386904.webp
+  Saved: ميني  كوبر  جي سي دبليو  2022  اوتوماتيك  61,480 كم  4 سلندر  سحب امامي  هاتشباك  رمادي ناردو  تحت الضمان
   [OK] Uploaded to R2: images/605322_37_20260609094416362625.webp
   Saved: دودج  رام  1500 ار اتش او  2026  اوتوماتيك  0 كم  6 سلندر  دفع رباعي  بيكب  أسود  تحت الضمان
+[2026-06-10 06:34:09] INFO: Fetched (200) <GET https://qatarsale.com/ar/product/volkswagen_golf_r_2023_blue_automatic_hatchback-579525> (referer: https://www.google.com/)
+  [OK] Uploaded to R2: images/521746_4_20260314080841151292.webp
+  [OK] Uploaded to R2: images/579525_0_20260601093556858579.webp
+  [OK] Uploaded to R2: images/521746_5_20260314080841151597.webp
+  [OK] Uploaded to R2: images/579525_1_20260601093556859032.webp
+[2026-06-10 06:34:12] INFO: Fetched (200) <GET https://qatarsale.com/ar/product/toyota_land_cruiser_vxr_2021_white_automatic_suv-551388> (referer: https://www.google.com/)
+  [OK] Uploaded to R2: images/521746_6_20260314080841151963.webp
+[2026-06-10 06:34:12] INFO: Fetched (200) <GET https://qatarsale.com/ar/product/audi_q5_45_tfsi_quattro_s_line_2021_black_automatic_suv-541975> (referer: https://www.google.com/)
+  [OK] Uploaded to R2: images/579525_2_20260601093556859361.webp
+  [OK] Uploaded to R2: images/551388_0_20260514100005006358.webp
+  [OK] Uploaded to R2: images/521746_7_20260314080841152339.webp
+  [OK] Uploaded to R2: images/541975_0_20260503082934561670.webp
+  [OK] Uploaded to R2: images/579525_3_20260601093556859661.webp
+  [OK] Uploaded to R2: images/551388_1_20260514100005006964.webp
+  [OK] Uploaded to R2: images/541975_1_20260503082934562234.webp
+  [OK] Uploaded to R2: images/521746_8_20260314080841152669.webp
+  [OK] Uploaded to R2: images/579525_4_20260601093556859973.webp
+  [OK] Uploaded to R2: images/551388_2_20260514100005007446.webp
+  [OK] Uploaded to R2: images/541975_2_20260503082934562581.webp
+  [OK] Uploaded to R2: images/521746_9_20260314080841153039.webp
+  [OK] Uploaded to R2: images/579525_5_20260601093556860338.webp
+  [OK] Uploaded to R2: images/551388_3_20260514100005007786.webp
+  [OK] Uploaded to R2: images/541975_3_20260503082934562850.webp
+  [OK] Uploaded to R2: images/521746_10_20260314080841153288.webp
+  [OK] Uploaded to R2: images/579525_6_20260601093556860567.webp
+  [OK] Uploaded to R2: images/551388_4_20260514100005008133.webp
+  [OK] Uploaded to R2: images/541975_4_20260503082934563079.webp
+  [OK] Uploaded to R2: images/579525_7_20260601093556860841.webp
+  Saved: فوكس واغن  غولف  R  2023  اوتوماتيك  23,750 كم  4 سلندر  دفع خلفي  هاتشباك  ازرق  تحت الضمان
+  [OK] Uploaded to R2: images/521746_11_20260314080841153551.webp
+  Saved: اودي  أي 8  3.0  2019  اوتوماتيك  44,000 كم  6 سلندر  دفع كلي مستمر  اس يو في  أسود
+  [OK] Uploaded to R2: images/551388_5_20260514100005008396.webp
+  [OK] Uploaded to R2: images/541975_5_20260503082934563291.webp
+  [OK] Uploaded to R2: images/551388_6_20260514100005008714.webp
+  Saved: تويوتا  لاند كروزر  في اكس ار  2021  اوتوماتيك  206,000 كم  8 سلندر  دفع رباعي  اس يو في  أبيض
+  [OK] Uploaded to R2: images/541975_6_20260503082934563577.webp
+  [OK] Uploaded to R2: images/541975_7_20260503082934563849.webp
+  [OK] Uploaded to R2: images/541975_8_20260503082934564132.webp
+  [OK] Uploaded to R2: images/541975_9_20260503082934564379.webp
+  [OK] Uploaded to R2: images/541975_10_20260503082934564621.webp
+  Saved: اودي  كيو 5  45 تي اف اس اي كواترو اس-لاين  2021  اوتوماتيك  68,000 كم  4 سلندر  دفع كلي مستمر  اس يو في  أسود  تحت الضمان
 
 STEP 2 DONE: 72 OK | 0 failed
 
@@ -983,22 +983,22 @@ Found final flat CSV file 'all_products_flat_5_6.csv', starting upload...
          فرش المقاعد                  0              0.00%
                السنة                  0              0.00%
                سلندر                  0              0.00%
-       تحديد المواقع                 19             26.39%
                سي دي                 25             34.72%
-            دي في دي                 59             81.94%
         كاميرا خلفية                  8             11.11%
             الحساسات                  4              5.56%
           فتحة السقف                  0              0.00%
           تحت الضمان                  0              0.00%
               بلوتوث                  5              6.94%
           نوع الوقود                  0              0.00%
+       تحديد المواقع                 19             26.39%
             بانوراما                 35             48.61%
+       كاميرا امامية                 46             63.89%
          عدد المقاعد                 46             63.89%
                 وارد                 43             59.72%
         المالك الأول                 45             62.50%
        الطلاء الأصلي                 44             61.11%
      دخول بدون مفتاح                 41             56.94%
-       كاميرا امامية                 46             63.89%
+            دي في دي                 59             81.94%
     تدفئة في المقاعد                 54             75.00%
     تبريد في المقاعد                 55             76.39%
     تدليك في المقاعد                 57             79.17%
@@ -1015,5 +1015,5 @@ STEP 1 - Links:    2 pages OK | 0 failed | 72 total links
 STEP 2 - Products: 72 scraped | 0 failed
 STEP 3 - Flatten:  53 columns
 STEP 4 - R2 Upload: 1 uploaded | 0 failed
-Total Time: 5m 19s
+Total Time: 5m 17s
 ============================================================
