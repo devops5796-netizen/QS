@@ -8,8 +8,6 @@ on:
 jobs:
   scrape:
     runs-on: ubuntu-latest
-    permissions:
-      contents: write
 
     strategy:
       matrix:
@@ -62,24 +60,13 @@ jobs:
           CF_R2_ENDPOINT_URL: ${{ secrets.CF_R2_ENDPOINT_URL }}
           CF_R2_BUCKET_NAME: ${{ secrets.CF_R2_BUCKET_NAME }}
         run: |
-          python -u main.py ${{ matrix.start }} ${{ matrix.end }} 2>&1 | tee scrape_report_${{ matrix.start }}_${{ matrix.end }}.txt
+          python -u main.py ${{ matrix.start }} ${{ matrix.end }}
 
       - name: Upload CSV artifact
         uses: actions/upload-artifact@v4
         with:
           name: csv-${{ matrix.start }}-${{ matrix.end }}
           path: all_products_flat_${{ matrix.start }}_${{ matrix.end }}.csv
-
-      - name: Commit results
-        run: |
-          git config --global user.name "github-actions[bot]"
-          git config --global user.email "github-actions[bot]@users.noreply.github.com"
-          git stash
-          git pull --rebase origin main
-          git stash pop
-          git add scrape_report_${{ matrix.start }}_${{ matrix.end }}.txt
-          git diff --staged --quiet || git commit -m "Scrape pages ${{ matrix.start }}-${{ matrix.end }} $(date +'%Y-%m-%d')"
-          git push
 
   merge:
     runs-on: ubuntu-latest
@@ -96,6 +83,9 @@ jobs:
         with:
           python-version: '3.11'
 
+      - name: Install pandas
+        run: pip install pandas
+
       - name: Download all CSV artifacts
         uses: actions/download-artifact@v4
         with:
@@ -103,16 +93,63 @@ jobs:
           merge-multiple: true
           path: csv_parts/
 
-      - name: Merge CSVs
+      - name: Merge and analyze
         run: |
           python -c "
           import pandas as pd
           import glob
+          import os
+
           files = glob.glob('csv_parts/*.csv')
+          print(f'Found {len(files)} CSV files to merge')
+
           dfs = [pd.read_csv(f) for f in files]
           merged = pd.concat(dfs, ignore_index=True)
           merged.to_csv('all_products_final.csv', index=False, encoding='utf-8-sig')
           print(f'Merged {len(files)} files, total rows: {len(merged)}')
+
+          # analyze
+          total = len(merged)
+          print()
+          print('=' * 60)
+          print('SCRAPED DATA QUALITY SUMMARY REPORT')
+          print('=' * 60)
+          print(f'Total Rows: {total}')
+          print('=' * 60)
+          for col in merged.columns:
+              missing = merged[col].isna().sum() + (merged[col] == '').sum()
+              pct = (missing / total) * 100
+              print(f'{col}: {missing} empty ({pct:.2f}%)')
+          print('=' * 60)
+          "
+      - name: Upload final CSV to R2
+        env:
+          CF_R2_ACCESS_KEY_ID: ${{ secrets.CF_R2_ACCESS_KEY_ID }}
+          CF_R2_SECRET_ACCESS_KEY: ${{ secrets.CF_R2_SECRET_ACCESS_KEY }}
+          CF_R2_ENDPOINT_URL: ${{ secrets.CF_R2_ENDPOINT_URL }}
+          CF_R2_BUCKET_NAME: ${{ secrets.CF_R2_BUCKET_NAME }}
+        run: |
+          pip install boto3
+          python -c "
+          import boto3
+          import os
+
+          client = boto3.client(
+              's3',
+              endpoint_url=os.environ['CF_R2_ENDPOINT_URL'],
+              aws_access_key_id=os.environ['CF_R2_ACCESS_KEY_ID'],
+              aws_secret_access_key=os.environ['CF_R2_SECRET_ACCESS_KEY'],
+              region_name='auto'
+          )
+
+          bucket = os.environ['CF_R2_BUCKET_NAME']
+          client.upload_file(
+              'all_products_final.csv',
+              bucket,
+              'csv/all_products_final.csv',
+              ExtraArgs={'ContentType': 'text/csv'}
+          )
+          print('Uploaded all_products_final.csv to R2')
           "
 
       - name: Commit final CSV
@@ -120,6 +157,5 @@ jobs:
           git config --global user.name "github-actions[bot]"
           git config --global user.email "github-actions[bot]@users.noreply.github.com"
           git add all_products_final.csv
-          git diff --staged --quiet || git commit -m "Merged final CSV $(date +'%Y-%m-%d')"
-          git pull --rebase origin main
+          git diff --staged --quiet || git commit -m "Final merged CSV $(date +'%Y-%m-%d')"
           git push
