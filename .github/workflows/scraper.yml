@@ -70,13 +70,15 @@ jobs:
           name: csv-${{ matrix.start }}-${{ matrix.end }}
           path: all_products_flat_${{ matrix.start }}_${{ matrix.end }}.csv
 
-      - name: Commit report
+      - name: Commit results
         run: |
           git config --global user.name "github-actions[bot]"
           git config --global user.email "github-actions[bot]@users.noreply.github.com"
+          git stash
+          git pull --rebase origin main
+          git stash pop
           git add scrape_report_${{ matrix.start }}_${{ matrix.end }}.txt
           git diff --staged --quiet || git commit -m "Scrape pages ${{ matrix.start }}-${{ matrix.end }} $(date +'%Y-%m-%d')"
-          git pull --rebase origin main
           git push
 
   merge:
