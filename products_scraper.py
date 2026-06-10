@@ -59,39 +59,54 @@ def parse_product(page) -> dict:
     if desc_el:
         description = desc_el.text.strip()
 
-    showroom_el = page.find("[data-testid='at-show-product-info-showroom-name-text']")
-    personal_el = page.find("[data-testid='at-show-product-info-personal-name-text']")
+    seller_type_el = page.css("[data-testid='at-show-product-info-personal-name-text']")
+    seller_type = seller_type_el[0].get_all_text(strip=True) if seller_type_el else ""
+
+    condition_el = page.css("[data-testid='at-show-product-info-conditionNew-text']")
+    condition = condition_el[0].get_all_text(strip=True) if condition_el else ""
+
+    showroom_el = page.css("[data-testid='at-show-product-info-showroom-name-text']")
 
     if showroom_el:
-        seller_type = "showroom"
-        showroom_name = showroom_el.text.strip()
-        href = showroom_el.attrib.get("href", "").strip()
-        if href:
-            showroom_url = href if href.startswith("http") else f"https://qatarsale.com/{href}"
-    elif personal_el:
-        seller_type = "personal"
-        showroom_name = personal_el.text.strip()
-        personal_listings_el = page.find("[data-testid='at-show-product-info-personalOtherListings-name-text']")
-        if personal_listings_el:
-            p_href = personal_listings_el.attrib.get("href", "").strip()
-            if p_href:
-                showroom_url = p_href if p_href.startswith("http") else f"https://qatarsale.com/{p_href}"
+        showroom_name = showroom_el[0].get_all_text(strip=True)
+        showroom_url = showroom_el[0].attrib.get("href", "")
+    else:
+        showroom_name = ""
+        showroom_url = ""
 
-    condition_new_el = page.find("[data-testid='at-show-product-info-conditionNew-text']")
-    if condition_new_el:
-        condition = condition_new_el.text.strip()
+    # Extract phone numbers and WhatsApp numbers from server-side state
+    phones = []
+    whatsapps = []
 
-    phone_el = page.find("[data-testid='at-show-product-info-increaseCount-button']")
-    if phone_el:
-        phone_href = phone_el.attrib.get("href", "").replace("tel:", "").strip()
-        if phone_href:
-            phones.append(phone_href)
-            
-    whatsapp_el = page.find(".wtsup")
-    if whatsapp_el:
-        wa_href = whatsapp_el.attrib.get("href", "").strip()
-        if wa_href:
-            whatsapps.append(wa_href)
+    state_script = page.find("script#serverApp-state")
+
+    if state_script:
+        try:
+            raw = (
+                state_script.text
+                .replace("&q;", '"')
+                .replace("&l;", "<")
+                .replace("&a;", "&")
+                .replace("&s;", "'")
+            )
+            state_data = json.loads(raw)
+            owner = (
+                state_data
+                .get("product", {})
+                .get("product", {})
+                .get("owner", {})
+            )
+            for phone_data in owner.get("phones", []):
+                phone_number = phone_data.get("phone", "").strip()
+                if not phone_number:
+                    continue
+                if phone_data.get("isPhone", True):
+                    phones.append(phone_number)
+                if phone_data.get("isWhatsapp", False):
+                    whatsapps.append(phone_number)
+
+        except Exception as e:
+            print(f"Failed to parse phone data: {e}")
 
     seen_images = set()
     img_elements = page.find_all("[data-testid='at-show-product-gallery-galleryImages-normal-image'] img")
