@@ -159,28 +159,41 @@ def parse_product(page) -> dict:
         "whatsapps": whatsapps,  
         "specs": specs           
     }
+from PIL import Image
+import io
 
-def download_images(images: list, images_folder: str) -> list:
+def download_images(images: list, images_folder: str, fmt: str = "PNG") -> list:
     Path(images_folder).mkdir(exist_ok=True)
     local_paths = []
+    ext = "png" if fmt.upper() == "PNG" else "jpg"
     
     for img_url in images:
-        filename = img_url.split("/")[-1]
-        local_path = os.path.join(images_folder, filename)
+        original_name = img_url.split("/")[-1].rsplit(".", 1)[0]  # اسم بدون extension
+        local_path = os.path.join(images_folder, f"{original_name}.{ext}")
+        
         if os.path.exists(local_path):
             local_paths.append(local_path)
             continue
         try:
             r = req.get(img_url, timeout=15)
             if r.status_code == 200:
-                with open(local_path, "wb") as f:
-                    f.write(r.content)
+                img = Image.open(io.BytesIO(r.content))
+                
+                if fmt.upper() == "JPG":
+                    img = img.convert("RGB")
+                
+                save_kwargs = {"format": fmt.upper()}
+                if fmt.upper() == "JPG":
+                    save_kwargs["quality"] = 90
+                    save_kwargs["format"] = "JPEG"
+                
+                img.save(local_path, **save_kwargs)
                 local_paths.append(local_path)
+                upload_single_file(local_path, folder_name="qatarsale", file_type="images")
                 
-                upload_single_file(local_path, r2_folder="images")
-                
-        except Exception:
-            pass
+        except Exception as e:
+            print(f"Image download/convert error: {e}")
+    
     return local_paths
 
 def scrape_single(url: str, images_folder: str = "images") -> dict:

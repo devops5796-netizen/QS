@@ -1,6 +1,7 @@
 import os
 import mimetypes
 from pathlib import Path
+from datetime import datetime
 import boto3
 
 CF_R2_ACCESS_KEY = os.getenv('CF_R2_ACCESS_KEY_ID')
@@ -32,18 +33,38 @@ def get_r2_client():
 R2_CLIENT_INSTANCE = get_r2_client()
 
 
-def upload_single_file(local_path: str, r2_folder: str = "images") -> bool:
+def build_r2_key(folder_name: str, file_type: str, filename: str, dt: datetime = None) -> str:
+    """
+    Builds: folder_name/year/month/day/file_type/filename
+    e.g.  : qatarsale/2026/june/11/images/abc.jpg
+    """
+    if dt is None:
+        dt = datetime.now()
+    
+    year  = str(dt.year)
+    month = dt.strftime("%B").lower()   # june, january, ...
+    day   = str(dt.day)                 # 11 (no zero-padding)
+    
+    return f"{folder_name}/{year}/{month}/{day}/{file_type}/{filename}"
+
+
+def upload_single_file(
+    local_path: str,
+    folder_name: str = "qatarsale",
+    file_type: str = "images",
+    dt: datetime = None
+) -> bool:
     client = R2_CLIENT_INSTANCE if R2_CLIENT_INSTANCE else get_r2_client()
     if not client or not BUCKET_NAME:
         return False
-    
+
     filename = Path(local_path).name
-    r2_key = f"{r2_folder}/{filename}"
-    
+    r2_key = build_r2_key(folder_name, file_type, filename, dt)
+
     try:
         content_type, _ = mimetypes.guess_type(local_path)
         if not content_type:
-            content_type = 'image/jpeg' if r2_folder == "images" else 'application/octet-stream'
+            content_type = 'image/jpeg' if file_type == "images" else 'application/octet-stream'
 
         client.upload_file(
             local_path, BUCKET_NAME, r2_key,
@@ -56,17 +77,18 @@ def upload_single_file(local_path: str, r2_folder: str = "images") -> bool:
         return False
 
 
-def upload_final_batch_assets(images_folder: str, final_csv: str) -> dict:
+def upload_final_batch_assets(images_folder: str, final_csv: str, folder_name: str = "qatarsale") -> dict:
     print("\n" + "="*50)
     print("STEP 4: Uploading final CSV artifact to Cloudflare R2...")
     print("="*50)
-    
+
     uploaded = 0
     failed = 0
-    
+    dt = datetime.now()
+
     if os.path.exists(final_csv):
         print(f"Found final flat CSV file '{final_csv}', starting upload...")
-        success = upload_single_file(final_csv, r2_folder="csv")
+        success = upload_single_file(final_csv, folder_name=folder_name, file_type="csv", dt=dt)
         if success:
             uploaded += 1
             print("-> Final CSV Artifact Uploaded successfully to R2!")
@@ -76,5 +98,5 @@ def upload_final_batch_assets(images_folder: str, final_csv: str) -> dict:
     else:
         print(f"-> [WARNING] CSV Artifact NOT found at: {final_csv}")
         failed += 1
-        
+
     return {"uploaded": uploaded, "failed": failed}
