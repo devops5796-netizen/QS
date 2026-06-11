@@ -43,7 +43,8 @@ jobs:
 
       - name: Install dependencies
         run: |
-          pip install requests pandas beautifulsoup4 playwright scrapling[all] boto3 python-dotenv
+          pip install requests pandas beautifulsoup4 playwright boto3 python-dotenv Pillow
+          pip install scrapling
           playwright install chromium
           playwright install-deps chromium
           patchright install chromium
