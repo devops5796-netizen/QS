@@ -43,7 +43,7 @@ jobs:
 
       - name: Install dependencies
         run: |
-          pip install requests pandas beautifulsoup4 playwright boto3 python-dotenv Pillow
+          pip install requests pandas beautifulsoup4 playwright boto3 python-dotenv Pillow curl_cffi
           pip install git+https://github.com/D4Vinci/Scrapling.git
           pip install patchright
           playwright install chromium
