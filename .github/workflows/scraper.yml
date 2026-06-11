@@ -80,7 +80,7 @@ jobs:
           python-version: '3.11'
 
       - name: Install pandas
-        run: pip install pandas
+        run: pip install pandas boto3
 
       - name: Download all CSV artifacts
         uses: actions/download-artifact@v4
@@ -125,7 +125,6 @@ jobs:
           CF_R2_ENDPOINT_URL: ${{ secrets.CF_R2_ENDPOINT_URL }}
           CF_R2_BUCKET_NAME: ${{ secrets.CF_R2_BUCKET_NAME }}
         run: |
-          pip install boto3
           python << 'EOF'
           import boto3
           import os
