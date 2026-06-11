@@ -101,6 +101,7 @@ jobs:
 
           dfs = [pd.read_csv(f) for f in files]
           merged = pd.concat(dfs, ignore_index=True)
+          merged = merged.drop_duplicates(subset=["product_url"], keep="first")
           merged.to_csv('all_products_final.csv', index=False, encoding='utf-8-sig')
           print(f'Merged {len(files)} files, total rows: {len(merged)}')
 
