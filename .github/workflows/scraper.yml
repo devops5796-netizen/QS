@@ -102,7 +102,7 @@ jobs:
           dfs = [pd.read_csv(f) for f in files]
           merged = pd.concat(dfs, ignore_index=True)
           merged = merged.drop_duplicates(subset=["product_url"], keep="first")
-          merged.to_csv('all_products_final.csv', index=False, encoding='utf-8-sig')
+          merged.to_csv('cars_for_sale.csv', index=False, encoding='utf-8-sig')
           print(f'Merged {len(files)} files, total rows: {len(merged)}')
 
           # analyze
@@ -130,6 +130,7 @@ jobs:
           python -c "
           import boto3
           import os
+          from datetime import datetime
 
           client = boto3.client(
               's3',
@@ -140,19 +141,22 @@ jobs:
           )
 
           bucket = os.environ['CF_R2_BUCKET_NAME']
+          dt = datetime.now()
+          key = f"qatarsale/{dt.year}/{dt.strftime('%B').lower()}/{dt.day}/cars_for_sale.csv"
+
           client.upload_file(
-              'all_products_final.csv',
+              'cars_for_sale.csv',
               bucket,
-              'csv/all_products_final.csv',
+              key,
               ExtraArgs={'ContentType': 'text/csv'}
           )
-          print('Uploaded all_products_final.csv to R2')
+          print('Uploaded cars_for_sale.csv to R2')
           "
 
       - name: Commit final CSV
         run: |
           git config --global user.name "github-actions[bot]"
           git config --global user.email "github-actions[bot]@users.noreply.github.com"
-          git add all_products_final.csv
+          git add cars_for_sale.csv
           git diff --staged --quiet || git commit -m "Final merged CSV $(date +'%Y-%m-%d')"
           git push

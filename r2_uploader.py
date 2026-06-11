@@ -34,18 +34,17 @@ R2_CLIENT_INSTANCE = get_r2_client()
 
 
 def build_r2_key(folder_name: str, file_type: str, filename: str, dt: datetime = None) -> str:
-    """
-    Builds: folder_name/year/month/day/file_type/filename
-    e.g.  : qatarsale/2026/june/11/images/abc.jpg
-    """
     if dt is None:
         dt = datetime.now()
     
     year  = str(dt.year)
-    month = dt.strftime("%B").lower()   # june, january, ...
-    day   = str(dt.day)                 # 11 (no zero-padding)
+    month = dt.strftime("%B").lower()
+    day   = str(dt.day)
     
-    return f"{folder_name}/{year}/{month}/{day}/{file_type}/{filename}"
+    if file_type:
+        return f"{folder_name}/{year}/{month}/{day}/{file_type}/{filename}"
+    else:
+        return f"{folder_name}/{year}/{month}/{day}/{filename}"
 
 
 def upload_single_file(
@@ -88,7 +87,7 @@ def upload_final_batch_assets(images_folder: str, final_csv: str, folder_name: s
 
     if os.path.exists(final_csv):
         print(f"Found final flat CSV file '{final_csv}', starting upload...")
-        success = upload_single_file(final_csv, folder_name=folder_name, file_type="csv", dt=dt)
+        success = upload_single_file(final_csv, folder_name=folder_name, file_type="", dt=dt)
         if success:
             uploaded += 1
             print("-> Final CSV Artifact Uploaded successfully to R2!")
