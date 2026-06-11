@@ -126,7 +126,7 @@ jobs:
           CF_R2_BUCKET_NAME: ${{ secrets.CF_R2_BUCKET_NAME }}
         run: |
           pip install boto3
-          python -c "
+          python << 'EOF'
           import boto3
           import os
           from datetime import datetime
@@ -139,9 +139,9 @@ jobs:
               region_name='auto'
           )
 
-          bucket = os.environ['CF_R2_BUCKET_NAME']
           dt = datetime.now()
           key = f"qatarsale/{dt.year}/{dt.strftime('%B').lower()}/{dt.day}/cars_for_sale.csv"
+          bucket = os.environ['CF_R2_BUCKET_NAME']
 
           client.upload_file(
               'cars_for_sale.csv',
@@ -149,8 +149,8 @@ jobs:
               key,
               ExtraArgs={'ContentType': 'text/csv'}
           )
-          print('Uploaded cars_for_sale.csv to R2')
-          "
+          print(f'Uploaded cars_for_sale.csv to R2: {key}')
+          EOF
 
       - name: Commit final CSV
         run: |
