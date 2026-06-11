@@ -5,6 +5,8 @@ import html
 import pandas as pd
 import requests as req
 from pathlib import Path
+from PIL import Image
+import io
 
 import boto3
 from scrapling import StealthyFetcher
@@ -159,8 +161,7 @@ def parse_product(page) -> dict:
         "whatsapps": whatsapps,  
         "specs": specs           
     }
-from PIL import Image
-import io
+
 
 def download_images(images: list, images_folder: str, fmt: str = "PNG") -> list:
     Path(images_folder).mkdir(exist_ok=True)

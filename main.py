@@ -6,7 +6,7 @@ import flatten
 from dotenv import load_dotenv
 load_dotenv()
 
-LISTING_URL   = "https://qatarsale.com/ar/products/cars_for_sale"
+LISTING_URL   = "https://qatarsale.com/ar/products/cars_for_sale?basic_search:StatusFilter=0"
 START_PAGE    = 1
 END_PAGE      = 10
 IMAGES_FOLDER = "images"
