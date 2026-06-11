@@ -91,21 +91,19 @@ jobs:
 
       - name: Merge and analyze
         run: |
-          python -c "
+          python << 'EOF'
           import pandas as pd
           import glob
-          import os
 
           files = glob.glob('csv_parts/*.csv')
           print(f'Found {len(files)} CSV files to merge')
 
           dfs = [pd.read_csv(f) for f in files]
           merged = pd.concat(dfs, ignore_index=True)
-          merged = merged.drop_duplicates(subset=["product_url"], keep="first")
+          merged = merged.drop_duplicates(subset=['product_url'], keep='first')
           merged.to_csv('cars_for_sale.csv', index=False, encoding='utf-8-sig')
           print(f'Merged {len(files)} files, total rows: {len(merged)}')
 
-          # analyze
           total = len(merged)
           print()
           print('=' * 60)
@@ -118,7 +116,8 @@ jobs:
               pct = (missing / total) * 100
               print(f'{col}: {missing} empty ({pct:.2f}%)')
           print('=' * 60)
-          "
+          EOF
+
       - name: Upload final CSV to R2
         env:
           CF_R2_ACCESS_KEY_ID: ${{ secrets.CF_R2_ACCESS_KEY_ID }}
