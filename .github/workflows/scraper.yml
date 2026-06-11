@@ -96,27 +96,33 @@ jobs:
           import glob
 
           files = glob.glob('csv_parts/*.csv')
-          print(f'Found {len(files)} CSV files to merge')
-
           dfs = [pd.read_csv(f) for f in files]
           merged = pd.concat(dfs, ignore_index=True)
           merged = merged.drop_duplicates(subset=['product_url'], keep='first')
           merged.to_csv('cars_for_sale.csv', index=False, encoding='utf-8-sig')
-          print(f'Merged {len(files)} files, total rows: {len(merged)}')
 
           total = len(merged)
-          print()
-          print('=' * 60)
-          print('SCRAPED DATA QUALITY SUMMARY REPORT')
-          print('=' * 60)
+          print(f'Found {len(files)} CSV files to merge')
           print(f'Total Rows: {total}')
-          print('=' * 60)
-          for col in merged.columns:
-              missing = merged[col].isna().sum() + (merged[col] == '').sum()
-              pct = (missing / total) * 100
-              print(f'{col}: {missing} empty ({pct:.2f}%)')
-          print('=' * 60)
+
+          # كتابة الـ summary في ملف
+          with open('scrape_summary.txt', 'w') as f:
+              f.write(f'Date: {pd.Timestamp.now().strftime("%Y-%m-%d")}\n')
+              f.write(f'Total Rows: {total}\n')
+              f.write(f'Files Merged: {len(files)}\n\n')
+              for col in merged.columns:
+                  missing = merged[col].isna().sum() + (merged[col] == '').sum()
+                  pct = (missing / total) * 100
+                  f.write(f'{col}: {missing} empty ({pct:.2f}%)\n')
           EOF
+
+      - name: Commit summary
+        run: |
+          git config --global user.name "github-actions[bot]"
+          git config --global user.email "github-actions[bot]@users.noreply.github.com"
+          git add scrape_summary.txt
+          git diff --staged --quiet || git commit -m "scrape summary $(date +'%Y-%m-%d')"
+          git push
 
       - name: Upload final CSV to R2
         env:
@@ -150,11 +156,3 @@ jobs:
           )
           print(f'Uploaded cars_for_sale.csv to R2: {key}')
           EOF
-
-      - name: Commit final CSV
-        run: |
-          git config --global user.name "github-actions[bot]"
-          git config --global user.email "github-actions[bot]@users.noreply.github.com"
-          git add cars_for_sale.csv
-          git diff --staged --quiet || git commit -m "Final merged CSV $(date +'%Y-%m-%d')"
-          git push
