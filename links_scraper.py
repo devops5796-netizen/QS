@@ -38,7 +38,7 @@ def run(listing_url: str, start_page: int, end_page: int, output_csv: str):
     success_count = 0
 
     for page_num in range(start_page, end_page + 1):
-        url = f"{listing_url}?page={page_num}"
+        url = f"{listing_url}&page={page_num}"
         print(f"Page {page_num}/{end_page}: {url}")
         
         for attempt in range(3):  # retry 3 مرات
