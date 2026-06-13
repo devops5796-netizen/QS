@@ -69,7 +69,7 @@ def upload_single_file(
             local_path, BUCKET_NAME, r2_key,
             ExtraArgs={"ContentType": content_type}
         )
-        print(f"  [OK] Uploaded to R2: {r2_key}")
+        #print(f"  [OK] Uploaded to R2: {r2_key}")
         return True
     except Exception as e:
         print(f"  [ERROR] R2 upload failed for {filename}: {e}")
