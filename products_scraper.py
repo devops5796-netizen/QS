@@ -81,6 +81,7 @@ def parse_product(page) -> dict:
     whatsapps = []
 
     state_script = page.find("script#serverApp-state")
+    latitude = longitude = None
 
     if state_script:
         try:
@@ -191,6 +192,8 @@ def download_images(images: list, images_folder: str, fmt: str = "PNG") -> list:
                 img.save(local_path, **save_kwargs)
                 local_paths.append(local_path)
                 upload_single_file(local_path, folder_name="qatarsale", file_type="images")
+
+                os.remove(local_path)
                 
         except Exception as e:
             print(f"Image download/convert error: {e}")
