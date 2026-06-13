@@ -242,6 +242,8 @@ def run(links_csv: str, output_json: str, workers: int = 5):
 
     counters = {"success": 0, "failed": 0}
     lock = threading.Lock()
+    
+    failed_urls = []
 
     with ThreadPoolExecutor(max_workers=workers) as executor:
         futures = {executor.submit(scrape_single, url, "images"): url for url in urls_to_scrape}
@@ -284,7 +286,59 @@ def run(links_csv: str, output_json: str, workers: int = 5):
             else:
                 with lock:
                     counters["failed"] += 1
+                    failed_urls.append(url)
                 print(f"  Failed: {url}")
+    
+    # Retry failed URLs
+    if failed_urls:
+        print(f"\nRetrying {len(failed_urls)} failed URLs...")
+        still_failed = []
+        with ThreadPoolExecutor(max_workers=2) as executor:
+            futures = {executor.submit(scrape_single, url, "images"): url for url in failed_urls}
+            for future in as_completed(futures):
+                url = futures[future]
+                data = future.result()
+                if data:
+                    row = {
+                        "product_url": url,
+                        "title": data.get("title"),
+                        "price": data.get("price"),
+                        "currency": data.get("currency"),
+                        "listing_type": data.get("listing_type"),
+                        "condition": data.get("condition"),
+                        "seller_type": data.get("seller_type"),
+                        "showroom_name": data.get("showroom_name"),
+                        "showroom_url": data.get("showroom_url"),
+                        "posted_time": data.get("posted_time"),
+                        "sold_date": data.get("sold_date"),
+                        "fans_count": data.get("fans_count"),
+                        "view_count": data.get("view_count"),
+                        "description": data.get("description"),
+                        "phones": data.get("phones", []),
+                        "whatsapps": data.get("whatsapps", []),
+                        "latitude": data.get("latitude"),
+                        "longitude": data.get("longitude"),
+                        "images": data.get("images", []),
+                        "images_count": data.get("images_count"),
+                        "specifications": data.get("specs", {}),
+                        "images_local_paths": data.get("images_local_paths", [])
+                    }
+                    with lock:
+                        with open(output_json, "a", encoding="utf-8") as f:
+                            f.write(json.dumps(row, ensure_ascii=False) + "\n")
+                    with lock:
+                        counters["success"] += 1
+                        counters["failed"] -= 1
+                    print(f"  Saved: {data.get('title', 'OK')}")
+                else:
+                    still_failed.append(url)
+
+        if still_failed:
+            report_file = output_json.replace(".jsonl", "_failed.txt")
+            with open(report_file, "w", encoding="utf-8") as f:
+                for u in still_failed:
+                    f.write(u + "\n")
+            print(f"Saved {len(still_failed)} still-failed URLs to {report_file}")
 
     print(f"\nSTEP 2 DONE: {counters['success']} OK | {counters['failed']} failed")
     return counters

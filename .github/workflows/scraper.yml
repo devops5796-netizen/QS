@@ -72,8 +72,9 @@ jobs:
         uses: actions/upload-artifact@v4
         with:
           name: csv-${{ matrix.start }}-${{ matrix.end }}
-          path: all_products_flat_${{ matrix.start }}_${{ matrix.end }}.csv
-
+          path: |
+            all_products_flat_${{ matrix.start }}_${{ matrix.end }}.csv
+            all_products_${{ matrix.start }}_${{ matrix.end }}_failed.txt
   merge:
     runs-on: ubuntu-latest
     needs: scrape
@@ -115,7 +116,6 @@ jobs:
           print(f'Found {len(files)} CSV files to merge')
           print(f'Total Rows: {total}')
 
-          # كتابة الـ summary في ملف
           with open('scrape_summary.txt', 'w') as f:
               f.write(f'Date: {pd.Timestamp.now().strftime("%Y-%m-%d")}\n')
               f.write(f'Total Rows: {total}\n')
@@ -130,7 +130,7 @@ jobs:
         run: |
           git config --global user.name "github-actions[bot]"
           git config --global user.email "github-actions[bot]@users.noreply.github.com"
-          git add scrape_summary.txt
+          git add scrape_summary.txt failed_urls.txt
           git diff --staged --quiet || git commit -m "scrape summary $(date +'%Y-%m-%d')"
           git push
 
@@ -166,3 +166,26 @@ jobs:
           )
           print(f'Uploaded cars_for_sale.csv to R2: {key}')
           EOF
+
+      - name: Merge failed URLs report
+        run: |
+          python << 'EOF'
+          import glob
+
+          failed = []
+          for f in glob.glob('csv_parts/*_failed.txt'):
+              with open(f, 'r', encoding='utf-8') as file:
+                  for line in file:
+                      line = line.strip()
+                      if line.startswith('http'):
+                          failed.append(line)
+
+          with open('failed_urls.txt', 'w', encoding='utf-8') as f:
+              f.write(f'Total Failed URLs: {len(failed)}\n\n')
+              for u in failed:
+                  f.write(u + '\n')
+
+          print(f'Total failed URLs across all jobs: {len(failed)}')
+          EOF
+      
+      
