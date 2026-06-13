@@ -168,11 +168,13 @@ def download_images(images: list, images_folder: str, fmt: str = "PNG") -> list:
     Path(images_folder).mkdir(exist_ok=True)
     local_paths = []
     ext = "png" if fmt.upper() == "PNG" else "jpg"
-    
+    uploaded = 0
+    failed = 0
+
     for img_url in images:
-        original_name = img_url.split("/")[-1].rsplit(".", 1)[0]  # اسم بدون extension
+        original_name = img_url.split("/")[-1].rsplit(".", 1)[0]
         local_path = os.path.join(images_folder, f"{original_name}.{ext}")
-        
+
         if os.path.exists(local_path):
             local_paths.append(local_path)
             continue
@@ -180,23 +182,20 @@ def download_images(images: list, images_folder: str, fmt: str = "PNG") -> list:
             r = req.get(img_url, timeout=15)
             if r.status_code == 200:
                 img = Image.open(io.BytesIO(r.content))
-                
                 if fmt.upper() == "JPG":
                     img = img.convert("RGB")
-                
-                save_kwargs = {"format": fmt.upper()}
+                save_kwargs = {"format": "JPEG" if fmt.upper() == "JPG" else "PNG"}
                 if fmt.upper() == "JPG":
                     save_kwargs["quality"] = 90
-                    save_kwargs["format"] = "JPEG"
-                
                 img.save(local_path, **save_kwargs)
                 local_paths.append(local_path)
                 upload_single_file(local_path, folder_name="qatarsale", file_type="images")
-
                 os.remove(local_path)
-                
-        except Exception as e:
-            print(f"Image download/convert error: {e}")
+                uploaded += 1
+        except Exception:
+            failed += 1
+
+    print(f"  Images: {uploaded} uploaded, {failed} failed out of {len(images)}")
     
     return local_paths
 
