@@ -41,7 +41,7 @@ def run(listing_url: str, start_page: int, end_page: int, output_csv: str):
         url = f"{listing_url}&page={page_num}"
         print(f"Page {page_num}/{end_page}: {url}")
         
-        for attempt in range(3):  # retry 3 مرات
+        for attempt in range(3):
             try:
                 headers = {"User-Agent": random.choice(USER_AGENTS)}
                 response = session.get(url, headers=headers, timeout=30)  # من 15 لـ 30
