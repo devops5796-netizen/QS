@@ -12,7 +12,7 @@ jobs:
     strategy:
       matrix:
         include:
-          - {start: 1, end: 20}
+          - {start: 1, end: 5}
       fail-fast: false
 
     steps:
