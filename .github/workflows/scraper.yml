@@ -12,26 +12,7 @@ jobs:
     strategy:
       matrix:
         include:
-          - {start: 1,    end: 56}
-          - {start: 57,   end: 112}
-          - {start: 113,  end: 168}
-          - {start: 169,  end: 224}
-          - {start: 225,  end: 280}
-          - {start: 281,  end: 336}
-          - {start: 337,  end: 392}
-          - {start: 393,  end: 448}
-          - {start: 449,  end: 504}
-          - {start: 505,  end: 560}
-          - {start: 561,  end: 616}
-          - {start: 617,  end: 672}
-          - {start: 673,  end: 728}
-          - {start: 729,  end: 784}
-          - {start: 785,  end: 840}
-          - {start: 841,  end: 896}
-          - {start: 897,  end: 952}
-          - {start: 953,  end: 1008}
-          - {start: 1009, end: 1064}
-          - {start: 1065, end: 1120}
+          - {start: 1, end: 20}
       fail-fast: false
 
     steps:
@@ -126,6 +107,39 @@ jobs:
                   f.write(f'{col}: {missing} empty ({pct:.2f}%)\n')
           EOF
 
+      - name: Split by manufacturer
+        run: |
+          pip install openpyxl
+          python split_by_manufacturer.py cars_for_sale.csv excel_by_manufacturer
+      
+      - name: Upload Excel files to R2
+        env:
+          CF_R2_ACCESS_KEY_ID: ${{ secrets.CF_R2_ACCESS_KEY_ID }}
+          CF_R2_SECRET_ACCESS_KEY: ${{ secrets.CF_R2_SECRET_ACCESS_KEY }}
+          CF_R2_ENDPOINT_URL: ${{ secrets.CF_R2_ENDPOINT_URL }}
+          CF_R2_BUCKET_NAME: ${{ secrets.CF_R2_BUCKET_NAME }}
+        run: |
+          python << 'EOF'
+          import boto3, os, glob
+          from datetime import datetime
+
+          client = boto3.client('s3',
+              endpoint_url=os.environ['CF_R2_ENDPOINT_URL'],
+              aws_access_key_id=os.environ['CF_R2_ACCESS_KEY_ID'],
+              aws_secret_access_key=os.environ['CF_R2_SECRET_ACCESS_KEY'],
+              region_name='auto'
+          )
+          dt = datetime.now()
+          prefix = f"qatarsale/{dt.year}/{dt.strftime('%B').lower()}/{dt.day}/excel"
+          bucket = os.environ['CF_R2_BUCKET_NAME']
+
+          for f in glob.glob('excel_by_manufacturer/*.xlsx'):
+              key = f"{prefix}/{os.path.basename(f)}"
+              client.upload_file(f, bucket, key,
+                  ExtraArgs={'ContentType': 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet'})
+              print(f"Uploaded: {key}")
+          EOF
+      
       - name: Upload final CSV to R2
         env:
           CF_R2_ACCESS_KEY_ID: ${{ secrets.CF_R2_ACCESS_KEY_ID }}
