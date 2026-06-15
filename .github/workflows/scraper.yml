@@ -130,7 +130,7 @@ jobs:
               region_name='auto'
           )
           dt = datetime.now()
-          prefix = f"qatarsale/{dt.year}/{dt.strftime('%B').lower()}/{dt.day}/excel"
+          prefix = f"qatarsale/{dt.year}/{dt.strftime('%B').lower()}/{dt.day}/cars_for_sale_by_brand"
           bucket = os.environ['CF_R2_BUCKET_NAME']
 
           for f in glob.glob('excel_by_manufacturer/*.xlsx'):
