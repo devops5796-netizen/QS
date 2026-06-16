@@ -170,7 +170,7 @@ jobs:
           python-version: '3.11'
 
       - name: Install pandas
-        run: pip install pandas boto3
+        run: pip install pandas boto3 openpyxl
 
       - name: Download all CSV artifacts
         uses: actions/download-artifact@v4
@@ -208,7 +208,7 @@ jobs:
       - name: Split by manufacturer
         run: |
           pip install openpyxl
-          python split_by_manufacturer.py cars_for_sale.csv excel_by_manufacturer
+          python split_by_manufacturer.py cars_for_sale.xlsx excel_by_manufacturer
       
       - name: Upload Excel files to R2
         env:
@@ -263,12 +263,12 @@ jobs:
           bucket = os.environ['CF_R2_BUCKET_NAME']
 
           client.upload_file(
-              'cars_for_sale.csv',
+              'cars_for_sale.xlsx',
               bucket,
               key,
               ExtraArgs={'ContentType': 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet'}
           )
-          print(f'Uploaded cars_for_sale.csv to R2: {key}')
+          print(f'Uploaded cars_for_sale.xlsx to R2: {key}')
           EOF
 
       - name: Merge failed URLs report

@@ -30,7 +30,7 @@ def main():
     print(f"URL: {LISTING_URL} | Pages: {start} to {end}")
 
     summary["links"]    = links_scraper.run(LISTING_URL, start, end, links_csv)
-    summary["products"] = products_scraper.run(links_csv, products_json, workers=4)
+    summary["products"] = products_scraper.run(links_csv, products_json, workers=6)
     summary["flatten"]  = flatten.run(products_json, products_flat_csv)
 
     elapsed = time.time() - elapsed_start
