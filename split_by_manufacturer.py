@@ -28,9 +28,6 @@ def write_manufacturer_excel(manufacturer: str, df_mfr: pd.DataFrame, output_dir
     filepath = output_dir / f"{clean_name(manufacturer)}.xlsx"
 
     with pd.ExcelWriter(filepath, engine="openpyxl") as writer:
-        # Sheet 1: كل الداتا للمصنع
-        df_mfr.to_excel(writer, sheet_name="الكل", index=False)
-        style_header(writer.sheets["الكل"])
 
         # Sheet لكل موديل (الصنف)
         for model in sorted(df_mfr["الصنف"].unique(), key=str):
