@@ -3,6 +3,7 @@ import mimetypes
 from pathlib import Path
 from datetime import datetime
 import boto3
+import io
 
 CF_R2_ACCESS_KEY = os.getenv('CF_R2_ACCESS_KEY_ID')
 CF_R2_SECRET_KEY = os.getenv('CF_R2_SECRET_ACCESS_KEY')
@@ -75,6 +76,30 @@ def upload_single_file(
         print(f"  [ERROR] R2 upload failed for {filename}: {e}")
         return False
 
+def upload_buffer(
+    buffer: io.BytesIO,
+    filename: str,
+    folder_name: str = "qatarsale",
+    file_type: str = "images",
+    content_type: str = "image/webp",
+    dt: datetime = None
+) -> str | None:
+    client = R2_CLIENT_INSTANCE if R2_CLIENT_INSTANCE else get_r2_client()
+    if not client or not BUCKET_NAME:
+        return None
+
+    r2_key = build_r2_key(folder_name, file_type, filename, dt)
+
+    try:
+        buffer.seek(0)
+        client.upload_fileobj(
+            buffer, BUCKET_NAME, r2_key,
+            ExtraArgs={"ContentType": content_type}
+        )
+        return r2_key
+    except Exception as e:
+        print(f"  [ERROR] R2 upload failed for {filename}: {e}")
+        return None
 
 def upload_final_batch_assets(images_folder: str, final_csv: str, folder_name: str = "qatarsale") -> dict:
     print("\n" + "="*50)

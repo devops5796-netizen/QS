@@ -1,18 +1,14 @@
 import json
 import os
 import threading
-import html
 import pandas as pd
 import requests as req
-from pathlib import Path
 from PIL import Image
 import io
+from r2_uploader import upload_buffer
 
-import boto3
 from scrapling import StealthyFetcher
 from concurrent.futures import ThreadPoolExecutor, as_completed
-
-from r2_uploader import upload_single_file
 
 def parse_product(page) -> dict:
     title = price = currency = listing_type = posted_time = description = ""
@@ -171,44 +167,53 @@ def parse_product(page) -> dict:
     }
 
 
-def download_images(images: list, images_folder: str, fmt: str = "PNG") -> list:
-    Path(images_folder).mkdir(exist_ok=True)
-    local_paths = []
-    ext = "png" if fmt.upper() == "PNG" else "jpg"
+def download_images(images: list, images_folder: str = None, fmt: str = "PNG") -> list:
+    r2_paths = []
     uploaded = 0
     failed = 0
 
+    if fmt.upper() == "JPG":
+        ext = "jpg"
+        content_type = "image/jpeg"
+    else:
+        ext = "png"
+        content_type = "image/png"
+
     for img_url in images:
         original_name = img_url.split("/")[-1].rsplit(".", 1)[0]
-        local_path = os.path.join(images_folder, f"{original_name}.{ext}")
-
-        if os.path.exists(local_path):
-            local_paths.append(local_path)
-            continue
         try:
             r = req.get(img_url, timeout=15)
             if r.status_code == 200:
                 img = Image.open(io.BytesIO(r.content))
+                output_buffer = io.BytesIO()
                 if fmt.upper() == "JPG":
                     img = img.convert("RGB")
-                save_kwargs = {"format": "JPEG" if fmt.upper() == "JPG" else "PNG"}
-                if fmt.upper() == "JPG":
-                    save_kwargs["quality"] = 90
-                img.save(local_path, **save_kwargs)
-                local_paths.append(local_path)
-                upload_single_file(local_path, folder_name="qatarsale", file_type="images")
-                os.remove(local_path)
-                uploaded += 1
+                    img.save(output_buffer, format="JPEG", quality=90)
+                else:
+                    img.save(output_buffer, format="PNG")
+                r2_key = upload_buffer(output_buffer, filename=f"{original_name}.{ext}", content_type=content_type)
+                if r2_key:
+                    r2_paths.append(r2_key)
+                    uploaded += 1
+                else:
+                    failed += 1
+            else:
+                failed += 1
         except Exception:
             failed += 1
 
     print(f"  Images: {uploaded} uploaded, {failed} failed out of {len(images)}")
-    
-    return local_paths
+    return r2_paths
 
 def scrape_single(url: str, images_folder: str = "images") -> dict:
     try:
-        page = StealthyFetcher.fetch(url, headless=True, network_idle=True, timeout=30000)
+        page = StealthyFetcher.fetch(
+            url,
+            headless=True,
+            network_idle=True,
+            timeout=60000,                   
+            wait_for_idle_network_timeout=10000
+        )
         data = parse_product(page)
         data["images_local_paths"] = download_images(data.get("images", []), images_folder)
         return data
@@ -256,7 +261,12 @@ def run(links_csv: str, output_json: str, workers: int = 5):
 
         for future in as_completed(futures):
             url = futures[future]
-            data = future.result()
+            try:
+                data = future.result(timeout=120)
+            except Exception as e:
+                print(f"  Timeout/Error: {url} -> {e}")
+                data = {}
+                future.cancel()
 
             if data:
                 row = {
@@ -304,7 +314,12 @@ def run(links_csv: str, output_json: str, workers: int = 5):
             futures = {executor.submit(scrape_single, url, "images"): url for url in failed_urls}
             for future in as_completed(futures):
                 url = futures[future]
-                data = future.result()
+                try:
+                    data = future.result(timeout=120)
+                except Exception as e:
+                    print(f"  Timeout/Error: {url} -> {e}")
+                    data = {}
+                    future.cancel()
                 if data:
                     row = {
                         "product_url": url,
