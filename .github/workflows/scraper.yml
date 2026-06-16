@@ -189,7 +189,7 @@ jobs:
           dfs = [pd.read_csv(f) for f in files]
           merged = pd.concat(dfs, ignore_index=True)
           merged = merged.drop_duplicates(subset=['product_url'], keep='first')
-          merged.to_csv('cars_for_sale.csv', index=False, encoding='utf-8-sig')
+          merged.to_excel('cars_for_sale.xlsx', index=False)
 
           total = len(merged)
           print(f'Found {len(files)} CSV files to merge')
@@ -259,14 +259,14 @@ jobs:
           )
 
           dt = datetime.now()
-          key = f"qatarsale/{dt.year}/{dt.strftime('%B').lower()}/{dt.day}/cars_for_sale.csv"
+          key = f"qatarsale/{dt.year}/{dt.strftime('%B').lower()}/{dt.day}/cars_for_sale.xlsx"
           bucket = os.environ['CF_R2_BUCKET_NAME']
 
           client.upload_file(
               'cars_for_sale.csv',
               bucket,
               key,
-              ExtraArgs={'ContentType': 'text/csv'}
+              ExtraArgs={'ContentType': 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet'}
           )
           print(f'Uploaded cars_for_sale.csv to R2: {key}')
           EOF
