@@ -117,20 +117,15 @@ def parse_product(page) -> dict:
             location = product.get("location", {})
             latitude = location.get("latitude")
             longitude = location.get("longitude")
+            
+            # Images from state
+            for img_url in product.get("images", []):
+                if img_url and img_url not in images:
+                    images.append(img_url)
 
         except Exception as e:
             print(f"Failed to parse state data: {e}")
             latitude = longitude = None
-
-    seen_images = set()
-    img_elements = page.find_all("[data-testid='at-show-product-gallery-galleryImages-normal-image'] img")
-    for img_el in img_elements:
-        img_src = img_el.attrib.get("src", "").strip()
-        if img_src:
-            high_res_img = img_src.replace("_thumb.webp", ".webp")
-            if high_res_img not in seen_images:
-                images.append(high_res_img)
-                seen_images.add(high_res_img)
 
     labels = page.find_all("[data-testid^='at-show-product-parsedDefs-label-text-']")
     values = page.find_all("[data-testid^='at-show-product-parsedDefs-value-text-']")
