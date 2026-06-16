@@ -6,33 +6,112 @@ on:
   workflow_dispatch:
 
 jobs:
+  detect_pages:
+
+    runs-on: ubuntu-latest
+
+    outputs:
+      matrix: ${{ steps.build_matrix.outputs.matrix }}
+
+    steps:
+
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+
+      - name: Install dependencies
+        run: |
+          pip install -r requirements.txt
+          pip install "scrapling[all]"
+          playwright install chromium
+          playwright install-deps chromium
+          python -m patchright install chromium
+
+      - name: Detect pages
+        id: build_matrix
+
+        run: |
+          python << 'EOF'
+
+          import json
+          import math
+          import os
+
+          from scrapling import StealthyFetcher
+
+          URL = "https://qatarsale.com/ar/products/cars_for_sale?basic_search:StatusFilter=0"
+
+          def get_last_page():
+
+              page = StealthyFetcher.fetch(
+                  URL,
+                  headless=True,
+                  network_idle=True,
+                  timeout=30000
+              )
+
+              numbers = []
+
+              for el in page.find_all("[data-testid^='at-paginator-page-']"):
+
+                  a = el.find("a")
+
+                  if not a:
+                      continue
+
+                  href = a.attrib.get("href", "")
+
+                  if "page=" not in href:
+                      continue
+
+                  try:
+                      numbers.append(int(href.split("page=")[-1]))
+                  except ValueError:
+                      pass
+
+              return max(numbers) if numbers else 1
+
+
+          last_page = get_last_page()
+
+          print(f"Last page: {last_page}")
+
+          N_JOBS = 20
+
+          pages_per_job = math.ceil(last_page / N_JOBS)
+
+          matrix = {"include": []}
+
+          for i in range(N_JOBS):
+
+              start = i * pages_per_job + 1
+              end = min((i + 1) * pages_per_job, last_page)
+
+              if start > last_page:
+                  break
+
+              matrix["include"].append({
+                  "start": start,
+                  "end": end
+              })
+
+          print(json.dumps(matrix, indent=2))
+
+          with open(os.environ["GITHUB_OUTPUT"], "a") as f:
+              f.write(f"matrix={json.dumps(matrix)}")
+
+          EOF
+
+
   scrape:
+    needs: detect_pages
     runs-on: ubuntu-latest
 
     strategy:
-      matrix:
-        include:
-          - {start: 1,    end: 56}
-          - {start: 57,   end: 112}
-          - {start: 113,  end: 168}
-          - {start: 169,  end: 224}
-          - {start: 225,  end: 280}
-          - {start: 281,  end: 336}
-          - {start: 337,  end: 392}
-          - {start: 393,  end: 448}
-          - {start: 449,  end: 504}
-          - {start: 505,  end: 560}
-          - {start: 561,  end: 616}
-          - {start: 617,  end: 672}
-          - {start: 673,  end: 728}
-          - {start: 729,  end: 784}
-          - {start: 785,  end: 840}
-          - {start: 841,  end: 896}
-          - {start: 897,  end: 952}
-          - {start: 953,  end: 1008}
-          - {start: 1009, end: 1064}
-          - {start: 1065, end: 1120}
       fail-fast: false
+      matrix: ${{ fromJson(needs.detect_pages.outputs.matrix) }}
 
     steps:
       - name: Checkout repo
