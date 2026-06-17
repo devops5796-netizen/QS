@@ -40,7 +40,7 @@ def write_manufacturer_excel(manufacturer: str, df_mfr: pd.DataFrame, output_dir
 
 def run(input_csv: str = "cars_for_sale.csv", output_dir: str = "excel_by_manufacturer"):
     print(f"Reading {input_csv}...")
-    df = pd.read_csv(input_csv, low_memory=False)
+    df = pd.read_excel(input_csv)
     print(f"Total rows: {len(df)}")
 
     out = Path(output_dir)
