@@ -22,6 +22,7 @@ def main():
     links_csv         = f"all_car_links_{start}_{end}.csv"
     products_json     = f"all_products_{start}_{end}.jsonl"
     products_flat_csv = f"all_products_flat_{start}_{end}.csv"
+    category = 'cars_for_sale'
 
     elapsed_start = time.time()
     summary = {}
@@ -30,7 +31,7 @@ def main():
     print(f"URL: {LISTING_URL} | Pages: {start} to {end}")
 
     summary["links"]    = links_scraper.run(LISTING_URL, start, end, links_csv)
-    summary["products"] = products_scraper.run(links_csv, products_json, workers=6)
+    summary["products"] = products_scraper.run(links_csv, products_json, workers=6, category=category) 
     summary["flatten"]  = flatten.run(products_json, products_flat_csv)
 
     elapsed = time.time() - elapsed_start

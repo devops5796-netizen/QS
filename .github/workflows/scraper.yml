@@ -228,7 +228,7 @@ jobs:
               region_name='auto'
           )
           dt = datetime.now()
-          prefix = f"qatarsale/{dt.year}/{dt.strftime('%B').lower()}/{dt.day}/cars_for_sale_by_brand"
+          prefix = f"qatarsale/year={dt.year}/month={dt.strftime('%m')}/day={dt.strftime('%d')}/cars_for_sale/excel/by_manufacturer"
           bucket = os.environ['CF_R2_BUCKET_NAME']
 
           for f in glob.glob('excel_by_manufacturer/*.xlsx'):
@@ -259,7 +259,7 @@ jobs:
           )
 
           dt = datetime.now()
-          key = f"qatarsale/{dt.year}/{dt.strftime('%B').lower()}/{dt.day}/cars_for_sale.xlsx"
+          key = f"qatarsale/year={dt.year}/month={dt.strftime('%m')}/day={dt.strftime('%d')}/cars_for_sale/excel/cars_for_sale.xlsx"
           bucket = os.environ['CF_R2_BUCKET_NAME']
 
           client.upload_file(
