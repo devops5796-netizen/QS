@@ -1,0 +1,113 @@
+name: QatarSale Jobs Scraper
+
+on:
+  schedule:
+    - cron: '0 3 * * *'
+  workflow_dispatch:
+
+jobs:
+  scrape_jobs:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repo
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+
+      - name: Cache pip
+        uses: actions/cache@v4
+        with:
+          path: ~/.cache/pip
+          key: ${{ runner.os }}-pip-${{ hashFiles('requirements.txt') }}
+          restore-keys: |
+            ${{ runner.os }}-pip-
+
+      - name: Install dependencies
+        run: |
+          pip install -r requirements.txt
+          pip install "scrapling[all]" openpyxl boto3
+          playwright install chromium
+          playwright install-deps chromium
+          python -m patchright install chromium
+
+      - name: Run scraper
+        env:
+          CF_R2_ACCESS_KEY_ID: ${{ secrets.CF_R2_ACCESS_KEY_ID }}
+          CF_R2_SECRET_ACCESS_KEY: ${{ secrets.CF_R2_SECRET_ACCESS_KEY }}
+          CF_R2_ENDPOINT_URL: ${{ secrets.CF_R2_ENDPOINT_URL }}
+          CF_R2_BUCKET_NAME: ${{ secrets.CF_R2_BUCKET_NAME }}
+        run: python -u jobs_scraper.py
+
+      - name: Upload to R2
+        env:
+          CF_R2_ACCESS_KEY_ID: ${{ secrets.CF_R2_ACCESS_KEY_ID }}
+          CF_R2_SECRET_ACCESS_KEY: ${{ secrets.CF_R2_SECRET_ACCESS_KEY }}
+          CF_R2_ENDPOINT_URL: ${{ secrets.CF_R2_ENDPOINT_URL }}
+          CF_R2_BUCKET_NAME: ${{ secrets.CF_R2_BUCKET_NAME }}
+        run: |
+          python << 'EOF'
+          import boto3, os, json
+          from datetime import datetime
+          import pandas as pd
+
+          dt = datetime.now()
+          base = f"qatarsale/year={dt.year}/month={dt.strftime('%m')}/day={dt.strftime('%d')}/jobs"
+
+          client = boto3.client('s3',
+              endpoint_url=os.environ['CF_R2_ENDPOINT_URL'],
+              aws_access_key_id=os.environ['CF_R2_ACCESS_KEY_ID'],
+              aws_secret_access_key=os.environ['CF_R2_SECRET_ACCESS_KEY'],
+              region_name='auto'
+          )
+          bucket = os.environ['CF_R2_BUCKET_NAME']
+
+          # Upload Excel
+          excel_file = "jobs.xlsx"
+          if os.path.exists(excel_file):
+              key = f"{base}/excel/jobs.xlsx"
+              client.upload_file(excel_file, bucket, key,
+                  ExtraArgs={'ContentType': 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet'})
+              print(f"Uploaded: {key}")
+          else:
+              print("WARNING: jobs.xlsx not found!")
+
+          # Generate summary
+          summary_file = "scrape_summary.txt"
+          if os.path.exists(excel_file):
+              df = pd.read_excel(excel_file)
+              total = len(df)
+              with open(summary_file, 'w', encoding='utf-8') as f:
+                  f.write(f"=== jobs ===\n")
+                  f.write(f"Run Date: {dt.strftime('%Y-%m-%d %H:%M:%S')} UTC\n")
+                  f.write(f"Status: DONE\n")
+                  f.write(f"Total Rows: {total}\n\n")
+                  f.write("--- Column Analysis ---\n")
+                  for col in df.columns:
+                      missing = df[col].isna().sum() + (df[col] == '').sum()
+                      pct = (missing / total) * 100 if total > 0 else 0
+                      f.write(f"{col}: {missing} empty ({pct:.2f}%)\n")
+          else:
+              with open(summary_file, 'w', encoding='utf-8') as f:
+                  f.write(f"=== jobs ===\n")
+                  f.write(f"Run Date: {dt.strftime('%Y-%m-%d %H:%M:%S')} UTC\n")
+                  f.write(f"Status: FAILED - no Excel file generated\n")
+
+          key = f"{base}/summary/scrape_summary.txt"
+          client.upload_file(summary_file, bucket, key,
+              ExtraArgs={'ContentType': 'text/plain; charset=utf-8'})
+          print(f"Uploaded: {key}")
+
+          # Failed URLs
+          failed_file = "failed_urls.txt"
+          if os.path.exists(failed_file):
+              key = f"{base}/summary/failed_urls.txt"
+              client.upload_file(failed_file, bucket, key,
+                  ExtraArgs={'ContentType': 'text/plain; charset=utf-8'})
+              print(f"Uploaded: {key}")
+          else:
+              print("No failed URLs file found.")
+          EOF
