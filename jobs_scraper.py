@@ -357,7 +357,7 @@ if __name__ == "__main__":
     start = int(sys.argv[1]) if len(sys.argv) > 1 else 0
     end   = int(sys.argv[2]) if len(sys.argv) > 2 else None
     run(
-        output_excel=f"jobs.xlsx",
+        output_excel=f"jobs_{start}_{end}.xlsx",
         start_page=start,
         end_page=end
     )
