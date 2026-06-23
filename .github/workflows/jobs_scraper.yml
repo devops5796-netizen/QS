@@ -12,46 +12,69 @@ jobs:
       matrix: ${{ steps.build_matrix.outputs.matrix }}
 
     steps:
-      - uses: actions/checkout@v4
+      - name: Checkout repo
+        uses: actions/checkout@v4
 
-      - uses: actions/setup-python@v5
+      - name: Set up Python
+        uses: actions/setup-python@v5
         with:
-          python-version: "3.11"
+          python-version: '3.11'
 
-      - run: pip install requests
+      - name: Install dependencies
+        run: pip install requests
 
-      - id: build_matrix
+      - name: Detect pages and build matrix
+        id: build_matrix
         run: |
           python << 'EOF'
           import requests, json, os
 
-          API_URL = "ضع هنا API الخاص بالوظائف"
+          API_URL = "https://production-api.qatarsale.com/api/Opportunity/Search"
+          HEADERS = {
+              "Content-Type": "application/json",
+              "Accept": "application/json",
+              "User-Agent": "Mozilla/5.0",
+              "Referer": "https://qatarsale.com/",
+              "Origin": "https://qatarsale.com",
+          }
 
           payload = {
               "currentPage": 0,
-              "pageSize": 15
+              "pageSize": 15,
+              "sortBy": 0,
+              "workFields": [],
+              "workSpecialities": [],
+              "employmentTypes": [],
+              "cities": [],
+              "countries": [],
+              "degrees": [],
+              "experiences": [],
+              "isFavorite": False,
+              "languages": [],
+              "searchTerm": "",
+              "skills": [],
+              "userId": None,
+              "workplaceTypes": [],
+              "yearsOfExperience": []
           }
 
-          headers = {
-              "Content-Type":"application/json",
-              "Accept":"application/json",
-              "User-Agent":"Mozilla/5.0"
-          }
 
-          r = requests.post(API_URL, json=payload, headers=headers)
+          r = requests.post(API_URL, json=payload, headers=HEADERS, timeout=30)
           data = r.json()
+          total_pages = data.get("pagesCount", 1)
+          total_jobs = data.get("count", 0)
 
-          total_pages = data["pagesCount"]
+          print(f"Total pages: {total_pages} | Total jobs: {total_jobs}")
 
-          matrix = {
-              "include":[
-                  {
-                      "start_page":i,
-                      "end_page":i
-                  }
-                  for i in range(total_pages)
-              ]
-          }
+
+          matrix = {"include": []}
+          for page in range(total_pages):
+              matrix["include"].append({
+                  "start_page": page,
+                  "end_page":   page
+              })
+
+          print(f"Matrix: {json.dumps(matrix, indent=2)}")
 
           with open(os.environ["GITHUB_OUTPUT"],"a") as f:
               f.write(f"matrix={json.dumps(matrix)}\n")
@@ -66,18 +89,24 @@ jobs:
       matrix: ${{ fromJson(needs.detect_pages.outputs.matrix) }}
 
     steps:
-      - uses: actions/checkout@v4
+      - name: Checkout repo
+        uses: actions/checkout@v4
 
-      - uses: actions/setup-python@v5
+      - name: Set up Python
+        uses: actions/setup-python@v5
         with:
-          python-version: "3.11"
+          python-version: '3.11'
 
-      - uses: actions/cache@v4
+      - name: Cache pip
+        uses: actions/cache@v4
         with:
           path: ~/.cache/pip
           key: ${{ runner.os }}-pip-${{ hashFiles('requirements.txt') }}
+          restore-keys: |
+            ${{ runner.os }}-pip-
 
-      - run: |
+      - name: Install dependencies
+        run: |
           pip install -r requirements.txt
           pip install "scrapling[all]" openpyxl boto3
           playwright install chromium
@@ -207,74 +236,4 @@ jobs:
           client.upload_file(failed_file, bucket, key,
               ExtraArgs={'ContentType': 'text/plain; charset=utf-8'})
           print(f"Uploaded: {key}")
-          EOF
-
-      - name: Upload to R2
-        env:
-          CF_R2_ACCESS_KEY_ID: ${{ secrets.CF_R2_ACCESS_KEY_ID }}
-          CF_R2_SECRET_ACCESS_KEY: ${{ secrets.CF_R2_SECRET_ACCESS_KEY }}
-          CF_R2_ENDPOINT_URL: ${{ secrets.CF_R2_ENDPOINT_URL }}
-          CF_R2_BUCKET_NAME: ${{ secrets.CF_R2_BUCKET_NAME }}
-        run: |
-          python << 'EOF'
-          import boto3, os, json
-          from datetime import datetime
-          import pandas as pd
-
-          dt = datetime.now()
-          base = f"qatarsale/year={dt.year}/month={dt.strftime('%m')}/day={dt.strftime('%d')}/jobs"
-
-          client = boto3.client('s3',
-              endpoint_url=os.environ['CF_R2_ENDPOINT_URL'],
-              aws_access_key_id=os.environ['CF_R2_ACCESS_KEY_ID'],
-              aws_secret_access_key=os.environ['CF_R2_SECRET_ACCESS_KEY'],
-              region_name='auto'
-          )
-          bucket = os.environ['CF_R2_BUCKET_NAME']
-
-          # Upload Excel
-          excel_file = "jobs.xlsx"
-          if os.path.exists(excel_file):
-              key = f"{base}/excel/jobs.xlsx"
-              client.upload_file(excel_file, bucket, key,
-                  ExtraArgs={'ContentType': 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet'})
-              print(f"Uploaded: {key}")
-          else:
-              print("WARNING: jobs.xlsx not found!")
-
-          # Generate summary
-          summary_file = "scrape_summary.txt"
-          if os.path.exists(excel_file):
-              df = pd.read_excel(excel_file)
-              total = len(df)
-              with open(summary_file, 'w', encoding='utf-8') as f:
-                  f.write(f"=== jobs ===\n")
-                  f.write(f"Run Date: {dt.strftime('%Y-%m-%d %H:%M:%S')} UTC\n")
-                  f.write(f"Status: DONE\n")
-                  f.write(f"Total Rows: {total}\n\n")
-                  f.write("--- Column Analysis ---\n")
-                  for col in df.columns:
-                      missing = df[col].isna().sum() + (df[col] == '').sum()
-                      pct = (missing / total) * 100 if total > 0 else 0
-                      f.write(f"{col}: {missing} empty ({pct:.2f}%)\n")
-          else:
-              with open(summary_file, 'w', encoding='utf-8') as f:
-                  f.write(f"=== jobs ===\n")
-                  f.write(f"Run Date: {dt.strftime('%Y-%m-%d %H:%M:%S')} UTC\n")
-                  f.write(f"Status: FAILED - no Excel file generated\n")
-
-          key = f"{base}/summary/scrape_summary.txt"
-          client.upload_file(summary_file, bucket, key,
-              ExtraArgs={'ContentType': 'text/plain; charset=utf-8'})
-          print(f"Uploaded: {key}")
-
-          # Failed URLs
-          failed_file = "failed_urls.txt"
-          if os.path.exists(failed_file):
-              key = f"{base}/summary/failed_urls.txt"
-              client.upload_file(failed_file, bucket, key,
-                  ExtraArgs={'ContentType': 'text/plain; charset=utf-8'})
-              print(f"Uploaded: {key}")
-          else:
-              print("No failed URLs file found.")
           EOF
