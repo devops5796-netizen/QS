@@ -225,7 +225,7 @@ jobs:
           EOF
 
 
-      - name: Trigger Jobs workflow
+      - name: Trigger Sub Categories workflow
         run: |
           curl -X POST \
             -H "Authorization: token ${{ secrets.PAT_TOKEN }}" \
