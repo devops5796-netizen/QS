@@ -1,10 +1,13 @@
 import json
 import time
-import requests
 import pandas as pd
-from datetime import datetime
 import sys
 from scrapling import StealthyFetcher
+import requests as req
+from PIL import Image
+import io
+from r2_uploader import upload_buffer
+import sys
 
 API_URL = "https://production-api.qatarsale.com/api/ApplicantProfile/Search"
 BASE_PROFILE_URL = "https://qatarsale.com/ar/jobs/user/profile"
@@ -30,7 +33,7 @@ def get_all_users(start_page: int = 0, end_page: int = None) -> list[dict]:
             "opportunityUri": None, "skills": [], "workFields": [], "workSpecialities": [],
             "isFavorite": False
         }
-        r = requests.post(API_URL, json=payload, headers=HEADERS, timeout=30)
+        r = req.post(API_URL, json=payload, headers=HEADERS, timeout=30)
         data = r.json()
         end_page = data.get("pagesCount", 1) - 1
         print(f"  Detected {end_page + 1} pages | {data.get('count', 0)} total users")
@@ -44,7 +47,7 @@ def get_all_users(start_page: int = 0, end_page: int = None) -> list[dict]:
             "isFavorite": False
         }
         try:
-            r = requests.post(API_URL, json=payload, headers=HEADERS, timeout=30)
+            r = req.post(API_URL, json=payload, headers=HEADERS, timeout=30)
             r.raise_for_status()
             data = r.json()
             users = data.get("list", [])
@@ -60,24 +63,6 @@ def get_all_users(start_page: int = 0, end_page: int = None) -> list[dict]:
     return all_users
 
 
-def parse_user_from_api(user: dict) -> dict:
-    employment_types = ", ".join([e.get("name", "") for e in user.get("employmentTypes", [])])
-    uri = user.get("uriCode", "")
-    profile_url = f"{BASE_PROFILE_URL}/{uri}" if uri else ""
-
-    return {
-        "profile_url":            profile_url,
-        "full_name":              user.get("fullName", ""),
-        "title":                  user.get("title", ""),
-        "city":                   user.get("cityName", ""),
-        "country":                user.get("countryName", ""),
-        "total_experience_years": user.get("totalExperienceYears", ""),
-        "employment_type":        employment_types,
-        "views_count":            user.get("viewsCount", 0),
-        "picture_url":            user.get("personalPictureUrl", ""),
-    }
-
-
 def parse_user_details(url: str) -> dict:
     try:
         page = StealthyFetcher.fetch(
@@ -87,174 +72,60 @@ def parse_user_details(url: str) -> dict:
             timeout=60000,
             wait_for_idle_network_timeout=10000
         )
-        
 
-        # name
-        name_el = page.find(".data .name")
-        name = name_el.text.strip() if name_el else ""
+        if "not-found" in str(page.url):
+            print(f"  Redirected to not-found: {url}")
+            return {}
 
-        # title
-        rows = page.css(".data .row")
-        title = rows[1].find(".p3").text.strip() if len(rows) > 1 else ""
-        #print(f"titie: {title}")
+        script = page.find("script#serverApp-state")
+        if not script:
+            return {}
 
-        # location
-        city_el    = page.find(".data .city.p3")
-        city       = city_el.text.strip() if city_el else ""
-        country_el = page.find(".data .county.p3")
-        country    = country_el.text.strip() if country_el else ""
+        raw = (script.text
+               .replace("&q;", '"')
+               .replace("&l;", "<")
+               .replace("&g;", ">")
+               .replace("&a;", "&")
+               .replace("&s;", "'"))
 
-        # exp summary
-        summary = ""
-        for group in page.css(".right-container .group"):
-            header = group.find(".header")
-            if header and "الملخص" in header.text:
-                span = group.find(".list span")
-                summary = span.get_all_text(strip=True) if span else ""
-                break
+        data = json.loads(raw)
 
-        # work_experience
-        work_experience = []
-        for group in page.css(".right-container .group"):
-            header = group.find(".header")
-            if not header or "التجربة العملية" not in header.text:
-                continue
-            for item in group.css("qs-jobs-user-profile-list-item .item"):
-                title_span    = item.find("[data-testid='at--title-text']")
-                location_span = item.find("[data-testid='at--country-city']")
-                start_span    = item.find("[data-testid='at--startDate-text']")
-                end_span      = item.find("[data-testid='at--endDate-text']")
-                desc_span     = item.find("[data-testid='at--link-description-text']")
-                
+        if "jobsUser" not in data:
+            return {}
 
-                work_experience.append({
-                    "title":       title_span.text.strip()    if title_span    else "",
-                    "location":    location_span.text.strip() if location_span else "",
-                    "start_date":  start_span.text.strip()    if start_span    else "",
-                    "end_date":    end_span.text.strip()      if end_span      else "",
-                    "description": desc_span.get_all_text(strip=True) if desc_span else "",
-                })
-
-        # education
-        education = []
-        for group in page.css(".right-container .group"):
-            header = group.find(".header")
-            if not header or "التجربة العلمية" not in header.text:
-                continue
-            for item in group.css("qs-jobs-user-profile-list-item .item"):
-                title_span    = item.find("[data-testid='at--title-text']")
-                location_span = item.find("[data-testid='at--country-city']")
-                start_span    = item.find("[data-testid='at--startDate-text']")
-                end_span      = item.find("[data-testid='at--endDate-text']")
-                description   = item.find("[data-testid='at--link-description-text']")
-                education.append({
-                    "degree":     title_span.text.strip()    if title_span    else "",
-                    "location":   location_span.text.strip() if location_span else "",
-                    "start_date": start_span.text.strip()    if start_span    else "",
-                    "end_date":   end_span.text.strip()      if end_span      else "",
-                    "description": description.get_all_text(strip=True) if description else "",
-                })
-
-
-        # availability
-        availability_el    = page.find("[data-testid='at-jobs-user-profile-openToWork']")
-        availability       = "متاح للعمل" if availability_el else ""
-        availability_types = []
-        for group in page.css(".group"):
-            header = group.find(".header")
-            if not header or "التوفر" not in header.text:
-                continue
-            for el in group.css("[data-testid^='at-jobs-user-profile-employmentTypes-']"):
-                t = el.text.strip()
-                if t:
-                    availability_types.append(t)
-
-        # skills
-        skills = []
-        for group in page.css(".group"):
-            header = group.find(".header")
-            if not header or "مهاراتي" not in header.text:
-                continue
-            for el in group.css("[data-testid='at-jobs-user-profile-skills-title']"):
-                skill_title = el.text.strip()
-                desc_el     = el.parent.find("[data-testid='at-jobs-user-profile-skills-description']")
-                skills.append({
-                    "skill": skill_title,
-                    "level": desc_el.text.strip() if desc_el else ""
-                })
-
-        # languages
-        languages = []
-        for group in page.css(".group"):
-            header = group.find(".header")
-            if not header or "لغاتي" not in header.text:
-                continue
-            for item in group.css("qs-jobs-user-profile-sub-list-item .item"):
-                title_span = item.find("[data-testid='at--title']")
-                desc_span  = item.find("[data-testid='at--description']")
-                if title_span:
-                    languages.append({
-                        "language": title_span.text.strip(),
-                        "level":    desc_span.text.strip() if desc_span else ""
-                    })
-
-        # certifications
-        certifications = []
-        for group in page.css(".group"):
-            header = group.find(".header")
-            if not header or "التراخيص" not in header.text:
-                continue
-            for item in group.css("qs-jobs-user-profile-sub-list-item .item"):
-                title_span = item.find("[data-testid='at--title']")
-                desc_span  = item.find("[data-testid='at--description']")
-                date_span  = item.find("[data-testid='at--startDate']")
-                certifications.append({
-                    "title":       title_span.text.strip() if title_span else "",
-                    "institution": desc_span.text.strip()  if desc_span  else "",
-                    "date":        date_span.text.strip()  if date_span  else "",
-                })
-
-        # social_links
-        social_links = []
-        for group in page.css(".group"):
-            header = group.find(".header")
-            if not header or "الحسابات" not in header.text:
-                continue
-            for el in group.css("i"):
-                classes = el.attrib.get("class", "")
-                if "fa-instagram" in classes:
-                    social_links.append("instagram")
-                elif "fa-linkedin" in classes:
-                    social_links.append("linkedin")
-                elif "fa-twitter" in classes:
-                    social_links.append("twitter")
-                elif "fa-facebook" in classes:
-                    social_links.append("facebook")
-                elif "fa-youtube" in classes:
-                    social_links.append("youtube")
-        
-
-        return {
-            "profile_url":        url,
-            "name":               name,
-            "title":              title, 
-            "city":               city,
-            "country":            country,
-            "summary":            summary,
-            "work_experience":    json.dumps(work_experience,  ensure_ascii=False),
-            "education":          json.dumps(education,        ensure_ascii=False),
-            "availability":       availability,
-            "availability_types": ", ".join(availability_types),
-            "skills":             json.dumps(skills,           ensure_ascii=False),
-            "languages":          json.dumps(languages,        ensure_ascii=False),
-            "certifications":     json.dumps(certifications,   ensure_ascii=False),
-            "social_links":       ", ".join(social_links),
-        }
+        user = data["jobsUser"]
+        row = {k: (json.dumps(v, ensure_ascii=False) if isinstance(v, (list, dict)) else v)
+               for k, v in user.items()}
+        row["profile_url"] = url
+        return row
 
     except Exception as e:
         print(f"  [ERROR] {url}: {e}")
         return {}
 
+def download_and_upload_image(img_url: str, user_uri: str) -> str:
+    if not img_url:
+        return ""
+    try:
+        r = req.get(img_url, timeout=15)
+        if r.status_code == 200:
+            img = Image.open(io.BytesIO(r.content))
+            output_buffer = io.BytesIO()
+            img.save(output_buffer, format="PNG")
+            filename = f"{user_uri}.png"
+            r2_key = upload_buffer(
+                output_buffer,
+                filename=filename,
+                folder_name="qatarsale",
+                category="users",
+                file_type="images",
+                content_type="image/png"
+            )
+            return r2_key or ""
+        return ""
+    except Exception as e:
+        print(f"  [ERROR] Image upload failed for {user_uri}: {e}")
+        return ""
 
 def run(output_excel: str = "users.xlsx", start_page: int = 0, end_page: int = None) -> dict:
     print("=" * 50)
@@ -271,71 +142,51 @@ def run(output_excel: str = "users.xlsx", start_page: int = 0, end_page: int = N
         print("No users found!")
         return {"total": 0, "success": 0, "failed": 0}
 
-    #raw_users = raw_users[:3]
-    #print(f"Testing with first {len(raw_users)} users...")
-
-    print("\nSTEP 2: Parsing API data + Scraping details...")
+    print("\nSTEP 2: Scraping user details...")
     results = []
     failed  = []
+    uri_map = {f"{BASE_PROFILE_URL}/{user.get('uriCode', '')}": user for user in raw_users}
 
     for i, user in enumerate(raw_users, 1):
         uri = user.get("uriCode", "")
         url = f"{BASE_PROFILE_URL}/{uri}" if uri else ""
-
+        uri_map[url] = user
         print(f"  [{i}/{len(raw_users)}] {url}")
 
-        api_data     = parse_user_from_api(user)
-        scraped_data = parse_user_details(url) if url else {}
+        data = parse_user_details(url) if url else {}
 
-        if scraped_data:
-            print(f"    ✓ {api_data.get('full_name', 'N/A')}")
+        if data:
+            img_url  = user.get("personalPictureUrl", "")
+            r2_image = download_and_upload_image(img_url, uri)
+            data["image_r2_key"] = r2_image
+            results.append(data)
+            print(f"    ✓ {data.get('fullName', 'OK')}")
         else:
-            print(f"    ✗ Scraping failed")
             failed.append(url)
-
-        merged = {}
-        for k, v in api_data.items():
-            merged[f"api_{k}"] = v
-        for k, v in scraped_data.items():
-            merged[f"scraped_{k}"] = v
-
-        results.append(merged)
-        time.sleep(1)
+            print(f"    ✗ Failed")
 
     # Retry
     if failed:
         print(f"\nRetrying {len(failed)} failed URLs...")
         still_failed = []
         for url in failed:
-            scraped_data = parse_user_details(url)
-            if scraped_data:
-                for row in results:
-                    if row.get("api_profile_url") == url:
-                        for k, v in scraped_data.items():
-                            row[f"scraped_{k}"] = v
+            data = parse_user_details(url)
+            if data:
+                user = uri_map.get(url, {})
+                img_url  = user.get("personalPictureUrl", "")
+                uri      = user.get("uriCode", "")
+                r2_image = download_and_upload_image(img_url, uri)
+                data["image_r2_key"] = r2_image
+                results.append(data)
                 print(f"  ✓ {url}")
             else:
                 still_failed.append(url)
                 print(f"  ✗ {url}")
+
         failed = still_failed
 
     print(f"\nSTEP 3: Saving {len(results)} users to Excel...")
     df = pd.DataFrame(results)
-    #print(df['scraped_title'])
-
-    columns_order = [
-        'api_profile_url', 'api_full_name', 'scraped_name',
-        'api_title', 'scraped_title',
-        'api_city', 'api_country', 'scraped_city', 'scraped_country',
-        'api_total_experience_years', 'api_employment_type', 'api_views_count',
-        'api_picture_url', 'scraped_availability', 'scraped_availability_types',
-        'scraped_summary', 'scraped_work_experience', 'scraped_education',
-        'scraped_skills', 'scraped_languages', 'scraped_certifications',
-        'scraped_social_links'
-    ]
-    columns_order = [c for c in columns_order if c in df.columns]
-    df = df[columns_order]
-
     df.to_excel(output_excel, index=False, sheet_name="users")
     print(f"Saved: {output_excel}")
 
@@ -349,9 +200,9 @@ def run(output_excel: str = "users.xlsx", start_page: int = 0, end_page: int = N
     print(f"\nDONE: {len(results)} users | {len(failed)} failed | {int(elapsed//60)}m {int(elapsed%60)}s")
 
     return {
-        "total":       len(raw_users),
-        "success":     len(results) - len(failed),
-        "failed":      len(failed),
+        "total":   len(raw_users),
+        "success": len(results),
+        "failed":  len(failed),
         "failed_urls": failed
     }
 
@@ -359,9 +210,6 @@ def run(output_excel: str = "users.xlsx", start_page: int = 0, end_page: int = N
 if __name__ == "__main__":
     start = int(sys.argv[1]) if len(sys.argv) > 1 else 0
     end   = int(sys.argv[2]) if len(sys.argv) > 2 else None
-
-    #start = 0
-    #end   = 0
 
     run(
         output_excel=f"users_{start}_{end}.xlsx",

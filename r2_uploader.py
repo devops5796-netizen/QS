@@ -4,6 +4,8 @@ from pathlib import Path
 from datetime import datetime
 import boto3
 import io
+from dotenv import load_dotenv
+load_dotenv()
 
 CF_R2_ACCESS_KEY = os.getenv('CF_R2_ACCESS_KEY_ID')
 CF_R2_SECRET_KEY = os.getenv('CF_R2_SECRET_ACCESS_KEY')
