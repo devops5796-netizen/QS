@@ -172,7 +172,7 @@ jobs:
 
           dfs    = [pd.read_excel(f) for f in files]
           merged = pd.concat(dfs, ignore_index=True)
-          merged = merged.drop_duplicates(subset=['api_profile_url'], keep='first')
+          merged = merged.drop_duplicates(subset=['profile_url'], keep='first')
           total  = len(merged)
           print(f"Merged {len(files)} files | {total} total users")
 
