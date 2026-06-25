@@ -339,6 +339,7 @@ def run(links_csv: str, output_json: str, workers: int = 5, category: str = ""):
                         "showroom_url": data.get("showroom_url"),
                         "posted_time": data.get("posted_time"),
                         "sold_date": data.get("sold_date"),
+                        "expired_on": data.get("expired_on"),
                         "fans_count": data.get("fans_count"),
                         "view_count": data.get("view_count"),
                         "description": data.get("description"),
