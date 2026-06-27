@@ -187,7 +187,12 @@ jobs:
           from datetime import datetime
 
           files = glob.glob('csv_parts/*.csv')
+          if not files:
+            print("No CSV files found. Nothing to merge.")
+            exit(0)
+
           dfs = [pd.read_csv(f) for f in files]
+
           merged = pd.concat(dfs, ignore_index=True)
           merged = merged.drop_duplicates(subset=['product_url'], keep='first')
           merged.to_excel('cars_for_sale.xlsx', index=False)
