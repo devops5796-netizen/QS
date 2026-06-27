@@ -313,6 +313,8 @@ jobs:
           import glob
 
           failed = []
+          total_processed = 0
+
           for f in glob.glob('csv_parts/*_failed.txt'):
               with open(f, 'r', encoding='utf-8') as file:
                   for line in file:
@@ -320,12 +322,29 @@ jobs:
                       if line.startswith('http'):
                           failed.append(line)
 
+          files = glob.glob('csv_parts/*.csv')
+          for f in files:
+              total_processed += len(pd.read_csv(f))
+
+          failed_count = len(failed)
+          total_attempted = total_processed + failed_count
+
+          failed_percentage = (
+              (failed_count / total_attempted) * 100
+              if total_attempted > 0 else 0
+          )
+
           with open('failed_urls.txt', 'w', encoding='utf-8') as f:
-              f.write(f'Total Failed URLs: {len(failed)}\n\n')
+              f.write(f'Total Processed URLs: {total_processed}\n')
+              f.write(f'Total Failed URLs: {failed_count}\n')
+              f.write(f'Failed URL Percentage: {failed_percentage:.2f}%\n\n')
+
               for u in failed:
                   f.write(u + '\n')
 
-          print(f'Total failed URLs: {len(failed)}')
+          print(f'Total failed URLs: {failed_count}')
+          print(f'Failed percentage: {failed_percentage:.2f}%')
+
           EOF
       
       - name: Upload failed URLs to R2
