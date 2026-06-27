@@ -52,12 +52,12 @@ def main():
     print("QatarSale Scraper - Full Pipeline")
     print(f"URL: {LISTING_URL} | Pages: {start} to {end}")
 
-    """
     summary["links"]    = links_scraper.run(LISTING_URL, start, end, links_csv)
 
     print("\n" + "="*50)
     print("STEP 1.5: Filtering yesterday's links...")
     print("="*50)
+    """
     summary["filter"]   = filter_yesterday_links(links_csv, filtered_csv)
     
     if summary["filter"]["yesterday"] == 0:
@@ -92,7 +92,7 @@ def main():
     print("\n" + "="*60)
     print("FINAL SUMMARY")
     print("="*60)
-    print(f"STEP 1   - Links:    {summary['links']['success']} pages OK | {summary['links']['failed']} failed | {summary['links']['total_links']} total")
+    print(f"STEP 1 - Links:    {summary['links']['success']} pages OK | {summary['links']['failed']} failed | {summary['links']['total_links']} total links")
     #print(f"STEP 1.5 - Filter:   {summary['filter']['yesterday']} yesterday / {summary['filter']['total']} total")
     print(f"STEP 2   - Products: {summary['products']['success']} scraped | {summary['products']['failed']} failed")
     print(f"STEP 3   - Flatten:  {summary['flatten']['columns']} columns")
