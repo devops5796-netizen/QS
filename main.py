@@ -57,7 +57,7 @@ def main():
     print("\n" + "="*50)
     print("STEP 1.5: Filtering yesterday's links...")
     print("="*50)
-    """
+    
     summary["filter"]   = filter_yesterday_links(links_csv, filtered_csv)
     
     if summary["filter"]["yesterday"] == 0:
@@ -81,8 +81,8 @@ def main():
         print("="*60)
 
         return
-    """
-    summary["products"] = products_scraper.run(links_csv, products_json, workers=6, category=category)
+    
+    summary["products"] = products_scraper.run(filtered_csv, products_json, workers=6, category=category)
     summary["flatten"]  = flatten.run(products_json, products_flat_csv)
 
     elapsed = time.time() - elapsed_start
@@ -93,7 +93,7 @@ def main():
     print("FINAL SUMMARY")
     print("="*60)
     print(f"STEP 1 - Links:    {summary['links']['success']} pages OK | {summary['links']['failed']} failed | {summary['links']['total_links']} total links")
-    #print(f"STEP 1.5 - Filter:   {summary['filter']['yesterday']} yesterday / {summary['filter']['total']} total")
+    print(f"STEP 1.5 - Filter:   {summary['filter']['yesterday']} yesterday / {summary['filter']['total']} total")
     print(f"STEP 2   - Products: {summary['products']['success']} scraped | {summary['products']['failed']} failed")
     print(f"STEP 3   - Flatten:  {summary['flatten']['columns']} columns")
     print(f"Total Time: {minutes}m {seconds}s")
