@@ -311,6 +311,7 @@ jobs:
         run: |
           python << 'EOF'
           import glob
+          import pandas as pd
 
           failed = []
           total_processed = 0
