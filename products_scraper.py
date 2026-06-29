@@ -98,7 +98,8 @@ def download_images(images: list, product_url: str = "", category: str = "", fmt
                     failed += 1
             else:
                 failed += 1
-        except Exception:
+        except Exception as e:
+            print(f"  Image download failed: {e}")
             failed += 1
 
     print(f"  Images: {uploaded} uploaded, {failed} failed out of {len(images)}")
