@@ -8,6 +8,7 @@ from PIL import Image
 import io
 from r2_uploader import upload_buffer
 import sys
+from datetime import datetime, timezone, timedelta
 
 API_URL = "https://production-api.qatarsale.com/api/Opportunity/Search"
 BASE_JOB_URL = "https://qatarsale.com/ar/jobs/opportunity"
@@ -128,6 +129,42 @@ def download_and_upload_image(img_url: str, job_uri: str) -> str:
         print(f"  [ERROR] Image upload failed for {job_uri}: {e}")
         return ""
 
+def filter_yesterday_links(jobs: list[dict]) -> dict:
+    """
+    Filter jobs to keep only those with activatedAt equal to yesterday's date.
+    Returns dict with total, yesterday count, and filtered list.
+    """
+    # Convert list to DataFrame for easier filtering
+    df = pd.DataFrame(jobs)
+    
+    # Check if activatedAt column exists (using activatedAt as in the API response)
+    if "activatedAt" not in df.columns:
+        print("⚠️ No activatedAt column found, using all jobs")
+        return {
+            "total": len(df), 
+            "yesterday": len(df),
+            "filtered_jobs": jobs  # return all jobs if no date column
+        }
+
+    # Parse dates - same logic as original
+    df["date_parsed"] = pd.to_datetime(df["activatedAt"], format="ISO8601", utc=True)
+    yesterday = datetime.now(timezone.utc).date() - timedelta(days=1)
+    mask = df["date_parsed"].dt.date == yesterday
+    df_yesterday = df[mask].drop(columns=["date_parsed"])
+
+    print(f"  Total jobs:     {len(df)}")
+    print(f"  Yesterday jobs: {len(df_yesterday)}")
+
+    # Convert filtered DataFrame back to list of dicts
+    filtered_jobs = df_yesterday.to_dict('records')
+    
+    return {
+        "total": len(df), 
+        "yesterday": len(df_yesterday),
+        "filtered_jobs": filtered_jobs
+    }
+
+
 
 def run(output_excel: str = "jobs.xlsx", start_page: int = 0, end_page: int = None) -> dict:
     print("=" * 50)
@@ -144,7 +181,7 @@ def run(output_excel: str = "jobs.xlsx", start_page: int = 0, end_page: int = No
         print("No jobs found!")
         return {"total": 0, "success": 0, "failed": 0, "failed_urls": []}
 
-    print("\nSTEP 2: Scraping job details...")
+    print("\nSTEP 2: Filtering & Scraping job details for yesterday...")
     results = []
     failed  = []
     uri_map = {f"{BASE_JOB_URL}/{job.get('uri', '')}": job for job in raw_jobs}
@@ -158,11 +195,19 @@ def run(output_excel: str = "jobs.xlsx", start_page: int = 0, end_page: int = No
         data = parse_job_details(url) if url else {}
 
         if data:
-            img_url  = job.get("companyPicture", "")
-            r2_image = download_and_upload_image(img_url, uri)
-            data["image_r2_key"] = r2_image
-            results.append(data)
-            print(f"    ✓ {data.get('jobTitleName', 'N/A')} | {data.get('companyName', 'N/A')}")
+            # Filter by activatedAt here
+            filter_result = filter_yesterday_links([data])
+            filtered_data = filter_result["filtered_jobs"]
+            
+            if filtered_data:
+                # Only process if it's yesterday's job
+                img_url = job.get("companyPicture", "")
+                r2_image = download_and_upload_image(img_url, uri)
+                data["image_r2_key"] = r2_image
+                results.append(data)
+                print(f"    ✓ {data.get('jobTitleName', 'N/A')} | {data.get('companyName', 'N/A')} (yesterday)")
+            else:
+                print(f"      Skipped (not yesterday): {data.get('jobTitleName', 'N/A')}")
         else:
             failed.append(url)
             print(f"    ✗ Failed")

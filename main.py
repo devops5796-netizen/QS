@@ -3,9 +3,9 @@ import time
 import links_scraper
 import products_scraper
 import flatten
-from dotenv import load_dotenv
 import pandas as pd
 from datetime import datetime, timezone, timedelta
+from dotenv import load_dotenv
 load_dotenv()
 
 LISTING_URL   = "https://qatarsale.com/ar/products/cars_for_sale?basic_search:StatusFilter=0"
@@ -54,7 +54,7 @@ def main():
 
     summary["links"]    = links_scraper.run(LISTING_URL, start, end, links_csv)
 
-    """print("\n" + "="*50)
+    print("\n" + "="*50)
     print("STEP 1.5: Filtering yesterday's links...")
     print("="*50)
     
@@ -80,9 +80,9 @@ def main():
         print(f"Total Time: {minutes}m {seconds}s")
         print("="*60)
 
-        return"""
+        return
     
-    summary["products"] = products_scraper.run(links_csv, products_json, workers=6, category=category)
+    summary["products"] = products_scraper.run(filtered_csv, products_json, workers=6, category=category)
     summary["flatten"]  = flatten.run(products_json, products_flat_csv)
 
     elapsed = time.time() - elapsed_start
@@ -93,7 +93,7 @@ def main():
     print("FINAL SUMMARY")
     print("="*60)
     print(f"STEP 1 - Links:    {summary['links']['success']} pages OK | {summary['links']['failed']} failed | {summary['links']['total_links']} total links")
-    #print(f"STEP 1.5 - Filter:   {summary['filter']['yesterday']} yesterday / {summary['filter']['total']} total")
+    print(f"STEP 1.5 - Filter:   {summary['filter']['yesterday']} yesterday / {summary['filter']['total']} total")
     print(f"STEP 2   - Products: {summary['products']['success']} scraped | {summary['products']['failed']} failed")
     print(f"STEP 3   - Flatten:  {summary['flatten']['columns']} columns")
     print(f"Total Time: {minutes}m {seconds}s")

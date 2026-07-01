@@ -184,7 +184,30 @@ jobs:
           # Merge Excel
           files = glob.glob('excel_parts/*.xlsx')
           if not files:
-              print("No Excel files found!")
+              print("No Excel files found. Nothing to merge.")
+              now = datetime.now()
+              with open('scrape_summary.txt', 'w', encoding='utf-8') as f:
+                  f.write(f'=== Jobs ===\n')
+                  f.write(f'Run Date: {now.strftime("%Y-%m-%d %H:%M:%S")} UTC\n')
+                  f.write(f'Status: NO DATA\n')
+                  f.write(f'Total Rows: 0\n')
+                  f.write(f'Files Merged: 0\n')
+              # Create empty excel
+              pd.DataFrame().to_excel('Jobs.xlsx', index=False)
+
+              # Upload Excel
+              output_file = "jobs.xlsx"
+              key = f"{base}/excel/jobs.xlsx"
+              client.upload_file(output_file, bucket, key,
+                  ExtraArgs={'ContentType': 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet'})
+              print(f"Uploaded: {key}")
+
+              # Upload Summary
+              key = f"{base}/summary/scrape_summary.txt"
+              client.upload_file("scrape_summary.txt", bucket, key,
+                  ExtraArgs={'ContentType': 'text/plain; charset=utf-8'})
+              print(f"Uploaded: {key}")
+
               exit(0)
 
           dfs    = [pd.read_excel(f) for f in files]

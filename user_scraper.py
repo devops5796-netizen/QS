@@ -8,6 +8,7 @@ from PIL import Image
 import io
 from r2_uploader import upload_buffer
 import sys
+from datetime import datetime, timezone, timedelta
 
 API_URL = "https://production-api.qatarsale.com/api/ApplicantProfile/Search"
 BASE_PROFILE_URL = "https://qatarsale.com/ar/jobs/user/profile"
@@ -127,6 +128,41 @@ def download_and_upload_image(img_url: str, user_uri: str) -> str:
         print(f"  [ERROR] Image upload failed for {user_uri}: {e}")
         return ""
 
+def filter_yesterday_links(users: list[dict]) -> dict:
+    """
+    Filter users to keep only those with activatedAt equal to yesterday's date.
+    Returns dict with total, yesterday count, and filtered list.
+    """
+    # Convert list to DataFrame for easier filtering
+    df = pd.DataFrame(users)
+    
+    # Check if activatedAt column exists (using activatedAt as in the API response)
+    if "activatedAt" not in df.columns:
+        print("⚠️ No activatedAt column found, using all users")
+        return {
+            "total": len(df), 
+            "yesterday": len(df),
+            "filtered_users": users  # return all users if no date column
+        }
+
+    # Parse dates - same logic as original
+    df["date_parsed"] = pd.to_datetime(df["activatedAt"], format="ISO8601", utc=True)
+    yesterday = datetime.now(timezone.utc).date() - timedelta(days=1)
+    mask = df["date_parsed"].dt.date == yesterday
+    df_yesterday = df[mask].drop(columns=["date_parsed"])
+
+    print(f"  Total users:     {len(df)}")
+    print(f"  Yesterday users: {len(df_yesterday)}")
+
+    # Convert filtered DataFrame back to list of dicts
+    filtered_users = df_yesterday.to_dict('records')
+    
+    return {
+        "total": len(df), 
+        "yesterday": len(df_yesterday),
+        "filtered_users": filtered_users
+    }
+
 def run(output_excel: str = "users.xlsx", start_page: int = 0, end_page: int = None) -> dict:
     print("=" * 50)
     print("QatarSale Users Scraper")
@@ -142,7 +178,7 @@ def run(output_excel: str = "users.xlsx", start_page: int = 0, end_page: int = N
         print("No users found!")
         return {"total": 0, "success": 0, "failed": 0}
 
-    print("\nSTEP 2: Scraping user details...")
+    print("\nSTEP 2: Filtering & Scraping user details for yesterday...")
     results = []
     failed  = []
     uri_map = {f"{BASE_PROFILE_URL}/{user.get('uriCode', '')}": user for user in raw_users}
@@ -156,11 +192,19 @@ def run(output_excel: str = "users.xlsx", start_page: int = 0, end_page: int = N
         data = parse_user_details(url) if url else {}
 
         if data:
-            img_url  = user.get("personalPictureUrl", "")
-            r2_image = download_and_upload_image(img_url, uri)
-            data["image_r2_key"] = r2_image
-            results.append(data)
-            print(f"    ✓ {data.get('fullName', 'OK')}")
+            # Filter by activatedAt here
+            filter_result = filter_yesterday_links([data])
+            filtered_data = filter_result["filtered_users"]
+            
+            if filtered_data:
+                # Only process if it's yesterday's user
+                img_url  = user.get("personalPictureUrl", "")
+                r2_image = download_and_upload_image(img_url, uri)
+                data["image_r2_key"] = r2_image
+                results.append(data)
+                print(f"    ✓ {data.get('fullName', 'OK')}")
+            else:
+                print(f"      Skipped (not yesterday): {data.get('fullName', 'N/A')}")
         else:
             failed.append(url)
             print(f"    ✗ Failed")
@@ -185,7 +229,7 @@ def run(output_excel: str = "users.xlsx", start_page: int = 0, end_page: int = N
 
         failed = still_failed
 
-    print(f"\nSTEP 3: Saving {len(results)} users to Excel...")
+    print(f"\nSTEP 4: Saving {len(results)} users to Excel...")
     df = pd.DataFrame(results)
     df.to_excel(output_excel, index=False, sheet_name="users")
     print(f"Saved: {output_excel}")
