@@ -448,17 +448,6 @@ jobs:
 
           rows = []
 
-          # Removed
-          for id_ in removed_ids:
-              row = previous_indexed.loc[id_]
-              rows.append({
-                  "id":            id_,
-                  "product_url":   row.get("product_url", ""),
-                  "isSold":        row.get("isSold", ""),
-                  "isExpired":     row.get("isExpired", ""),
-                  "status_change": "removed"
-              })
-
           # Remaining - check changes
           for id_ in remaining_ids:
               if id_ not in current_indexed.index or id_ not in previous_indexed.index:
@@ -499,7 +488,6 @@ jobs:
               "sold":       int((monitor_df["status_change"] == "sold").sum()),
               "rent":       int((monitor_df["status_change"] == "rent").sum()),
               "expired":    int((monitor_df["status_change"] == "expired").sum()),
-              "removed":    int((monitor_df["status_change"] == "removed").sum()),
               "no_change":  int((monitor_df["status_change"] == "no_change").sum()),
           }
           json_path = f"monitor/monitor_{category}.json"
@@ -509,7 +497,6 @@ jobs:
           print(f"  Sold:    {summary['sold']}")
           print(f"  Rent:    {summary['rent']}")
           print(f"  Expired: {summary['expired']}")
-          print(f"  Removed: {summary['removed']}")
           print(f"  No Change: {summary['no_change']}")
 
           # ── Upload both to R2 ──
