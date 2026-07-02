@@ -206,17 +206,12 @@ jobs:
           merged = pd.concat(dfs, ignore_index=True)
           merged = merged.drop_duplicates(subset=['product_url'], keep='first')
           merged.to_excel('cars_for_sale.xlsx', index=False)
-          records = merged.astype(object).where(pd.notna(merged), None).to_dict(orient="records")
-          json_path = "cars_for_sale.json"
-
-          with open(json_path, "w", encoding="utf-8") as f:
-              json.dump(
-                  records,
-                  f,
-                  ensure_ascii=False,
-                  indent=2,
-                  default=str
-              )
+          json_file = f"cars_for_sale.json"
+          json_data = merged.to_dict(orient='records')
+          with open(json_file, 'w', encoding='utf-8') as f:
+              json.dump(json_data, f, ensure_ascii=False, indent=2)
+          
+          print(f"JSON saved: {json_file} ({len(json_data)} records)")
 
           total = len(merged)
           now = datetime.now()
@@ -274,6 +269,19 @@ jobs:
               client.upload_file(f, bucket, key,
                   ExtraArgs={'ContentType': 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet'})
               print(f"Uploaded: {key}")
+
+              # Convert each Excel to JSON and upload
+              df_split = pd.read_excel(f)
+              json_split_file = f"{os.path.splitext(f)[0]}.json"
+              df_split.to_dict(orient='records')
+              with open(json_split_file, 'w', encoding='utf-8') as jf:
+                  json.dump(df_split.to_dict(orient='records'), jf, ensure_ascii=False, indent=2)
+                  
+              json_prefix = f"qatarsale/year={dt.year}/month={dt.strftime('%m')}/day={dt.strftime('%d')}/cars_for_sale/json/by_manufacturer"
+              json_key = f"{json_prefix}/{os.path.basename(json_split_file)}"
+              client.upload_file(json_split_file, bucket, json_key,
+                  ExtraArgs={'ContentType': 'application/json; charset=utf-8'})
+              print(f"Uploaded JSON: {json_key}")
           EOF
 
       - name: Upload final Excel to R2
