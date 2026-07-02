@@ -206,7 +206,7 @@ jobs:
           merged = pd.concat(dfs, ignore_index=True)
           merged = merged.drop_duplicates(subset=['product_url'], keep='first')
           merged.to_excel('cars_for_sale.xlsx', index=False)
-          json_file = f"cars_for_sale.json"
+          json_file = "cars_for_sale.json"
           json_data = merged.to_dict(orient='records')
           with open(json_file, 'w', encoding='utf-8') as f:
               json.dump(json_data, f, ensure_ascii=False, indent=2)

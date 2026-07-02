@@ -203,6 +203,12 @@ jobs:
                   ExtraArgs={'ContentType': 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet'})
               print(f"Uploaded: {key}")
 
+              # Upload JSON
+              key = f"{base}/json/jobs.json"
+              client.upload_file("jobs.json", bucket, key,
+                  ExtraArgs={'ContentType': 'application/json; charset=utf-8'})
+              print(f"Uploaded: {key}")
+
               # Upload Summary
               key = f"{base}/summary/scrape_summary.txt"
               client.upload_file("scrape_summary.txt", bucket, key,
@@ -214,19 +220,15 @@ jobs:
           dfs    = [pd.read_excel(f) for f in files]
           merged = pd.concat(dfs, ignore_index=True)
           merged = merged.drop_duplicates(subset=['job_url'], keep='first')
-          total  = len(merged)
-          records = merged.astype(object).where(pd.notna(merged), None).to_dict(orient="records")
-          json_path = "jobs.json"
-
-          with open(json_path, "w", encoding="utf-8") as f:
-              json.dump(
-                  records,
-                  f,
-                  ensure_ascii=False,
-                  indent=2,
-                  default=str
-              )
+          total = len(merged)
           print(f"Merged {len(files)} files | {total} total jobs")
+
+          # ── Save JSON ──
+          json_file = "jobs.json"
+          json_data = merged.to_dict(orient='records')
+          with open(json_file, 'w', encoding='utf-8') as f:
+              json.dump(json_data, f, ensure_ascii=False, indent=2)
+          print(f"JSON saved: {json_file} ({len(json_data)} records)")
 
           output_file = "jobs.xlsx"
           merged.to_excel(output_file, index=False, sheet_name="jobs")
