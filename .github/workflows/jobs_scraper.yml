@@ -169,6 +169,7 @@ jobs:
           import pandas as pd
           import glob, os, boto3
           from datetime import datetime
+          import json
 
           dt     = datetime.now()
           base   = f"qatarsale/year={dt.year}/month={dt.strftime('%m')}/day={dt.strftime('%d')}/jobs"
@@ -193,7 +194,7 @@ jobs:
                   f.write(f'Total Rows: 0\n')
                   f.write(f'Files Merged: 0\n')
               # Create empty excel
-              pd.DataFrame().to_excel('Jobs.xlsx', index=False)
+              pd.DataFrame().to_excel('jobs.xlsx', index=False)
 
               # Upload Excel
               output_file = "jobs.xlsx"
@@ -214,6 +215,17 @@ jobs:
           merged = pd.concat(dfs, ignore_index=True)
           merged = merged.drop_duplicates(subset=['job_url'], keep='first')
           total  = len(merged)
+          records = merged.astype(object).where(pd.notna(merged), None).to_dict(orient="records")
+          json_path = "jobs.json"
+
+          with open(json_path, "w", encoding="utf-8") as f:
+              json.dump(
+                  records,
+                  f,
+                  ensure_ascii=False,
+                  indent=2,
+                  default=str
+              )
           print(f"Merged {len(files)} files | {total} total jobs")
 
           output_file = "jobs.xlsx"
@@ -224,6 +236,17 @@ jobs:
           client.upload_file(output_file, bucket, key,
               ExtraArgs={'ContentType': 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet'})
           print(f"Uploaded: {key}")
+
+          key_j = f"{base}/json/jobs.json"
+          
+          client.upload_file(
+              "jobs.json",
+              bucket,
+              key_j,
+              ExtraArgs={"ContentType": "application/json; charset=utf-8"}
+          )
+          print(f"Uploaded: {key_j}")
+
 
           # Summary
           summary_file = "scrape_summary.txt"

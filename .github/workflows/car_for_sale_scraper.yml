@@ -185,6 +185,7 @@ jobs:
           import pandas as pd
           import glob
           from datetime import datetime
+          import json
 
           files = glob.glob('csv_parts/*.csv')
           if not files:
@@ -205,6 +206,17 @@ jobs:
           merged = pd.concat(dfs, ignore_index=True)
           merged = merged.drop_duplicates(subset=['product_url'], keep='first')
           merged.to_excel('cars_for_sale.xlsx', index=False)
+          records = merged.astype(object).where(pd.notna(merged), None).to_dict(orient="records")
+          json_path = "cars_for_sale.json"
+
+          with open(json_path, "w", encoding="utf-8") as f:
+              json.dump(
+                  records,
+                  f,
+                  ensure_ascii=False,
+                  indent=2,
+                  default=str
+              )
 
           total = len(merged)
           now = datetime.now()
@@ -288,6 +300,16 @@ jobs:
           client.upload_file('cars_for_sale.xlsx', bucket, key,
               ExtraArgs={'ContentType': 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet'})
           print(f'Uploaded: {key}')
+
+          key = f"qatarsale/year={dt.year}/month={dt.strftime('%m')}/day={dt.strftime('%d')}/cars_for_sale/json/cars_for_sale.json"
+          
+          client.upload_file(
+              "cars_for_sale.json",
+              bucket,
+              key,
+              ExtraArgs={"ContentType": "application/json; charset=utf-8"}
+          )
+          print(f"Uploaded: {key}")
           EOF
 
       - name: Upload summary to R2
@@ -472,8 +494,17 @@ jobs:
                   "isExpired":     curr.get("isExpired", ""),
                   "status_change": status
               })
-
-          monitor_df = pd.DataFrame(rows)
+      
+          monitor_df = pd.DataFrame(
+              rows,
+              columns=[
+                  "id",
+                  "product_url",
+                  "isSold",
+                  "isExpired",
+                  "status_change",
+              ]
+          )
 
           # ── Save Excel ──
           os.makedirs("monitor", exist_ok=True)
