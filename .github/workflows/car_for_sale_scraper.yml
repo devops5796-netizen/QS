@@ -78,7 +78,7 @@ jobs:
 
           print(f"Last page: {last_page}")
 
-          N_JOBS = 20
+          N_JOBS = 40
 
           pages_per_job = math.ceil(last_page / N_JOBS)
 
