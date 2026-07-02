@@ -251,7 +251,7 @@ jobs:
           CF_R2_BUCKET_NAME: ${{ secrets.CF_R2_BUCKET_NAME }}
         run: |
           python << 'EOF'
-          import boto3, os, glob
+          import boto3, os, glob, json
           from datetime import datetime
           import pandas as pd
 
