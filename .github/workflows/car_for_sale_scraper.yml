@@ -45,11 +45,11 @@ jobs:
 
           def get_last_page():
             fetcher = StealthyFetcher(auto_match=False)
-            page = fetcher.fetch(url)
+            page = fetcher.fetch(URL)
         
             script = page.find("script", {"id": "serverApp-state"})
             if not script:
-                print(f"⚠️ No serverApp-state: {url}")
+                print(f"⚠️ No serverApp-state: {URL}")
 
             raw = (script.text
                   .replace("&q;", '"')
