@@ -50,7 +50,6 @@ jobs:
             script = page.find("script", {"id": "serverApp-state"})
             if not script:
                 print(f"⚠️ No serverApp-state: {url}")
-                continue
 
             raw = (script.text
                   .replace("&q;", '"')
