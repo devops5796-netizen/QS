@@ -38,33 +38,40 @@ jobs:
           import json
           import math
           import os
-          from scrapling.fetchers import StealthyFetcher
+          from scrapling.fetchers import PlayWrightFetcher
 
+          def get_last_page(max_retries=4):
+              for attempt in range(1, max_retries + 1):
+                  page = PlayWrightFetcher().fetch(
+                      URL,
+                      stealth=True,          
+                      headless=True,
+                      network_idle=True, 
+                      disable_resources=False, 
+                  )
 
-          URL = "https://qatarsale.com/ar/products/cars_for_sale?basic_search:StatusFilter=0"
+                  status = getattr(page, "status", None)
+                  script = page.find("script", {"id": "serverApp-state"})
 
-          def get_last_page():
-            fetcher = StealthyFetcher(auto_match=False)
-            page = fetcher.fetch(URL)
-        
-            script = page.find("script", {"id": "serverApp-state"})
-            if not script:
-                print(f"⚠️ No serverApp-state: {URL}")
+                  if status == 200 and script:
+                      raw = (script.text
+                            .replace("&q;", '"')
+                            .replace("&l;", "<")
+                            .replace("&g;", ">")
+                            .replace("&a;", "&")
+                            .replace("&s;", "'"))
+                      data = json.loads(raw)
+                      pages_count = data["ProductList"]["pagesCount"]
+                      print(f"✅ pagesCount: {pages_count}")
+                      return pages_count
 
-            raw = (script.text
-                  .replace("&q;", '"')
-                  .replace("&l;", "<")
-                  .replace("&g;", ">")
-                  .replace("&a;", "&")
-                  .replace("&s;", "'"))
+                  print(f"⚠️ Attempt {attempt}/{max_retries} failed "
+                        f"(status={status}, has_script={bool(script)})")
+                  if attempt < max_retries:
+                      time.sleep(5 * attempt)
 
-            data = json.loads(raw)
-            print(data.keys())
-            print(data['ProductList']['pagesCount'])
-
-            return max(numbers) if numbers else 1
-
-
+              raise RuntimeError("❌ Failed after retries")
+           
           last_page = get_last_page()
 
           print(f"Last page: {last_page}")
