@@ -22,41 +22,82 @@ jobs:
           playwright install-deps chromium
           python -m patchright install chromium
 
-      - name: Test curl_cffi
+      - name: Test via Google referer
         run: |
-          pip install curl_cffi
           python << 'EOF'
-          from curl_cffi import requests
+          from patchright.sync_api import sync_playwright
+          import time
 
-          URL = "https://qatarsale.com/ar/products/cars_for_sale?basic_search:StatusFilter=0"
+          TARGET_URL = "https://qatarsale.com/ar/products/cars_for_sale?basic_search:StatusFilter=0"
 
-          headers = {
-              "Accept": "text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8",
-              "Accept-Language": "ar-QA,ar;q=0.9,en-US;q=0.8,en;q=0.7",
-              "Referer": "https://www.google.com/",
-          }
+          with sync_playwright() as p:
+              browser = p.chromium.launch(headless=True)
+              context = browser.new_context(
+                  user_agent="Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 "
+                             "(KHTML, like Gecko) Chrome/124.0.0.0 Safari/537.36",
+                  locale="ar-QA",
+                  viewport={"width": 1920, "height": 1080},
+              )
+              page = context.new_page()
 
-          # impersonate بيخلي TLS fingerprint + headers order + HTTP2 settings زي Chrome الحقيقي
-          response = requests.get(
-              URL,
-              headers=headers,
-              impersonate="chrome124",
-              timeout=30
-          )
+              # الخطوة 1: نفتح جوجل ونعمل بحث فعلي
+              print("Step 1: Opening Google search...")
+              try:
+                  response = page.goto(
+                      "https://www.google.com/search?q=qatarsale+cars+for+sale",
+                      wait_until="domcontentloaded",
+                      timeout=30000
+                  )
+                  print(f"Google search status: {response.status if response else 'N/A'}")
+                  time.sleep(3)
+                  page.screenshot(path="/tmp/step1_google.png", full_page=True)
+              except Exception as e:
+                  print(f"⚠️ Google step failed: {e}")
+                  page.screenshot(path="/tmp/step1_google_error.png", full_page=True)
 
-          print("=== Status Code ===")
-          print(response.status_code)
+              # الخطوة 2: ندخل على qatarsale بـ referer جوجل
+              print("\nStep 2: Navigating to qatarsale with Google referer...")
+              try:
+                  response = page.goto(
+                      TARGET_URL,
+                      wait_until="domcontentloaded",
+                      timeout=30000,
+                      referer="https://www.google.com/search?q=qatarsale+cars+for+sale"
+                  )
+                  print(f"Qatarsale status: {response.status if response else 'N/A'}")
+              except Exception as e:
+                  print(f"⚠️ Navigation failed: {e}")
 
-          print("\n=== Response Headers ===")
-          for k, v in response.headers.items():
-              print(f"{k}: {v}")
+              time.sleep(10)
 
-          print("\n=== Body (first 1500 chars) ===")
-          print(response.text[:1500])
+              print(f"\nPage title: {page.title()}")
+              print(f"Final URL: {page.url}")
 
-          print("\n=== Has serverApp-state? ===")
-          print("serverApp-state" in response.text)
+              has_script = page.evaluate(
+                  "!!document.getElementById('serverApp-state')"
+              )
+              print(f"Has serverApp-state: {has_script}")
+
+              page.screenshot(path="/tmp/step2_qatarsale.png", full_page=True)
+
+              with open("/tmp/step2_page.html", "w", encoding="utf-8") as f:
+                  f.write(page.content())
+
+              browser.close()
           EOF
+
+      - name: Upload debug artifacts
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: google-referer-test
+          path: |
+            /tmp/step1_google.png
+            /tmp/step1_google_error.png
+            /tmp/step2_qatarsale.png
+            /tmp/step2_page.html
+          retention-days: 3
+          if-no-files-found: ignore
 
       - name: Detect pages
         id: build_matrix
