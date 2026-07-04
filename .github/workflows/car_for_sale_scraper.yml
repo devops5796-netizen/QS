@@ -1,8 +1,6 @@
 name: QatarSale Scraper
 
 on:
-  schedule:
-    - cron: '0 0 * * *'  
   workflow_dispatch:
 
 jobs:
@@ -41,7 +39,26 @@ jobs:
           import time
           from scrapling.fetchers import DynamicFetcher
 
-          URL = "https://qatarsale.com/ar/products/cars_for_rent?basic_search:StatusFilter=0"
+          URL = "https://qatarsale.com/ar/products/cars_for_sale?basic_search:StatusFilter=0"
+
+          REALISTIC_HEADERS = {
+              "Accept": "text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,*/*;q=0.8",
+              "Accept-Language": "ar-QA,ar;q=0.9,en-US;q=0.8,en;q=0.7",
+              "Accept-Encoding": "gzip, deflate, br",
+              "Cache-Control": "no-cache",
+              "Pragma": "no-cache",
+              "Sec-Ch-Ua": '"Chromium";v="124", "Google Chrome";v="124", "Not-A.Brand";v="99"',
+              "Sec-Ch-Ua-Mobile": "?0",
+              "Sec-Ch-Ua-Platform": '"Windows"',
+              "Sec-Fetch-Dest": "document",
+              "Sec-Fetch-Mode": "navigate",
+              "Sec-Fetch-Site": "none",
+              "Sec-Fetch-User": "?1",
+              "Upgrade-Insecure-Requests": "1",
+              "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 "
+                            "(KHTML, like Gecko) Chrome/124.0.0.0 Safari/537.36",
+              "Referer": "https://www.google.com/",
+          }
 
           def get_last_page(max_retries=4):
               for attempt in range(1, max_retries + 1):
@@ -49,8 +66,10 @@ jobs:
                       URL,
                       headless=True,
                       network_idle=True,
-                      stealth=True,    
+                      stealth=True,
                       disable_resources=False,
+                      extra_headers=REALISTIC_HEADERS,
+                      google_search=False,
                   )
 
                   status = getattr(page, "status", None)
@@ -74,7 +93,7 @@ jobs:
                       time.sleep(5 * attempt)
 
               raise RuntimeError("❌ Failed after retries")
-           
+
           last_page = get_last_page()
 
           print(f"Last page: {last_page}")

@@ -82,7 +82,7 @@ def main():
 
         return
     
-    summary["products"] = products_scraper.run(filtered_csv, products_json, workers=6, category=category)
+    summary["products"] = products_scraper.run(filtered_csv, products_json, workers=3, category=category)
     summary["flatten"]  = flatten.run(products_json, products_flat_csv)
 
     elapsed = time.time() - elapsed_start
