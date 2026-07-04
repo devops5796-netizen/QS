@@ -22,82 +22,41 @@ jobs:
           playwright install-deps chromium
           python -m patchright install chromium
 
-      - name: Test via Google referer
+      - name: Test Products API on GitHub Actions
         run: |
           python << 'EOF'
-          from patchright.sync_api import sync_playwright
-          import time
+          import requests
 
-          TARGET_URL = "https://qatarsale.com/ar/products/cars_for_sale?basic_search:StatusFilter=0"
+          URL = "https://production-api.qatarsale.com/api/v2/Products"
 
-          with sync_playwright() as p:
-              browser = p.chromium.launch(headless=True)
-              context = browser.new_context(
-                  user_agent="Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 "
-                             "(KHTML, like Gecko) Chrome/124.0.0.0 Safari/537.36",
-                  locale="ar-QA",
-                  viewport={"width": 1920, "height": 1080},
-              )
-              page = context.new_page()
+          payload = {
+              "url": "/ar/products/cars_for_sale?basic_search:StatusFilter=0",
+              "includeFavs": False,
+              "pageSize": 36
+          }
 
-              # الخطوة 1: نفتح جوجل ونعمل بحث فعلي
-              print("Step 1: Opening Google search...")
-              try:
-                  response = page.goto(
-                      "https://www.google.com/search?q=qatarsale+cars+for+sale",
-                      wait_until="domcontentloaded",
-                      timeout=30000
-                  )
-                  print(f"Google search status: {response.status if response else 'N/A'}")
-                  time.sleep(3)
-                  page.screenshot(path="/tmp/step1_google.png", full_page=True)
-              except Exception as e:
-                  print(f"⚠️ Google step failed: {e}")
-                  page.screenshot(path="/tmp/step1_google_error.png", full_page=True)
+          headers = {
+              "Content-Type": "application/json",
+              "Accept": "application/json",
+              "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 "
+                            "(KHTML, like Gecko) Chrome/124.0.0.0 Safari/537.36",
+              "Referer": "https://qatarsale.com/",
+              "Origin": "https://qatarsale.com",
+          }
 
-              # الخطوة 2: ندخل على qatarsale بـ referer جوجل
-              print("\nStep 2: Navigating to qatarsale with Google referer...")
-              try:
-                  response = page.goto(
-                      TARGET_URL,
-                      wait_until="domcontentloaded",
-                      timeout=30000,
-                      referer="https://www.google.com/search?q=qatarsale+cars+for+sale"
-                  )
-                  print(f"Qatarsale status: {response.status if response else 'N/A'}")
-              except Exception as e:
-                  print(f"⚠️ Navigation failed: {e}")
+          response = requests.post(URL, json=payload, headers=headers, timeout=30)
 
-              time.sleep(10)
+          print(f"Status: {response.status_code}")
 
-              print(f"\nPage title: {page.title()}")
-              print(f"Final URL: {page.url}")
-
-              has_script = page.evaluate(
-                  "!!document.getElementById('serverApp-state')"
-              )
-              print(f"Has serverApp-state: {has_script}")
-
-              page.screenshot(path="/tmp/step2_qatarsale.png", full_page=True)
-
-              with open("/tmp/step2_page.html", "w", encoding="utf-8") as f:
-                  f.write(page.content())
-
-              browser.close()
+          if response.status_code == 200:
+              data = response.json()
+              print(f"✅ pagesCount: {data['pagesCount']}")
+              print(f"✅ totalCount: {data['totalCount']}")
+          else:
+              print(f"❌ Failed")
+              print(f"Headers: {dict(response.headers)}")
+              print(f"Body (first 1000 chars): {response.text[:1000]}")
           EOF
-
-      - name: Upload debug artifacts
-        if: always()
-        uses: actions/upload-artifact@v4
-        with:
-          name: google-referer-test
-          path: |
-            /tmp/step1_google.png
-            /tmp/step1_google_error.png
-            /tmp/step2_qatarsale.png
-            /tmp/step2_page.html
-          retention-days: 3
-          if-no-files-found: ignore
 
       - name: Detect pages
         id: build_matrix
