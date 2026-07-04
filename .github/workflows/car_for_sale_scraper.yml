@@ -1,18 +1,13 @@
-name: QatarSale Scraper
+name: QatarSale Scraper - Debug
 
 on:
   workflow_dispatch:
 
 jobs:
   detect_pages:
-
     runs-on: ubuntu-latest
 
-    outputs:
-      matrix: ${{ steps.build_matrix.outputs.matrix }}
-
     steps:
-
       - uses: actions/checkout@v4
 
       - uses: actions/setup-python@v5
@@ -27,44 +22,73 @@ jobs:
           playwright install-deps chromium
           python -m patchright install chromium
 
-      - name: Diagnose response
+      - name: Debug with screenshot
         run: |
           python << 'EOF'
-          import requests
+          from patchright.sync_api import sync_playwright
+          import time
 
           URL = "https://qatarsale.com/ar/products/cars_for_sale?basic_search:StatusFilter=0"
 
-          headers = {
-              "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 "
-                            "(KHTML, like Gecko) Chrome/124.0.0.0 Safari/537.36",
-              "Accept": "text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8",
-              "Accept-Language": "ar-QA,ar;q=0.9,en-US;q=0.8,en;q=0.7",
-              "Referer": "https://www.google.com/",
-          }
+          with sync_playwright() as p:
+              browser = p.chromium.launch(headless=True)
+              context = browser.new_context(
+                  user_agent="Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 "
+                             "(KHTML, like Gecko) Chrome/124.0.0.0 Safari/537.36",
+                  locale="ar-QA",
+                  viewport={"width": 1920, "height": 1080},
+              )
+              page = context.new_page()
 
-          try:
-              response = requests.get(URL, headers=headers, timeout=30, allow_redirects=True)
+              print("Navigating...")
+              response = page.goto(URL, wait_until="domcontentloaded", timeout=60000)
+              print(f"Initial status: {response.status if response else 'N/A'}")
 
-              print("=== Final URL ===")
-              print(response.url)
+              # ننتظر وقت كافي عشان الـ challenge يتحل
+              print("Waiting for potential challenge to resolve...")
+              time.sleep(15)
 
-              print("\n=== Status Code ===")
-              print(response.status_code)
+              print(f"Page title: {page.title()}")
+              print(f"Final URL: {page.url}")
 
-              print("\n=== Response Headers ===")
-              for k, v in response.headers.items():
-                  print(f"{k}: {v}")
+              # نجرب نستنى لحد ما الـ title يتغير من "Just a moment"
+              try:
+                  page.wait_for_function(
+                      "document.title !== 'Just a moment...'",
+                      timeout=20000
+                  )
+                  print("✅ Title changed, challenge might be resolved")
+              except Exception as e:
+                  print(f"⚠️ Title didn't change: {e}")
 
-              print("\n=== Redirect History ===")
-              for r in response.history:
-                  print(f"{r.status_code} -> {r.url}")
+              print(f"Final title after wait: {page.title()}")
 
-              print("\n=== Body (first 2000 chars) ===")
-              print(response.text[:2000])
+              # هل السيرفر state موجود دلوقتي؟
+              has_script = page.evaluate(
+                  "!!document.getElementById('serverApp-state')"
+              )
+              print(f"Has serverApp-state: {has_script}")
 
-          except requests.exceptions.RequestException as e:
-              print(f"❌ Request exception: {type(e).__name__}: {e}")
+              # screenshot
+              page.screenshot(path="/tmp/debug_screenshot.png", full_page=True)
+              print("Screenshot saved")
+
+              # نحفظ الـ HTML كمان للمراجعة
+              with open("/tmp/debug_page.html", "w", encoding="utf-8") as f:
+                  f.write(page.content())
+
+              browser.close()
           EOF
+
+      - name: Upload debug artifacts
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: debug-artifacts
+          path: |
+            /tmp/debug_screenshot.png
+            /tmp/debug_page.html
+          retention-days: 3
 
       - name: Detect pages
         id: build_matrix
