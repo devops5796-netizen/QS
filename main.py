@@ -9,6 +9,7 @@ from dotenv import load_dotenv
 load_dotenv()
 
 LISTING_URL   = "https://qatarsale.com/ar/products/cars_for_sale?basic_search:StatusFilter=0"
+LISTING_PATH  = "/ar/products/cars_for_sale?basic_search:StatusFilter=0"
 START_PAGE    = 1
 END_PAGE      = 10
 
@@ -21,7 +22,7 @@ def filter_yesterday_links(links_csv: str, filtered_csv: str) -> dict:
         return {"total": len(df), "yesterday": len(df)}
 
     df["date_parsed"] = pd.to_datetime(df["startDate"], format="ISO8601", utc=True)
-    yesterday = datetime.now(timezone.utc).date() - timedelta(days=0)
+    yesterday = datetime.now(timezone.utc).date() - timedelta(days=2)
     mask = df["date_parsed"].dt.date == yesterday
     df_yesterday = df[mask].drop(columns=["date_parsed"])
 
@@ -50,9 +51,9 @@ def main():
     summary = {}
 
     print("QatarSale Scraper - Full Pipeline")
-    print(f"URL: {LISTING_URL} | Pages: {start} to {end}")
+    print(f"URL: {LISTING_PATH} | Pages: {start} to {end}")
 
-    summary["links"]    = links_scraper.run(LISTING_URL, start, end, links_csv)
+    summary["links"]    = links_scraper.run(LISTING_PATH, start, end, links_csv)
 
     print("\n" + "="*50)
     print("STEP 1.5: Filtering yesterday's links...")

@@ -3,6 +3,7 @@ import time
 import random
 import requests
 import pandas as pd
+from urllib.parse import urlencode
 
 API_URL = "https://production-api.qatarsale.com/api/v2/Products"
 BASE_PRODUCT_URL = "https://qatarsale.com/ar/product"
@@ -17,12 +18,17 @@ HEADERS = {
 }
 
 
-def fetch_page(listing_path: str, page_num: int, page_size: int = 36) -> dict:
+def build_listing_url(base_path: str, page_num: int) -> str:
+    separator = "&" if "?" in base_path else "?"
+    return f"{base_path}{separator}page={page_num}"
+
+
+def fetch_page(base_path: str, page_num: int, page_size: int = 36) -> dict:
+    url_with_page = build_listing_url(base_path, page_num)
     payload = {
-        "url": listing_path,
+        "url": url_with_page,
         "includeFavs": False,
         "pageSize": page_size,
-        "currentPage": page_num - 1,  
     }
     response = requests.post(API_URL, json=payload, headers=HEADERS, timeout=30)
     response.raise_for_status()
@@ -101,7 +107,7 @@ def run(listing_path: str, start_page: int, end_page: int, output_csv: str):
 
 if __name__ == "__main__":
     result = run(
-        listing_path="/ar/products/wrist_watches-watches?basic_search:StatusFilter=0",
+        listing_path="/ar/products/cars_for_sale?basic_search:StatusFilter=0",
         start_page=1,
         end_page=5,
         output_csv="product_links.csv",
