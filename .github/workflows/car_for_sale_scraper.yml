@@ -22,73 +22,41 @@ jobs:
           playwright install-deps chromium
           python -m patchright install chromium
 
-      - name: Debug with screenshot
+      - name: Test curl_cffi
         run: |
+          pip install curl_cffi
           python << 'EOF'
-          from patchright.sync_api import sync_playwright
-          import time
+          from curl_cffi import requests
 
           URL = "https://qatarsale.com/ar/products/cars_for_sale?basic_search:StatusFilter=0"
 
-          with sync_playwright() as p:
-              browser = p.chromium.launch(headless=True)
-              context = browser.new_context(
-                  user_agent="Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 "
-                             "(KHTML, like Gecko) Chrome/124.0.0.0 Safari/537.36",
-                  locale="ar-QA",
-                  viewport={"width": 1920, "height": 1080},
-              )
-              page = context.new_page()
+          headers = {
+              "Accept": "text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8",
+              "Accept-Language": "ar-QA,ar;q=0.9,en-US;q=0.8,en;q=0.7",
+              "Referer": "https://www.google.com/",
+          }
 
-              print("Navigating...")
-              response = page.goto(URL, wait_until="domcontentloaded", timeout=60000)
-              print(f"Initial status: {response.status if response else 'N/A'}")
+          # impersonate بيخلي TLS fingerprint + headers order + HTTP2 settings زي Chrome الحقيقي
+          response = requests.get(
+              URL,
+              headers=headers,
+              impersonate="chrome124",
+              timeout=30
+          )
 
-              # ننتظر وقت كافي عشان الـ challenge يتحل
-              print("Waiting for potential challenge to resolve...")
-              time.sleep(15)
+          print("=== Status Code ===")
+          print(response.status_code)
 
-              print(f"Page title: {page.title()}")
-              print(f"Final URL: {page.url}")
+          print("\n=== Response Headers ===")
+          for k, v in response.headers.items():
+              print(f"{k}: {v}")
 
-              # نجرب نستنى لحد ما الـ title يتغير من "Just a moment"
-              try:
-                  page.wait_for_function(
-                      "document.title !== 'Just a moment...'",
-                      timeout=20000
-                  )
-                  print("✅ Title changed, challenge might be resolved")
-              except Exception as e:
-                  print(f"⚠️ Title didn't change: {e}")
+          print("\n=== Body (first 1500 chars) ===")
+          print(response.text[:1500])
 
-              print(f"Final title after wait: {page.title()}")
-
-              # هل السيرفر state موجود دلوقتي؟
-              has_script = page.evaluate(
-                  "!!document.getElementById('serverApp-state')"
-              )
-              print(f"Has serverApp-state: {has_script}")
-
-              # screenshot
-              page.screenshot(path="/tmp/debug_screenshot.png", full_page=True)
-              print("Screenshot saved")
-
-              # نحفظ الـ HTML كمان للمراجعة
-              with open("/tmp/debug_page.html", "w", encoding="utf-8") as f:
-                  f.write(page.content())
-
-              browser.close()
+          print("\n=== Has serverApp-state? ===")
+          print("serverApp-state" in response.text)
           EOF
-
-      - name: Upload debug artifacts
-        if: always()
-        uses: actions/upload-artifact@v4
-        with:
-          name: debug-artifacts
-          path: |
-            /tmp/debug_screenshot.png
-            /tmp/debug_page.html
-          retention-days: 3
 
       - name: Detect pages
         id: build_matrix
