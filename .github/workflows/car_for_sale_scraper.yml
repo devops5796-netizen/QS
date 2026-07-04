@@ -55,8 +55,6 @@ jobs:
 
           response = requests.post(URL, json=payload, headers=headers, timeout=30)
 
-          print(f"Status: {response.status_code}")
-
           if response.status_code == 200:
               data = response.json()
               print(f"✅ pagesCount: {data['pagesCount']}")
