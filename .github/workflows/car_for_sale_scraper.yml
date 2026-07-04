@@ -38,16 +38,18 @@ jobs:
           import json
           import math
           import os
-          from scrapling.fetchers import PlayWrightFetcher
+          from scrapling.fetchers import DynamicFetcher
+
+          URL = "https://qatarsale.com/ar/products/cars_for_rent?basic_search:StatusFilter=0"
 
           def get_last_page(max_retries=4):
               for attempt in range(1, max_retries + 1):
-                  page = PlayWrightFetcher().fetch(
+                  page = DynamicFetcher.fetch(
                       URL,
-                      stealth=True,          
                       headless=True,
-                      network_idle=True, 
-                      disable_resources=False, 
+                      network_idle=True,
+                      stealth=True,    
+                      disable_resources=False,
                   )
 
                   status = getattr(page, "status", None)
