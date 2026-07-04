@@ -25,42 +25,6 @@ jobs:
           playwright install-deps chromium
           python -m patchright install chromium
 
-      - name: Test Products API on GitHub Actions
-        run: |
-          python << 'EOF'
-          import requests
-
-          URL = "https://production-api.qatarsale.com/api/v2/Products"
-
-          payload = {
-              "url": "/ar/products/cars_for_sale?basic_search:StatusFilter=0",
-              "includeFavs": False,
-              "pageSize": 36
-          }
-
-          headers = {
-              "Content-Type": "application/json",
-              "Accept": "application/json",
-              "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 "
-                            "(KHTML, like Gecko) Chrome/124.0.0.0 Safari/537.36",
-              "Referer": "https://qatarsale.com/",
-              "Origin": "https://qatarsale.com",
-          }
-
-          response = requests.post(URL, json=payload, headers=headers, timeout=30)
-
-          print(f"Status: {response.status_code}")
-
-          if response.status_code == 200:
-              data = response.json()
-              print(f"✅ pagesCount: {data['pagesCount']}")
-              print(f"✅ totalCount: {data['totalCount']}")
-          else:
-              print(f"❌ Failed")
-              print(f"Headers: {dict(response.headers)}")
-              print(f"Body (first 1000 chars): {response.text[:1000]}")
-          EOF
-
       - name: Detect pages
         id: build_matrix
 
@@ -68,6 +32,9 @@ jobs:
           python << 'EOF'
 
           import requests
+          import json
+          import math
+          import os
 
           URL = "https://production-api.qatarsale.com/api/v2/Products"
 
