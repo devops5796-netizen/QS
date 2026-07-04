@@ -38,6 +38,7 @@ jobs:
           import json
           import math
           import os
+          import time
           from scrapling.fetchers import DynamicFetcher
 
           URL = "https://qatarsale.com/ar/products/cars_for_rent?basic_search:StatusFilter=0"
