@@ -1,4 +1,4 @@
-name: QatarSale Scraper - Debug
+name: QatarSale Scraper
 
 on:
   workflow_dispatch:
@@ -6,6 +6,9 @@ on:
 jobs:
   detect_pages:
     runs-on: ubuntu-latest
+
+    outputs:
+      matrix: ${{ steps.build_matrix.outputs.matrix }}
 
     steps:
       - uses: actions/checkout@v4
@@ -64,71 +67,41 @@ jobs:
         run: |
           python << 'EOF'
 
-          import json
-          import math
-          import os
-          import time
-          from scrapling.fetchers import DynamicFetcher
+          import requests
 
-          URL = "https://qatarsale.com/ar/products/cars_for_sale?basic_search:StatusFilter=0"
+          URL = "https://production-api.qatarsale.com/api/v2/Products"
 
-          REALISTIC_HEADERS = {
-              "Accept": "text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,*/*;q=0.8",
-              "Accept-Language": "ar-QA,ar;q=0.9,en-US;q=0.8,en;q=0.7",
-              "Accept-Encoding": "gzip, deflate, br",
-              "Cache-Control": "no-cache",
-              "Pragma": "no-cache",
-              "Sec-Ch-Ua": '"Chromium";v="124", "Google Chrome";v="124", "Not-A.Brand";v="99"',
-              "Sec-Ch-Ua-Mobile": "?0",
-              "Sec-Ch-Ua-Platform": '"Windows"',
-              "Sec-Fetch-Dest": "document",
-              "Sec-Fetch-Mode": "navigate",
-              "Sec-Fetch-Site": "none",
-              "Sec-Fetch-User": "?1",
-              "Upgrade-Insecure-Requests": "1",
-              "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 "
-                            "(KHTML, like Gecko) Chrome/124.0.0.0 Safari/537.36",
-              "Referer": "https://www.google.com/",
+          payload = {
+              "url": "/ar/products/cars_for_sale?basic_search:StatusFilter=0",
+              "includeFavs": False,
+              "pageSize": 36
           }
 
-          def get_last_page(max_retries=4):
-              for attempt in range(1, max_retries + 1):
-                  page = DynamicFetcher.fetch(
-                      URL,
-                      headless=True,
-                      network_idle=True,
-                      stealth=True,
-                      disable_resources=False,
-                      extra_headers=REALISTIC_HEADERS,
-                      google_search=False,
-                  )
+          headers = {
+              "Content-Type": "application/json",
+              "Accept": "application/json",
+              "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 "
+                            "(KHTML, like Gecko) Chrome/124.0.0.0 Safari/537.36",
+              "Referer": "https://qatarsale.com/",
+              "Origin": "https://qatarsale.com",
+          }
 
-                  status = getattr(page, "status", None)
-                  script = page.find("script", {"id": "serverApp-state"})
+          response = requests.post(URL, json=payload, headers=headers, timeout=30)
 
-                  if status == 200 and script:
-                      raw = (script.text
-                            .replace("&q;", '"')
-                            .replace("&l;", "<")
-                            .replace("&g;", ">")
-                            .replace("&a;", "&")
-                            .replace("&s;", "'"))
-                      data = json.loads(raw)
-                      pages_count = data["ProductList"]["pagesCount"]
-                      print(f"✅ pagesCount: {pages_count}")
-                      return pages_count
+          print(f"Status: {response.status_code}")
 
-                  print(f"⚠️ Attempt {attempt}/{max_retries} failed "
-                        f"(status={status}, has_script={bool(script)})")
-                  if attempt < max_retries:
-                      time.sleep(5 * attempt)
+          if response.status_code == 200:
+              data = response.json()
+              print(f"✅ pagesCount: {data['pagesCount']}")
+              print(f"✅ totalCount: {data['totalCount']}")
+          else:
+              print(f"❌ Failed")
+              print(f"Headers: {dict(response.headers)}")
+              print(f"Body (first 1000 chars): {response.text[:1000]}")
 
-              raise RuntimeError("❌ Failed after retries")
-
-          last_page = get_last_page()
-
-          print(f"Last page: {last_page}")
-
+          last_page = data['pagesCount']
+          last_page = 5
+          
           N_JOBS = 40
 
           pages_per_job = math.ceil(last_page / N_JOBS)
@@ -154,7 +127,6 @@ jobs:
               f.write(f"matrix={json.dumps(matrix)}")
 
           EOF
-
 
   scrape:
     needs: detect_pages
