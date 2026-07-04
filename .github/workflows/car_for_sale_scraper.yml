@@ -27,6 +27,45 @@ jobs:
           playwright install-deps chromium
           python -m patchright install chromium
 
+      - name: Diagnose response
+        run: |
+          python << 'EOF'
+          import requests
+
+          URL = "https://qatarsale.com/ar/products/cars_for_sale?basic_search:StatusFilter=0"
+
+          headers = {
+              "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 "
+                            "(KHTML, like Gecko) Chrome/124.0.0.0 Safari/537.36",
+              "Accept": "text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8",
+              "Accept-Language": "ar-QA,ar;q=0.9,en-US;q=0.8,en;q=0.7",
+              "Referer": "https://www.google.com/",
+          }
+
+          try:
+              response = requests.get(URL, headers=headers, timeout=30, allow_redirects=True)
+
+              print("=== Final URL ===")
+              print(response.url)
+
+              print("\n=== Status Code ===")
+              print(response.status_code)
+
+              print("\n=== Response Headers ===")
+              for k, v in response.headers.items():
+                  print(f"{k}: {v}")
+
+              print("\n=== Redirect History ===")
+              for r in response.history:
+                  print(f"{r.status_code} -> {r.url}")
+
+              print("\n=== Body (first 2000 chars) ===")
+              print(response.text[:2000])
+
+          except requests.exceptions.RequestException as e:
+              print(f"❌ Request exception: {type(e).__name__}: {e}")
+          EOF
+
       - name: Detect pages
         id: build_matrix
 
