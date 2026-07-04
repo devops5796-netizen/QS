@@ -44,7 +44,7 @@ jobs:
           URL = "https://qatarsale.com/ar/products/cars_for_sale?basic_search:StatusFilter=0"
 
           def get_last_page():
-
+            fetcher = StealthyFetcher(auto_match=False)
             page = fetcher.fetch(url)
         
             script = page.find("script", {"id": "serverApp-state"})
