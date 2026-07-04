@@ -38,40 +38,32 @@ jobs:
           import json
           import math
           import os
+          from scrapling.fetchers import StealthyFetcher
 
-          from scrapling import StealthyFetcher
 
           URL = "https://qatarsale.com/ar/products/cars_for_sale?basic_search:StatusFilter=0"
 
           def get_last_page():
 
-              page = StealthyFetcher.fetch(
-                  URL,
-                  headless=True,
-                  network_idle=True,
-                  timeout=30000
-              )
+            page = fetcher.fetch(url)
+        
+            script = page.find("script", {"id": "serverApp-state"})
+            if not script:
+                print(f"⚠️ No serverApp-state: {url}")
+                continue
 
-              numbers = []
+            raw = (script.text
+                  .replace("&q;", '"')
+                  .replace("&l;", "<")
+                  .replace("&g;", ">")
+                  .replace("&a;", "&")
+                  .replace("&s;", "'"))
 
-              for el in page.find_all("[data-testid^='at-paginator-page-']"):
+            data = json.loads(raw)
+            print(data.keys())
+            print(data['ProductList']['pagesCount'])
 
-                  a = el.find("a")
-
-                  if not a:
-                      continue
-
-                  href = a.attrib.get("href", "")
-
-                  if "page=" not in href:
-                      continue
-
-                  try:
-                      numbers.append(int(href.split("page=")[-1]))
-                  except ValueError:
-                      pass
-
-              return max(numbers) if numbers else 1
+            return max(numbers) if numbers else 1
 
 
           last_page = get_last_page()
