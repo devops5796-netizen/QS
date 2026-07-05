@@ -134,6 +134,7 @@ jobs:
           path: |
             all_products_flat_${{ matrix.start }}_${{ matrix.end }}.csv
             all_products_${{ matrix.start }}_${{ matrix.end }}_failed.txt
+            request_stats_${{ matrix.start }}_${{ matrix.end }}.json
   merge:
     runs-on: ubuntu-latest
     needs: scrape
@@ -166,6 +167,29 @@ jobs:
           import glob
           from datetime import datetime
           import json
+
+          stats_files = glob.glob('csv_parts/request_stats_*.json')
+          all_job_stats = []
+
+          for f in stats_files:
+              with open(f, 'r', encoding='utf-8') as sf:
+                  job_stat = json.load(sf)
+                  job_stat["job_file"] = f
+                  all_job_stats.append(job_stat)
+
+          if all_job_stats:
+              total_requests_all = sum(s["total_requests"] for s in all_job_stats)
+              avg_req_per_min = sum(s["total_req_per_min"] for s in all_job_stats) / len(all_job_stats)
+
+              with open("performance_report.json", "w", encoding="utf-8") as f:
+                  json.dump({
+                      "total_jobs": len(all_job_stats),
+                      "total_requests_all_jobs": total_requests_all,
+                      "avg_req_per_min_across_jobs": round(avg_req_per_min, 2),
+                      "per_job": all_job_stats
+                  }, f, ensure_ascii=False, indent=2)
+
+              print(f"Performance report: {total_requests_all} total requests across {len(all_job_stats)} jobs, avg {round(avg_req_per_min, 2)} req/min")
 
           files = glob.glob('csv_parts/*.csv')
           if not files:
@@ -392,6 +416,35 @@ jobs:
           client.upload_file('failed_urls.txt', bucket, key,
               ExtraArgs={'ContentType': 'text/plain; charset=utf-8'})
           print(f'Uploaded failed URLs: {key}')
+          EOF
+
+      - name: Upload performance report to R2
+        env:
+          CF_R2_ACCESS_KEY_ID: ${{ secrets.CF_R2_ACCESS_KEY_ID }}
+          CF_R2_SECRET_ACCESS_KEY: ${{ secrets.CF_R2_SECRET_ACCESS_KEY }}
+          CF_R2_ENDPOINT_URL: ${{ secrets.CF_R2_ENDPOINT_URL }}
+          CF_R2_BUCKET_NAME: ${{ secrets.CF_R2_BUCKET_NAME }}
+        run: |
+          python << 'EOF'
+          import boto3, os
+          from datetime import datetime
+
+          client = boto3.client('s3',
+              endpoint_url=os.environ['CF_R2_ENDPOINT_URL'],
+              aws_access_key_id=os.environ['CF_R2_ACCESS_KEY_ID'],
+              aws_secret_access_key=os.environ['CF_R2_SECRET_ACCESS_KEY'],
+              region_name='auto'
+          )
+          dt = datetime.now()
+          bucket = os.environ['CF_R2_BUCKET_NAME']
+          key = f"qatarsale/year={dt.year}/month={dt.strftime('%m')}/day={dt.strftime('%d')}/cars_for_sale/summary/performance_report.json"
+
+          if os.path.exists('performance_report.json'):
+              client.upload_file('performance_report.json', bucket, key,
+                  ExtraArgs={'ContentType': 'application/json; charset=utf-8'})
+              print(f'Uploaded: {key}')
+          else:
+              print('No performance_report.json found, skipping.')
           EOF
       
       

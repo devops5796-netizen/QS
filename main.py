@@ -1,11 +1,12 @@
 import sys
-import time
 import links_scraper
 import products_scraper
 import flatten
 import pandas as pd
 from datetime import datetime, timezone, timedelta
+import time
 from dotenv import load_dotenv
+from request_tracker import tracker
 load_dotenv()
 
 LISTING_URL   = "https://qatarsale.com/ar/products/cars_for_sale?basic_search:StatusFilter=0"
@@ -53,6 +54,7 @@ def main():
     print("QatarSale Scraper - Full Pipeline")
     print(f"URL: {LISTING_PATH} | Pages: {start} to {end}")
 
+
     summary["links"]    = links_scraper.run(LISTING_PATH, start, end, links_csv)
 
     """print("\n" + "="*50)
@@ -98,6 +100,14 @@ def main():
     print(f"STEP 2   - Products: {summary['products']['success']} scraped | {summary['products']['failed']} failed")
     print(f"STEP 3   - Flatten:  {summary['flatten']['columns']} columns")
     print(f"Total Time: {minutes}m {seconds}s")
+    stats_file = f"request_stats_{start}_{end}.json"
+    stats = tracker.save(stats_file)
+
+    print(f"\n--- Combined Request Stats ---")
+    print(f"Total: {stats['total_requests']} req | {stats['total_req_per_min']} req/min")
+    print(f"By source: {stats['per_source']}")
+    for worker, s in stats["per_worker"].items():
+        print(f"  {worker}: {s['requests']} req | {s['req_per_min']} req/min")
     print("="*60)
 
 if __name__ == "__main__":

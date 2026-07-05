@@ -7,6 +7,7 @@ from PIL import Image
 import io
 from r2_uploader import upload_buffer
 import sys
+from request_tracker import tracker
 
 API_URL = "https://production-api.qatarsale.com/api/Opportunity/Search"
 DETAILS_API_URL = "https://production-api.qatarsale.com/api/Opportunity/GetOpportunityDetails"
@@ -33,6 +34,7 @@ def get_all_jobs(start_page: int = 0, end_page: int = None) -> list[dict]:
             "countries": [], "languages": [], "cities": [], "degrees": [],
             "skills": [], "userId": None, "isFavorite": False, "yearsOfExperience": []
         }
+        tracker.log_request(source="jobs_search")
         r = req.post(API_URL, json=payload, headers=HEADERS, timeout=30)
         data = r.json()
         end_page = data.get("pagesCount", 1) - 1
@@ -47,6 +49,7 @@ def get_all_jobs(start_page: int = 0, end_page: int = None) -> list[dict]:
             "skills": [], "userId": None, "isFavorite": False, "yearsOfExperience": []
         }
         try:
+            tracker.log_request(source="jobs_search")
             r = req.post(API_URL, json=payload, headers=HEADERS, timeout=30)
             r.raise_for_status()
             data = r.json()
@@ -70,6 +73,7 @@ def parse_job_details(uri: str) -> dict:
     url = f"{BASE_JOB_URL}/{uri}"
 
     try:
+        tracker.log_request(source="jobs_details")
         response = req.get(
             DETAILS_API_URL,
             params={"uri": uri, "forEdit": "false"},
@@ -104,15 +108,20 @@ def download_and_upload_image(img_url: str, job_uri: str) -> str:
         if r.status_code == 200:
             img = Image.open(io.BytesIO(r.content))
             output_buffer = io.BytesIO()
-            img.save(output_buffer, format="PNG")
-            filename = f"{job_uri}.png"
+            img.save(
+                    output_buffer,
+                    format="WEBP",
+                    quality=100,
+                    method=6
+                )
+            filename = f"{job_uri}.webp"
             r2_key = upload_buffer(
                 output_buffer,
                 filename=filename,
                 folder_name="qatarsale",
                 category="jobs",
                 file_type="images",
-                content_type="image/png"
+                content_type="image/webp"
             )
             return r2_key or ""
         return ""
@@ -229,6 +238,11 @@ def run(output_excel: str = "jobs.xlsx", start_page: int = 0, end_page: int = No
 
     elapsed = time.time() - start_time
     print(f"\nDONE: {len(results)} jobs | {len(failed)} failed | {int(elapsed//60)}m {int(elapsed%60)}s")
+
+    stats_file = output_excel.replace(".xlsx", "_request_stats.json")
+    stats = tracker.save(stats_file)
+    print(f"\n--- Request Stats ---")
+    print(f"Total: {stats['total_requests']} req | {stats['total_req_per_min']} req/min")
 
     """return {
         "total": filter_result["total"],

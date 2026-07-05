@@ -7,6 +7,7 @@ from PIL import Image
 import io
 from r2_uploader import upload_buffer
 from concurrent.futures import ThreadPoolExecutor, as_completed
+from request_tracker import tracker
 
 API_BASE = "https://production-api.qatarsale.com/api/v2/Products"
 
@@ -110,7 +111,8 @@ def scrape_single(url: str, category: str = "") -> dict:
     try:
         uri = extract_uri_from_url(url)
         api_url = f"{API_BASE}/{uri}"
-
+        
+        tracker.log_request(source="product_detail") 
         response = req.get(api_url, headers=HEADERS, timeout=30)
 
         if response.status_code != 200:

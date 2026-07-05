@@ -50,6 +50,7 @@ jobs:
           path: |
             users_*.xlsx
             failed_urls*.txt
+            users_*_request_stats.json
           if-no-files-found: ignore
 
   merge_users:
@@ -98,6 +99,17 @@ jobs:
               aws_secret_access_key=os.environ['CF_R2_SECRET_ACCESS_KEY'],
               region_name='auto'
           )
+
+          stats_files = glob.glob('excel_parts/*_request_stats.json')
+          if stats_files:
+              with open(stats_files[0], 'r', encoding='utf-8') as sf:
+                  user_stats = json.load(sf)
+              print(f"Request stats: {user_stats['total_requests']} req | {user_stats['total_req_per_min']} req/min")
+
+              key = f"{base}/summary/request_stats.json"
+              client.upload_file(stats_files[0], bucket, key,
+                  ExtraArgs={'ContentType': 'application/json; charset=utf-8'})
+              print(f"Uploaded: {key}")
 
           files = glob.glob('excel_parts/*.xlsx')
 

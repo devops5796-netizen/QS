@@ -7,6 +7,7 @@ from PIL import Image
 import io
 from r2_uploader import upload_buffer
 from datetime import datetime, timezone, timedelta
+from request_tracker import tracker
 
 API_URL = "https://production-api.qatarsale.com/api/ApplicantProfile/Search"
 DETAILS_API_URL = "https://production-api.qatarsale.com/api/ApplicantProfile/GetProfileDetails"
@@ -33,6 +34,7 @@ def get_all_users(start_page: int = 0, end_page: int = None) -> list[dict]:
             "opportunityUri": None, "skills": [], "workFields": [], "workSpecialities": [],
             "isFavorite": False
         }
+        tracker.log_request(source="users_search")
         r = req.post(API_URL, json=payload, headers=HEADERS, timeout=30)
         data = r.json()
         end_page = data.get("pagesCount", 1) - 1
@@ -47,6 +49,7 @@ def get_all_users(start_page: int = 0, end_page: int = None) -> list[dict]:
             "isFavorite": False
         }
         try:
+            tracker.log_request(source="users_search")
             r = req.post(API_URL, json=payload, headers=HEADERS, timeout=30)
             r.raise_for_status()
             data = r.json()
@@ -70,6 +73,7 @@ def parse_user_details(uri_code: str) -> dict:
     url = f"{BASE_PROFILE_URL}/{uri_code}"
 
     try:
+        tracker.log_request(source="users_details")
         response = req.get(
             DETAILS_API_URL,
             params={"uriCode": uri_code},
@@ -100,15 +104,20 @@ def download_and_upload_image(img_url: str, user_uri: str) -> str:
         if r.status_code == 200:
             img = Image.open(io.BytesIO(r.content))
             output_buffer = io.BytesIO()
-            img.save(output_buffer, format="PNG")
-            filename = f"{user_uri}.png"
+            img.save(
+                    output_buffer,
+                    format="WEBP",
+                    quality=100,
+                    method=6
+                )
+            filename = f"{user_uri}.webp"
             r2_key = upload_buffer(
                 output_buffer,
                 filename=filename,
                 folder_name="qatarsale",
                 category="users",
                 file_type="images",
-                content_type="image/png"
+                content_type="image/webp"
             )
             return r2_key or ""
         return ""
@@ -229,20 +238,21 @@ def run(output_excel: str = "users.xlsx", start_page: int = 0, end_page: int = N
                 still_failed.append(uri)
                 print(f"  ✗ {uri}")"""
             if data:
+                user = uri_map.get(uri, {})
                 img_url = user.get("personalPictureUrl", "")
                 r2_image = download_and_upload_image(img_url, uri)
                 data["image_r2_key"] = r2_image
                 results.append(data)
                 print(f"    ✓ {data.get('fullName', 'OK')} (yesterday)")
             else:
-                failed.append(uri)
-                print(f"    ✗ Failed")
+                still_failed.append(uri)
+                print(f"  ✗ {uri}")
 
         failed = still_failed
 
     print(f"\nSTEP 3: Saving {len(results)} users to Excel...")
     #print(f"  Total checked: {total_checked} | Yesterday: {total_yesterday}")
-    print(f"  Total checked: {total_checked}")
+    #print(f"  Total checked: {total_checked}")
 
     df = pd.DataFrame(results)
     df.to_excel(output_excel, index=False, sheet_name="users")
@@ -256,6 +266,11 @@ def run(output_excel: str = "users.xlsx", start_page: int = 0, end_page: int = N
 
     elapsed = time.time() - start_time
     print(f"\nDONE: {len(results)} users | {len(failed)} failed | {int(elapsed//60)}m {int(elapsed%60)}s")
+
+    stats_file = output_excel.replace(".xlsx", "_request_stats.json")
+    stats = tracker.save(stats_file)
+    print(f"\n--- Request Stats ---")
+    print(f"Total: {stats['total_requests']} req | {stats['total_req_per_min']} req/min")
 
     return {
         "total": len(raw_users),

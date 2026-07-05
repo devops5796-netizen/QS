@@ -1,9 +1,9 @@
-import json
 import time
 import random
 import requests
 import pandas as pd
 from urllib.parse import urlencode
+from request_tracker import tracker
 
 API_URL = "https://production-api.qatarsale.com/api/v2/Products"
 BASE_PRODUCT_URL = "https://qatarsale.com/ar/product"
@@ -30,6 +30,7 @@ def fetch_page(base_path: str, page_num: int, page_size: int = 36) -> dict:
         "includeFavs": False,
         "pageSize": page_size,
     }
+    tracker.log_request(source="listing") 
     response = requests.post(API_URL, json=payload, headers=HEADERS, timeout=30)
     response.raise_for_status()
     return response.json()
