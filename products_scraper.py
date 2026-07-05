@@ -6,36 +6,30 @@ import requests as req
 from PIL import Image
 import io
 from r2_uploader import upload_buffer
-
-from scrapling import StealthyFetcher
 from concurrent.futures import ThreadPoolExecutor, as_completed
 
-def parse_product(page) -> dict:
-    state_script = page.find("script#serverApp-state")
-    
-    if not state_script:
+API_BASE = "https://production-api.qatarsale.com/api/v2/Products"
+
+HEADERS = {
+    "Accept": "application/json",
+    "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 "
+                  "(KHTML, like Gecko) Chrome/124.0.0.0 Safari/537.36",
+    "Referer": "https://qatarsale.com/",
+    "Origin": "https://qatarsale.com",
+}
+
+
+def extract_uri_from_url(product_url: str) -> str:
+    return product_url.rstrip("/").split("/")[-1]
+
+
+def parse_product(api_data: dict) -> dict:
+    if "product" not in api_data:
         return {}
 
-    try:
-        raw = (
-            state_script.text
-            .replace("&q;", '"')
-            .replace("&l;", "<")
-            .replace("&g;", ">")
-            .replace("&a;", "&")
-            .replace("&s;", "'")
-        )
-        state_data = json.loads(raw)
-    except Exception as e:
-        print(f"  Failed to parse state: {e}")
-        return {}
+    product = api_data["product"]
 
-    if "product" not in state_data or "product" not in state_data["product"]:
-        return {}
-
-    product = state_data["product"]["product"]
-    
-    defs_meta = {str(d["id"]): d["label"] for d in state_data["product"].get("defsMetaData", [])}
+    defs_meta = {str(d["id"]): d["label"] for d in api_data.get("defsMetaData", [])}
     specs = {defs_meta[k]: v for k, v in product.get("definitions", {}).items() if k in defs_meta}
 
     phones, whatsapps = [], []
@@ -58,71 +52,81 @@ def parse_product(page) -> dict:
     return row
 
 
-def download_images(images: list, product_url: str = "", category: str = "", fmt: str = "PNG") -> list:
+def download_images(images: list, product_url: str = "", category: str = "", fmt: str = "WEBP") -> list:
     r2_paths = []
     uploaded = 0
     failed = 0
 
-    if fmt.upper() == "JPG":
-        ext = "jpg"
-        content_type = "image/jpeg"
-    else:
-        ext = "png"
-        content_type = "image/png"
+    ext = "webp"
 
     slug = product_url.rstrip("/").split("/")[-1] if product_url else "unknown"
 
     for idx, img_url in enumerate(images, start=1):
-        filename = f"{slug}-{idx}.{ext}" 
+        filename = f"{slug}-{idx}.{ext}"
+
         try:
             r = req.get(img_url, timeout=15)
+
             if r.status_code == 200:
                 img = Image.open(io.BytesIO(r.content))
+
                 output_buffer = io.BytesIO()
-                if fmt.upper() == "JPG":
-                    img = img.convert("RGB")
-                    img.save(output_buffer, format="JPEG", quality=90)
-                else:
-                    img.save(output_buffer, format="PNG")
+
+                img = img.convert("RGB")
+                img.save(
+                    output_buffer,
+                    format="WEBP",
+                    quality=100,
+                    method=6
+                )
+
+                output_buffer.seek(0)
+
                 r2_key = upload_buffer(
                     output_buffer,
                     filename=filename,
                     category=category,
                     file_type="images",
-                    content_type=content_type
+                    content_type="image/webp"
                 )
+
                 if r2_key:
                     r2_paths.append(r2_key)
                     uploaded += 1
                 else:
                     failed += 1
+
             else:
                 failed += 1
+
         except Exception as e:
-            print(f"  Image download failed: {e}")
+            print(f"Image download failed: {e}")
             failed += 1
 
-    print(f"  Images: {uploaded} uploaded, {failed} failed out of {len(images)}")
+    print(f"Images: {uploaded} uploaded, {failed} failed out of {len(images)}")
     return r2_paths
-
 
 def scrape_single(url: str, category: str = "") -> dict:
     try:
-        page = StealthyFetcher.fetch(
-            url,
-            headless=True,
-            network_idle=True,
-            timeout=60000,
-            wait_for_idle_network_timeout=10000
-        )
-        
-        if "not-found" in str(page.url):
-            print(f"  Redirected to not-found: {url}")
+        uri = extract_uri_from_url(url)
+        api_url = f"{API_BASE}/{uri}"
+
+        response = req.get(api_url, headers=HEADERS, timeout=30)
+
+        if response.status_code != 200:
+            print(f"  Bad status {response.status_code}: {url}")
             return {}
-        
-        data = parse_product(page)
+
+        api_data = response.json()
+
+        if not api_data.get("product") or not api_data["product"].get("id"):
+            print(f"  No product data: {url}")
+            return {}
+
+        data = parse_product(api_data)
         if not data:
             return {}
+
         data["product_url"] = url
         data["images_local_paths"] = download_images(
             data.get("images", []),
@@ -133,7 +137,8 @@ def scrape_single(url: str, category: str = "") -> dict:
     except Exception as e:
         print(f"  Error URL: {url} -> {e}")
         return {}
-        
+
+
 def run(links_csv: str, output_json: str, workers: int = 5, category: str = ""):
     print("\n" + "="*50)
     print(f"STEP 2: Scraping product pages ({workers} workers)...")
@@ -166,7 +171,7 @@ def run(links_csv: str, output_json: str, workers: int = 5, category: str = ""):
 
     counters = {"success": 0, "failed": 0}
     lock = threading.Lock()
-    
+
     failed_urls = []
 
     with ThreadPoolExecutor(max_workers=workers) as executor:
@@ -192,7 +197,7 @@ def run(links_csv: str, output_json: str, workers: int = 5, category: str = ""):
                     counters["failed"] += 1
                     failed_urls.append(url)
                 print(f"  Failed: {url}")
-    
+
     # Retry failed URLs
     if failed_urls:
         print(f"\nRetrying {len(failed_urls)} failed URLs...")

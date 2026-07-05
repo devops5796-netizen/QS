@@ -1,16 +1,15 @@
 import json
 import time
 import pandas as pd
-from datetime import datetime
-from scrapling import StealthyFetcher
+from datetime import datetime, timezone, timedelta
 import requests as req
 from PIL import Image
 import io
 from r2_uploader import upload_buffer
 import sys
-from datetime import datetime, timezone, timedelta
 
 API_URL = "https://production-api.qatarsale.com/api/Opportunity/Search"
+DETAILS_API_URL = "https://production-api.qatarsale.com/api/Opportunity/GetOpportunityDetails"
 BASE_JOB_URL = "https://qatarsale.com/ar/jobs/opportunity"
 PAGE_SIZE = 15
 
@@ -64,44 +63,36 @@ def get_all_jobs(start_page: int = 0, end_page: int = None) -> list[dict]:
     return all_jobs
 
 
-def parse_job_details(url: str) -> dict:
+def parse_job_details(uri: str) -> dict:
+    if not uri:
+        return {}
+
+    url = f"{BASE_JOB_URL}/{uri}"
+
     try:
-        page = StealthyFetcher.fetch(
-            url,
-            headless=True,
-            network_idle=True,
-            timeout=60000,
-            wait_for_idle_network_timeout=10000
+        response = req.get(
+            DETAILS_API_URL,
+            params={"uri": uri, "forEdit": "false"},
+            headers=HEADERS,
+            timeout=30
         )
+        response.raise_for_status()
+        result = response.json()
 
-        if "not-found" in str(page.url):
-            print(f"  Redirected to not-found: {url}")
+        if not result.get("status") or "data" not in result:
             return {}
 
-        script = page.find("script#serverApp-state")
-        if not script:
+        job = result["data"]
+        if not job.get("id"):
             return {}
 
-        raw = (script.text
-               .replace("&q;", '"')
-               .replace("&l;", "<")
-               .replace("&g;", ">")
-               .replace("&a;", "&")
-               .replace("&s;", "'"))
-
-        data = json.loads(raw)
-
-        if "jobsOpportunity" not in data or "data" not in data["jobsOpportunity"]:
-            return {}
-
-        job = data["jobsOpportunity"]["data"]
         row = {k: (json.dumps(v, ensure_ascii=False) if isinstance(v, (list, dict)) else v)
                for k, v in job.items()}
         row["job_url"] = url
         return row
 
     except Exception as e:
-        print(f"  [ERROR] {url}: {e}")
+        print(f"  [ERROR] {uri}: {e}")
         return {}
 
 
@@ -129,25 +120,19 @@ def download_and_upload_image(img_url: str, job_uri: str) -> str:
         print(f"  [ERROR] Image upload failed for {job_uri}: {e}")
         return ""
 
+
 def filter_yesterday_links(jobs: list[dict]) -> dict:
-    """
-    Filter jobs to keep only those with activatedAt equal to yesterday's date.
-    Returns dict with total, yesterday count, and filtered list.
-    """
-    # Convert list to DataFrame for easier filtering
     df = pd.DataFrame(jobs)
-    
-    # Check if activatedAt column exists (using activatedAt as in the API response)
-    if "activatedAt" not in df.columns:
-        print("⚠️ No activatedAt column found, using all jobs")
+
+    if "createdAt" not in df.columns:
+        print("⚠️ No createdAt column found, using all jobs")
         return {
-            "total": len(df), 
+            "total": len(df),
             "yesterday": len(df),
-            "filtered_jobs": jobs  # return all jobs if no date column
+            "filtered_jobs": jobs
         }
 
-    # Parse dates - same logic as original
-    df["date_parsed"] = pd.to_datetime(df["activatedAt"], format="ISO8601", utc=True)
+    df["date_parsed"] = pd.to_datetime(df["createdAt"], format="ISO8601", utc=True)
     yesterday = datetime.now(timezone.utc).date() - timedelta(days=1)
     mask = df["date_parsed"].dt.date == yesterday
     df_yesterday = df[mask].drop(columns=["date_parsed"])
@@ -155,15 +140,13 @@ def filter_yesterday_links(jobs: list[dict]) -> dict:
     print(f"  Total jobs:     {len(df)}")
     print(f"  Yesterday jobs: {len(df_yesterday)}")
 
-    # Convert filtered DataFrame back to list of dicts
     filtered_jobs = df_yesterday.to_dict('records')
-    
+
     return {
-        "total": len(df), 
+        "total": len(df),
         "yesterday": len(df_yesterday),
         "filtered_jobs": filtered_jobs
     }
-
 
 
 def run(output_excel: str = "jobs.xlsx", start_page: int = 0, end_page: int = None) -> dict:
@@ -181,56 +164,56 @@ def run(output_excel: str = "jobs.xlsx", start_page: int = 0, end_page: int = No
         print("No jobs found!")
         return {"total": 0, "success": 0, "failed": 0, "failed_urls": []}
 
-    print("\nSTEP 2: Filtering & Scraping job details for yesterday...")
+    """print("\nSTEP 1.5: Filtering jobs created yesterday...")
+    filter_result = filter_yesterday_links(raw_jobs)
+    raw_jobs = filter_result["filtered_jobs"]
+    print(f"  Total jobs:     {filter_result['total']}")
+    print(f"  Yesterday jobs: {filter_result['yesterday']}")
+
+    if not raw_jobs:
+        print("No jobs from yesterday!")
+        return {"total": filter_result["total"], "success": 0, "failed": 0, "failed_urls": []}"""
+
+    print("\nSTEP 2: Scraping job details...")
     results = []
-    failed  = []
-    uri_map = {f"{BASE_JOB_URL}/{job.get('uri', '')}": job for job in raw_jobs}
+    failed = []
+    uri_map = {job.get("uri", ""): job for job in raw_jobs}
 
     for i, job in enumerate(raw_jobs, 1):
         uri = job.get("uri", "")
-        url = f"{BASE_JOB_URL}/{uri}" if uri else ""
 
-        print(f"  [{i}/{len(raw_jobs)}] {url}")
+        print(f"  [{i}/{len(raw_jobs)}] uri={uri}")
 
-        data = parse_job_details(url) if url else {}
+        data = parse_job_details(uri) if uri else {}
 
         if data:
-            # Filter by activatedAt here
-            filter_result = filter_yesterday_links([data])
-            filtered_data = filter_result["filtered_jobs"]
-            
-            if filtered_data:
-                # Only process if it's yesterday's job
+            img_url = job.get("companyPicture", "")
+            r2_image = download_and_upload_image(img_url, uri)
+            data["image_r2_key"] = r2_image
+            results.append(data)
+            print(f"    ✓ {data.get('jobTitleName', 'N/A')} | {data.get('companyName', 'N/A')}")
+        else:
+            failed.append(uri)
+            print(f"    ✗ Failed")
+
+        time.sleep(0.5)
+
+    # Retry failed
+    if failed:
+        print(f"\nRetrying {len(failed)} failed URIs...")
+        still_failed = []
+        for uri in failed:
+            data = parse_job_details(uri)
+            if data:
+                job = uri_map.get(uri, {})
                 img_url = job.get("companyPicture", "")
                 r2_image = download_and_upload_image(img_url, uri)
                 data["image_r2_key"] = r2_image
                 results.append(data)
-                print(f"    ✓ {data.get('jobTitleName', 'N/A')} | {data.get('companyName', 'N/A')} (yesterday)")
+                print(f"  ✓ {uri}")
             else:
-                print(f"      Skipped (not yesterday): {data.get('jobTitleName', 'N/A')}")
-        else:
-            failed.append(url)
-            print(f"    ✗ Failed")
-
-        time.sleep(1)
-
-    # Retry failed
-    if failed:
-        print(f"\nRetrying {len(failed)} failed URLs...")
-        still_failed = []
-        for url in failed:
-            data = parse_job_details(url)
-            if data:
-                job = uri_map.get(url, {})
-                img_url  = job.get("companyPicture", "")
-                uri      = job.get("uri", "")
-                r2_image = download_and_upload_image(img_url, uri)
-                data["image_r2_key"] = r2_image
-                results.append(data)
-                print(f"  ✓ {url}")
-            else:
-                still_failed.append(url)
-                print(f"  ✗ {url}")
+                still_failed.append(uri)
+                print(f"  ✗ {uri}")
         failed = still_failed
 
     print(f"\nSTEP 3: Saving {len(results)} jobs to Excel...")
@@ -240,26 +223,33 @@ def run(output_excel: str = "jobs.xlsx", start_page: int = 0, end_page: int = No
 
     if failed:
         with open("failed_urls.txt", "w", encoding="utf-8") as f:
-            f.write(f"Total Failed URLs: {len(failed)}\n\n")
+            f.write(f"Total Failed URIs: {len(failed)}\n\n")
             for u in failed:
-                f.write(u + "\n")
+                f.write(f"{BASE_JOB_URL}/{u}\n")
 
     elapsed = time.time() - start_time
     print(f"\nDONE: {len(results)} jobs | {len(failed)} failed | {int(elapsed//60)}m {int(elapsed%60)}s")
 
+    """return {
+        "total": filter_result["total"],
+        "success": len(results),
+        "failed": len(failed),
+        "failed_urls": failed
+    }"""
+
     return {
-        "total":       len(raw_jobs),
-        "success":     len(results),
-        "failed":      len(failed),
+        "total": len(raw_jobs),
+        "success": len(results),
+        "failed": len(failed),
         "failed_urls": failed
     }
-
 
 if __name__ == "__main__":
     start = int(sys.argv[1]) if len(sys.argv) > 1 else 0
     end   = int(sys.argv[2]) if len(sys.argv) > 2 else None
+    end_label = end if end is not None else "all"
     run(
-        output_excel=f"jobs_{start}_{end}.xlsx",
+        output_excel=f"jobs_{start}_{end_label}.xlsx",
         start_page=start,
         end_page=end
     )

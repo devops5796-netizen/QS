@@ -14,9 +14,9 @@ def write_manufacturer_excel(manufacturer: str, df_mfr: pd.DataFrame, output_dir
 
     with pd.ExcelWriter(filepath, engine="openpyxl") as writer:
 
-        # Sheet لكل موديل (الصنف)
-        for model in sorted(df_mfr["الصنف"].unique(), key=str):
-            df_model = df_mfr[df_mfr["الصنف"] == model].reset_index(drop=True)
+        # Sheet
+        for model in sorted(df_mfr["Class"].unique(), key=str):
+            df_model = df_mfr[df_mfr["Class"] == model].reset_index(drop=True)
             sheet_name = clean_name(str(model))
             df_model.to_excel(writer, sheet_name=sheet_name, index=False)
 
@@ -30,17 +30,17 @@ def run(input_csv: str = "cars_for_sale.csv", output_dir: str = "excel_by_manufa
     out = Path(output_dir)
     out.mkdir(exist_ok=True)
 
-    df["المصنع"] = df["المصنع"].fillna("غير محدد")
-    df["الصنف"]  = df["الصنف"].fillna("غير محدد")
+    df["Make"] = df["Make"].fillna("NA")
+    df["Class"]  = df["Class"].fillna("NA")
 
-    manufacturers = df["المصنع"].unique()
+    manufacturers = df["Make"].unique()
     print(f"Found {len(manufacturers)} manufacturers\n")
 
     results = []
     for mfr in sorted(manufacturers, key=str):
-        df_mfr = df[df["المصنع"] == mfr].copy()
+        df_mfr = df[df["Make"] == mfr].copy()
         filepath = write_manufacturer_excel(str(mfr), df_mfr, out)
-        n_models = df_mfr["الصنف"].nunique()
+        n_models = df_mfr["Class"].nunique()
         print(f"  ✓ {mfr}: {len(df_mfr)} rows | {n_models} models → {filepath.name}")
         results.append({"manufacturer": mfr, "rows": len(df_mfr), "models": n_models, "file": filepath.name})
 

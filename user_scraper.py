@@ -2,15 +2,14 @@ import json
 import time
 import pandas as pd
 import sys
-from scrapling import StealthyFetcher
 import requests as req
 from PIL import Image
 import io
 from r2_uploader import upload_buffer
-import sys
 from datetime import datetime, timezone, timedelta
 
 API_URL = "https://production-api.qatarsale.com/api/ApplicantProfile/Search"
+DETAILS_API_URL = "https://production-api.qatarsale.com/api/ApplicantProfile/GetProfileDetails"
 BASE_PROFILE_URL = "https://qatarsale.com/ar/jobs/user/profile"
 PAGE_SIZE = 15
 
@@ -64,45 +63,34 @@ def get_all_users(start_page: int = 0, end_page: int = None) -> list[dict]:
     return all_users
 
 
-def parse_user_details(url: str) -> dict:
+def parse_user_details(uri_code: str) -> dict:
+    if not uri_code:
+        return {}
+
+    url = f"{BASE_PROFILE_URL}/{uri_code}"
+
     try:
-        page = StealthyFetcher.fetch(
-            url,
-            headless=True,
-            network_idle=True,
-            timeout=60000,
-            wait_for_idle_network_timeout=10000
+        response = req.get(
+            DETAILS_API_URL,
+            params={"uriCode": uri_code},
+            headers=HEADERS,
+            timeout=30
         )
+        response.raise_for_status()
+        user = response.json()
 
-        if "not-found" in str(page.url):
-            print(f"  Redirected to not-found: {url}")
+        if not user.get("id"):
             return {}
 
-        script = page.find("script#serverApp-state")
-        if not script:
-            return {}
-
-        raw = (script.text
-               .replace("&q;", '"')
-               .replace("&l;", "<")
-               .replace("&g;", ">")
-               .replace("&a;", "&")
-               .replace("&s;", "'"))
-
-        data = json.loads(raw)
-
-        if "jobsUser" not in data:
-            return {}
-
-        user = data["jobsUser"]
         row = {k: (json.dumps(v, ensure_ascii=False) if isinstance(v, (list, dict)) else v)
                for k, v in user.items()}
         row["profile_url"] = url
         return row
 
     except Exception as e:
-        print(f"  [ERROR] {url}: {e}")
+        print(f"  [ERROR] {uri_code}: {e}")
         return {}
+
 
 def download_and_upload_image(img_url: str, user_uri: str) -> str:
     if not img_url:
@@ -128,24 +116,18 @@ def download_and_upload_image(img_url: str, user_uri: str) -> str:
         print(f"  [ERROR] Image upload failed for {user_uri}: {e}")
         return ""
 
+
 def filter_yesterday_links(users: list[dict]) -> dict:
-    """
-    Filter users to keep only those with activatedAt equal to yesterday's date.
-    Returns dict with total, yesterday count, and filtered list.
-    """
-    # Convert list to DataFrame for easier filtering
     df = pd.DataFrame(users)
-    
-    # Check if activatedAt column exists (using activatedAt as in the API response)
+
     if "activatedAt" not in df.columns:
         print("⚠️ No activatedAt column found, using all users")
         return {
-            "total": len(df), 
+            "total": len(df),
             "yesterday": len(df),
-            "filtered_users": users  # return all users if no date column
+            "filtered_users": users
         }
 
-    # Parse dates - same logic as original
     df["date_parsed"] = pd.to_datetime(df["activatedAt"], format="ISO8601", utc=True)
     yesterday = datetime.now(timezone.utc).date() - timedelta(days=1)
     mask = df["date_parsed"].dt.date == yesterday
@@ -154,14 +136,14 @@ def filter_yesterday_links(users: list[dict]) -> dict:
     print(f"  Total users:     {len(df)}")
     print(f"  Yesterday users: {len(df_yesterday)}")
 
-    # Convert filtered DataFrame back to list of dicts
     filtered_users = df_yesterday.to_dict('records')
-    
+
     return {
-        "total": len(df), 
+        "total": len(df),
         "yesterday": len(df_yesterday),
         "filtered_users": filtered_users
     }
+
 
 def run(output_excel: str = "users.xlsx", start_page: int = 0, end_page: int = None) -> dict:
     print("=" * 50)
@@ -178,58 +160,90 @@ def run(output_excel: str = "users.xlsx", start_page: int = 0, end_page: int = N
         print("No users found!")
         return {"total": 0, "success": 0, "failed": 0}
 
-    print("\nSTEP 2: Filtering & Scraping user details for yesterday...")
+    print("\nSTEP 2: Scraping user details...")
     results = []
-    failed  = []
-    uri_map = {f"{BASE_PROFILE_URL}/{user.get('uriCode', '')}": user for user in raw_users}
+    failed = []
+    uri_map = {user.get("uriCode", ""): user for user in raw_users}
+
+    total_checked = 0
+    total_yesterday = 0
 
     for i, user in enumerate(raw_users, 1):
         uri = user.get("uriCode", "")
-        url = f"{BASE_PROFILE_URL}/{uri}" if uri else ""
-        uri_map[url] = user
-        print(f"  [{i}/{len(raw_users)}] {url}")
 
-        data = parse_user_details(url) if url else {}
+        print(f"  [{i}/{len(raw_users)}] uriCode={uri}")
 
-        if data:
-            # Filter by activatedAt here
+        data = parse_user_details(uri) if uri else {}
+
+        """if data:
+            total_checked += 1
             filter_result = filter_yesterday_links([data])
             filtered_data = filter_result["filtered_users"]
-            
+
             if filtered_data:
-                # Only process if it's yesterday's user
-                img_url  = user.get("personalPictureUrl", "")
+                total_yesterday += 1
+                img_url = user.get("personalPictureUrl", "")
                 r2_image = download_and_upload_image(img_url, uri)
                 data["image_r2_key"] = r2_image
                 results.append(data)
-                print(f"    ✓ {data.get('fullName', 'OK')}")
+                print(f"    ✓ {data.get('fullName', 'OK')} (yesterday)")
             else:
                 print(f"      Skipped (not yesterday): {data.get('fullName', 'N/A')}")
         else:
-            failed.append(url)
+            failed.append(uri)
+            print(f"    ✗ Failed")"""
+
+        if data:
+            img_url = user.get("personalPictureUrl", "")
+            r2_image = download_and_upload_image(img_url, uri)
+            data["image_r2_key"] = r2_image
+            results.append(data)
+            print(f"    ✓ {data.get('fullName', 'OK')}")
+
+        else:
+            failed.append(uri)
             print(f"    ✗ Failed")
 
     # Retry
     if failed:
-        print(f"\nRetrying {len(failed)} failed URLs...")
+        print(f"\nRetrying {len(failed)} failed URIs...")
         still_failed = []
-        for url in failed:
-            data = parse_user_details(url)
+        for uri in failed:
+            data = parse_user_details(uri)
+            """if data:
+                total_checked += 1
+                filter_result = filter_yesterday_links([data])
+                filtered_data = filter_result["filtered_users"]
+
+                if filtered_data:
+                    total_yesterday += 1
+                    user = uri_map.get(uri, {})
+                    img_url = user.get("personalPictureUrl", "")
+                    r2_image = download_and_upload_image(img_url, uri)
+                    data["image_r2_key"] = r2_image
+                    results.append(data)
+                    print(f"  ✓ {uri} (yesterday)")
+                else:
+                    print(f"      Skipped (not yesterday): {uri}")
+            else:
+                still_failed.append(uri)
+                print(f"  ✗ {uri}")"""
             if data:
-                user = uri_map.get(url, {})
-                img_url  = user.get("personalPictureUrl", "")
-                uri      = user.get("uriCode", "")
+                img_url = user.get("personalPictureUrl", "")
                 r2_image = download_and_upload_image(img_url, uri)
                 data["image_r2_key"] = r2_image
                 results.append(data)
-                print(f"  ✓ {url}")
+                print(f"    ✓ {data.get('fullName', 'OK')} (yesterday)")
             else:
-                still_failed.append(url)
-                print(f"  ✗ {url}")
+                failed.append(uri)
+                print(f"    ✗ Failed")
 
         failed = still_failed
 
-    print(f"\nSTEP 4: Saving {len(results)} users to Excel...")
+    print(f"\nSTEP 3: Saving {len(results)} users to Excel...")
+    #print(f"  Total checked: {total_checked} | Yesterday: {total_yesterday}")
+    print(f"  Total checked: {total_checked}")
+
     df = pd.DataFrame(results)
     df.to_excel(output_excel, index=False, sheet_name="users")
     print(f"Saved: {output_excel}")
@@ -238,25 +252,25 @@ def run(output_excel: str = "users.xlsx", start_page: int = 0, end_page: int = N
         with open("failed_urls.txt", "w", encoding="utf-8") as f:
             f.write(f"Total Failed URLs: {len(failed)}\n\n")
             for u in failed:
-                f.write(u + "\n")
+                f.write(f"{BASE_PROFILE_URL}/{u}\n")
 
     elapsed = time.time() - start_time
     print(f"\nDONE: {len(results)} users | {len(failed)} failed | {int(elapsed//60)}m {int(elapsed%60)}s")
 
     return {
-        "total":   len(raw_users),
+        "total": len(raw_users),
         "success": len(results),
-        "failed":  len(failed),
+        "failed": len(failed),
         "failed_urls": failed
     }
 
-
 if __name__ == "__main__":
     start = int(sys.argv[1]) if len(sys.argv) > 1 else 0
-    end   = int(sys.argv[2]) if len(sys.argv) > 2 else None
+    end = int(sys.argv[2]) if len(sys.argv) > 2 else None
+    end_label = end if end is not None else "all"
 
     run(
-        output_excel=f"users_{start}_{end}.xlsx",
+        output_excel=f"users_{start}_{end_label}.xlsx",
         start_page=start,
         end_page=end
     )
