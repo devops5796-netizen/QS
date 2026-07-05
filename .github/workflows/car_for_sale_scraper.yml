@@ -93,6 +93,35 @@ jobs:
 
           EOF
 
+      - name: Test Product Detail API on GitHub Actions
+        run: |
+          python << 'EOF'
+          import requests
+          import json
+
+          URL = "https://production-api.qatarsale.com/api/v2/Products/nissan_xterra_platinum_2022_red_automatic_suv-629820"
+
+          headers = {
+              "Accept": "application/json",
+              "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 "
+                            "(KHTML, like Gecko) Chrome/124.0.0.0 Safari/537.36",
+              "Referer": "https://qatarsale.com/",
+              "Origin": "https://qatarsale.com",
+          }
+
+          response = requests.get(URL, headers=headers, timeout=30)
+          print(f"Status: {response.status_code}")
+
+          if response.status_code == 200:
+              data = response.json()
+              product = data.get("product", {})
+              print(f"✅ Title: {product.get('title')}")
+              print(f"✅ ID: {product.get('id')}")
+              print(f"✅ Owner phones: {product.get('owner', {}).get('phones')}")
+          else:
+              print(f"❌ Failed: {response.text[:500]}")
+          EOF
+
   scrape:
     needs: detect_pages
     runs-on: ubuntu-latest
