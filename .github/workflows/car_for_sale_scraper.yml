@@ -61,7 +61,6 @@ jobs:
               print(f"Body (first 1000 chars): {response.text[:1000]}")
 
           last_page = data['pagesCount']
-          last_page = 5
           
           N_JOBS = 40
 
@@ -95,6 +94,7 @@ jobs:
 
     strategy:
       fail-fast: false
+      max-parallel: 10
       matrix: ${{ fromJson(needs.detect_pages.outputs.matrix) }}
 
     steps:
