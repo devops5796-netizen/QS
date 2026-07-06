@@ -173,7 +173,7 @@ def run(output_excel: str = "jobs.xlsx", start_page: int = 0, end_page: int = No
         print("No jobs found!")
         return {"total": 0, "success": 0, "failed": 0, "failed_urls": []}
 
-    """print("\nSTEP 1.5: Filtering jobs created yesterday...")
+    print("\nSTEP 1.5: Filtering jobs created yesterday...")
     filter_result = filter_yesterday_links(raw_jobs)
     raw_jobs = filter_result["filtered_jobs"]
     print(f"  Total jobs:     {filter_result['total']}")
@@ -181,8 +181,8 @@ def run(output_excel: str = "jobs.xlsx", start_page: int = 0, end_page: int = No
 
     if not raw_jobs:
         print("No jobs from yesterday!")
-        return {"total": filter_result["total"], "success": 0, "failed": 0, "failed_urls": []}"""
-
+        return {"total": filter_result["total"], "success": 0, "failed": 0, "failed_urls": []}
+    
     print("\nSTEP 2: Scraping job details...")
     results = []
     failed = []
@@ -244,19 +244,13 @@ def run(output_excel: str = "jobs.xlsx", start_page: int = 0, end_page: int = No
     print(f"\n--- Request Stats ---")
     print(f"Total: {stats['total_requests']} req | {stats['total_req_per_min']} req/min")
 
-    """return {
+    return {
         "total": filter_result["total"],
         "success": len(results),
         "failed": len(failed),
         "failed_urls": failed
-    }"""
-
-    return {
-        "total": len(raw_jobs),
-        "success": len(results),
-        "failed": len(failed),
-        "failed_urls": failed
     }
+
 
 if __name__ == "__main__":
     start = int(sys.argv[1]) if len(sys.argv) > 1 else 0

@@ -184,7 +184,7 @@ def run(output_excel: str = "users.xlsx", start_page: int = 0, end_page: int = N
 
         data = parse_user_details(uri) if uri else {}
 
-        """if data:
+        if data:
             total_checked += 1
             filter_result = filter_yesterday_links([data])
             filtered_data = filter_result["filtered_users"]
@@ -200,9 +200,9 @@ def run(output_excel: str = "users.xlsx", start_page: int = 0, end_page: int = N
                 print(f"      Skipped (not yesterday): {data.get('fullName', 'N/A')}")
         else:
             failed.append(uri)
-            print(f"    ✗ Failed")"""
+            print(f"    ✗ Failed")
 
-        if data:
+        """if data:
             img_url = user.get("personalPictureUrl", "")
             r2_image = download_and_upload_image(img_url, uri)
             data["image_r2_key"] = r2_image
@@ -211,7 +211,7 @@ def run(output_excel: str = "users.xlsx", start_page: int = 0, end_page: int = N
 
         else:
             failed.append(uri)
-            print(f"    ✗ Failed")
+            print(f"    ✗ Failed")"""
 
     # Retry
     if failed:
@@ -219,7 +219,7 @@ def run(output_excel: str = "users.xlsx", start_page: int = 0, end_page: int = N
         still_failed = []
         for uri in failed:
             data = parse_user_details(uri)
-            """if data:
+            if data:
                 total_checked += 1
                 filter_result = filter_yesterday_links([data])
                 filtered_data = filter_result["filtered_users"]
@@ -236,8 +236,8 @@ def run(output_excel: str = "users.xlsx", start_page: int = 0, end_page: int = N
                     print(f"      Skipped (not yesterday): {uri}")
             else:
                 still_failed.append(uri)
-                print(f"  ✗ {uri}")"""
-            if data:
+                print(f"  ✗ {uri}")
+            """if data:
                 user = uri_map.get(uri, {})
                 img_url = user.get("personalPictureUrl", "")
                 r2_image = download_and_upload_image(img_url, uri)
@@ -246,13 +246,12 @@ def run(output_excel: str = "users.xlsx", start_page: int = 0, end_page: int = N
                 print(f"    ✓ {data.get('fullName', 'OK')} (yesterday)")
             else:
                 still_failed.append(uri)
-                print(f"  ✗ {uri}")
+                print(f"  ✗ {uri}")"""
 
         failed = still_failed
 
     print(f"\nSTEP 3: Saving {len(results)} users to Excel...")
-    #print(f"  Total checked: {total_checked} | Yesterday: {total_yesterday}")
-    #print(f"  Total checked: {total_checked}")
+    print(f"  Total checked: {total_checked} | Yesterday: {total_yesterday}")
 
     df = pd.DataFrame(results)
     df.to_excel(output_excel, index=False, sheet_name="users")
