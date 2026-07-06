@@ -19,8 +19,9 @@ HEADERS = {
 
 
 def build_listing_url(base_path: str, page_num: int) -> str:
+    api_page = page_num - 1
     separator = "&" if "?" in base_path else "?"
-    return f"{base_path}{separator}page={page_num}"
+    return f"{base_path}{separator}page={api_page}"
 
 
 def fetch_page(base_path: str, page_num: int, page_size: int = 36) -> dict:
