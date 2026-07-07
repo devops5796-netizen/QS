@@ -124,6 +124,10 @@ jobs:
                   f.write(f'Files Merged: 0\n')
               pd.DataFrame().to_excel('users.xlsx', index=False)
 
+              pd.DataFrame().to_excel('users.xlsx', index=False)
+              with open('users.json', 'w', encoding='utf-8') as f:
+                  json.dump([], f, ensure_ascii=False, indent=2)
+
               output_file = "users.xlsx"
               key = f"{base}/excel/users.xlsx"
               client.upload_file(output_file, bucket, key,
