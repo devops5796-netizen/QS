@@ -57,7 +57,7 @@ def main():
 
     summary["links"]    = links_scraper.run(LISTING_PATH, start, end, links_csv)
 
-    print("\n" + "="*50)
+    """print("\n" + "="*50)
     print("STEP 1.5: Filtering yesterday's links...")
     print("="*50)
     
@@ -83,9 +83,9 @@ def main():
         print(f"Total Time: {minutes}m {seconds}s")
         print("="*60)
 
-        return
+        return"""
     
-    summary["products"] = products_scraper.run(filtered_csv, products_json, workers=3, category=category)
+    summary["products"] = products_scraper.run(links_csv, products_json, workers=3, category=category)
     summary["flatten"]  = flatten.run(products_json, products_flat_csv)
 
     elapsed = time.time() - elapsed_start
