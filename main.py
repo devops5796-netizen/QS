@@ -23,7 +23,7 @@ def filter_yesterday_links(links_csv: str, filtered_csv: str) -> dict:
         return {"total": len(df), "yesterday": len(df)}
 
     df["date_parsed"] = pd.to_datetime(df["startDate"], format="ISO8601", utc=True)
-    yesterday = datetime.now(timezone.utc).date() - timedelta(days=2)
+    yesterday = datetime.now(timezone.utc).date() - timedelta(days=1)
     mask = df["date_parsed"].dt.date == yesterday
     df_yesterday = df[mask].drop(columns=["date_parsed"])
 
