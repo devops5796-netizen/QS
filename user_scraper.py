@@ -272,7 +272,7 @@ def run(output_excel: str = "users.xlsx", start_page: int = 0, end_page: int = N
     print(f"Total: {stats['total_requests']} req | {stats['total_req_per_min']} req/min")
 
     return {
-        "total": len(total_yesterday),
+        "total": len(raw_users),
         "success": len(results),
         "failed": len(failed),
         "failed_urls": failed
