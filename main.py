@@ -87,6 +87,12 @@ def main():
     
     summary["products"] = products_scraper.run(filtered_csv, products_json, workers=2, category=category)
     summary["flatten"]  = flatten.run(products_json, products_flat_csv)
+    COLUMNS_TO_DROP = [
+        "categoryId", "categoryName", "_CategoryPath", "categoryUri", "createdBy", "thumbnailImages"
+    ]
+    df = summary["flatten"]["df"]
+    df = df.drop(columns=COLUMNS_TO_DROP)
+    df.to_csv(products_flat_csv, index=False, encoding="utf-8-sig")
 
     elapsed = time.time() - elapsed_start
     minutes = int(elapsed // 60)
