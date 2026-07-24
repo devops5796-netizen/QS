@@ -86,10 +86,10 @@ jobs:
           python << 'EOF'
           import pandas as pd
           import glob, os, boto3
-          from datetime import datetime
+          from datetime import datetime, timezone
           import json
 
-          dt     = datetime.now()
+          dt     = datetime.now(timezone.utc)
           base   = f"qatarsale/year={dt.year}/month={dt.strftime('%m')}/day={dt.strftime('%d')}/users"
           bucket = os.environ['CF_R2_BUCKET_NAME']
 
@@ -100,50 +100,10 @@ jobs:
               region_name='auto'
           )
 
-          stats_files = glob.glob('excel_parts/*_request_stats.json')
-          if stats_files:
-              with open(stats_files[0], 'r', encoding='utf-8') as sf:
-                  user_stats = json.load(sf)
-              print(f"Request stats: {user_stats['total_requests']} req | {user_stats['total_req_per_min']} req/min")
-
-              key = f"{base}/summary/request_stats.json"
-              client.upload_file(stats_files[0], bucket, key,
-                  ExtraArgs={'ContentType': 'application/json; charset=utf-8'})
-              print(f"Uploaded: {key}")
-
+          # Merge Excel -- if nothing was scraped, stop here entirely (no uploads at all)
           files = glob.glob('excel_parts/*.xlsx')
-
           if not files:
-              print("No Excel files found. Nothing to merge.")
-              now = datetime.now()
-              with open('scrape_summary.txt', 'w', encoding='utf-8') as f:
-                  f.write(f'=== Users ===\n')
-                  f.write(f'Run Date: {now.strftime("%Y-%m-%d %H:%M:%S")} UTC\n')
-                  f.write(f'Status: NO DATA\n')
-                  f.write(f'Total Rows: 0\n')
-                  f.write(f'Files Merged: 0\n')
-              pd.DataFrame().to_excel('users.xlsx', index=False)
-
-              pd.DataFrame().to_excel('users.xlsx', index=False)
-              with open('users.json', 'w', encoding='utf-8') as f:
-                  json.dump([], f, ensure_ascii=False, indent=2)
-
-              output_file = "users.xlsx"
-              key = f"{base}/excel/users.xlsx"
-              client.upload_file(output_file, bucket, key,
-                  ExtraArgs={'ContentType': 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet'})
-              print(f"Uploaded: {key}")
-
-              key = f"{base}/json/users.json"
-              client.upload_file("users.json", bucket, key,
-                  ExtraArgs={'ContentType': 'application/json; charset=utf-8'})
-              print(f"Uploaded: {key}")
-
-              key = f"{base}/summary/scrape_summary.txt"
-              client.upload_file("scrape_summary.txt", bucket, key,
-                  ExtraArgs={'ContentType': 'text/plain; charset=utf-8'})
-              print(f"Uploaded: {key}")
-
+              print("No Excel files found -- nothing scraped for yesterday, skipping all uploads.")
               exit(0)
 
           dfs    = [pd.read_excel(f) for f in files]
@@ -151,6 +111,10 @@ jobs:
           merged = merged.drop_duplicates(subset=['profile_url'], keep='first')
           total  = len(merged)
           print(f"Merged {len(files)} files | {total} total users")
+
+          if total == 0:
+              print("Merged result is empty -- skipping all uploads.")
+              exit(0)
 
           json_file = "users.json"
           json_data = merged.to_dict(orient='records')
@@ -175,23 +139,25 @@ jobs:
           )
           print(f"Uploaded: {key_u}")
 
-          summary_file = "scrape_summary.txt"
-          with open(summary_file, 'w', encoding='utf-8') as f:
-              f.write(f"=== users ===\n")
-              f.write(f"Run Date: {dt.strftime('%Y-%m-%d %H:%M:%S')} UTC\n")
-              f.write(f"Status: DONE\n")
-              f.write(f"Total Rows: {total}\n\n")
-              f.write("--- Column Analysis ---\n")
-              for col in merged.columns:
-                  missing = merged[col].isna().sum() + (merged[col] == '').sum()
-                  pct = (missing / total) * 100 if total > 0 else 0
-                  f.write(f"{col}: {missing} empty ({pct:.2f}%)\n")
+          # No categories/subcategories for users -- same top-level shape as
+          # the category summaries, with subcategories always empty.
+          summary = {
+              "scraped_at": dt.isoformat(),
+              "data_scraped_date": dt.date().isoformat(),
+              "saved_to_R2_date": dt.strftime("%Y-%m-%d"),
+              "total_subcategories": 0,
+              "total_listings": total,
+              "subcategories": [],
+          }
+          with open("summary.json", "w", encoding="utf-8") as f:
+              json.dump(summary, f, ensure_ascii=False, indent=2)
 
-          key = f"{base}/summary/scrape_summary.txt"
-          client.upload_file(summary_file, bucket, key,
-              ExtraArgs={'ContentType': 'text/plain; charset=utf-8'})
+          key = f"{base}/summary/summary.json"
+          client.upload_file("summary.json", bucket, key,
+              ExtraArgs={'ContentType': 'application/json; charset=utf-8'})
           print(f"Uploaded: {key}")
 
+          # Failed URLs
           failed = []
           for f in glob.glob('excel_parts/failed_urls*.txt'):
               with open(f, 'r', encoding='utf-8') as file:
@@ -200,16 +166,29 @@ jobs:
                       if line.startswith('http'):
                           failed.append(line)
 
-          failed_file = "failed_urls.txt"
-          with open(failed_file, 'w', encoding='utf-8') as f:
-              f.write(f"Total Failed URLs: {len(failed)}\n\n")
-              for u in failed:
-                  f.write(u + '\n')
+          if failed:
+              failed_file = "failed_urls.txt"
+              with open(failed_file, 'w', encoding='utf-8') as f:
+                  f.write(f"Total Failed URLs: {len(failed)}\n\n")
+                  for u in failed:
+                      f.write(u + '\n')
 
-          key = f"{base}/summary/failed_urls.txt"
-          client.upload_file(failed_file, bucket, key,
-              ExtraArgs={'ContentType': 'text/plain; charset=utf-8'})
-          print(f"Uploaded: {key}")
+              key = f"{base}/summary/failed_urls.txt"
+              client.upload_file(failed_file, bucket, key,
+                  ExtraArgs={'ContentType': 'text/plain; charset=utf-8'})
+              print(f"Uploaded: {key}")
+
+          # Request stats
+          stats_files = glob.glob('excel_parts/*_request_stats.json')
+          if stats_files:
+              with open(stats_files[0], 'r', encoding='utf-8') as sf:
+                  user_stats = json.load(sf)
+              print(f"Request stats: {user_stats['total_requests']} req | {user_stats['total_req_per_min']} req/min")
+
+              key = f"{base}/summary/request_stats.json"
+              client.upload_file(stats_files[0], bucket, key,
+                  ExtraArgs={'ContentType': 'application/json; charset=utf-8'})
+              print(f"Uploaded: {key}")
           EOF
 
   trigger_next:

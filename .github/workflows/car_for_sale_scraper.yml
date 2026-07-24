@@ -163,12 +163,14 @@ jobs:
           path: csv_parts/
 
       - name: Merge and analyze
+        id: merge
         run: |
           python << 'EOF'
           import pandas as pd
           import glob
-          from datetime import datetime
+          from datetime import datetime, timezone
           import json
+          from build_summary import build_category_summary
 
           stats_files = glob.glob('csv_parts/request_stats_*.json')
           all_job_stats = []
@@ -195,61 +197,49 @@ jobs:
 
           files = glob.glob('csv_parts/*.csv')
           if not files:
-              print("No CSV files found. Nothing to merge.")
-              now = datetime.now()
-              with open('scrape_summary.txt', 'w', encoding='utf-8') as f:
-                  f.write(f'=== cars_for_sale ===\n')
-                  f.write(f'Run Date: {now.strftime("%Y-%m-%d %H:%M:%S")} UTC\n')
-                  f.write(f'Status: NO DATA\n')
-                  f.write(f'Total Rows: 0\n')
-                  f.write(f'Files Merged: 0\n')
-              # Create empty excel
-              pd.DataFrame().to_excel('cars_for_sale.xlsx', index=False)
+              print("No CSV files for yesterday across any job -- nothing to merge or upload.")
+              with open("HAS_DATA", "w") as f:
+                  f.write("false")
               exit(0)
 
           dfs = [pd.read_csv(f) for f in files]
-
           merged = pd.concat(dfs, ignore_index=True)
           merged = merged.drop_duplicates(subset=['product_url'], keep='first')
           merged.to_excel('cars_for_sale.xlsx', index=False)
+
           json_file = "cars_for_sale.json"
           json_data = merged.to_dict(orient='records')
           with open(json_file, 'w', encoding='utf-8') as f:
               json.dump(json_data, f, ensure_ascii=False, indent=2)
-          
           print(f"JSON saved: {json_file} ({len(json_data)} records)")
 
-          total = len(merged)
-          now = datetime.now()
+          dt = datetime.now(timezone.utc)
+          summary = build_category_summary(merged, dt)
+          with open("summary.json", "w", encoding="utf-8") as f:
+              json.dump(summary, f, ensure_ascii=False, indent=2)
+          print(f"Summary saved: summary.json ({summary['total_subcategories']} subcats, {summary['total_listings']} listings)")
+
           print(f'Found {len(files)} CSV files to merge')
-          print(f'Total Rows: {total}')
+          print(f'Total Rows: {len(merged)}')
 
-          # Summary file
-          with open('scrape_summary.txt', 'w', encoding='utf-8') as f:
-              f.write(f'=== cars_for_sale ===\n')
-              f.write(f'Run Date: {now.strftime("%Y-%m-%d %H:%M:%S")} UTC\n')
-              f.write(f'Status: DONE\n')
-              f.write(f'Total Rows: {total}\n')
-              f.write(f'Files Merged: {len(files)}\n\n')
-              f.write('--- Column Analysis ---\n')
-              for col in merged.columns:
-                  missing = merged[col].isna().sum() + (merged[col] == '').sum()
-                  pct = (missing / total) * 100 if total > 0 else 0
-                  f.write(f'{col}: {missing} empty ({pct:.2f}%)\n')
-
-              # Subcategory breakdown 
-              if 'Make' in merged.columns:
-                  f.write('\n--- By Manufacturer ---\n')
-                  for mfr, count in merged['Make'].value_counts().items():
-                      f.write(f'{mfr}: {count} products\n')
+          with open("HAS_DATA", "w") as f:
+              f.write("true")
           EOF
 
+          if [ -f HAS_DATA ] && grep -q "true" HAS_DATA; then
+            echo "has_data=true" >> "$GITHUB_OUTPUT"
+          else
+            echo "has_data=false" >> "$GITHUB_OUTPUT"
+          fi
+
       - name: Split by manufacturer
+        if: steps.merge.outputs.has_data == 'true'
         run: |
           pip install openpyxl
           python split_by_manufacturer.py cars_for_sale.xlsx excel_by_manufacturer
 
       - name: Upload Excel files to R2
+        if: steps.merge.outputs.has_data == 'true'
         env:
           CF_R2_ACCESS_KEY_ID: ${{ secrets.CF_R2_ACCESS_KEY_ID }}
           CF_R2_SECRET_ACCESS_KEY: ${{ secrets.CF_R2_SECRET_ACCESS_KEY }}
@@ -292,6 +282,7 @@ jobs:
           EOF
 
       - name: Upload final Excel to R2
+        if: steps.merge.outputs.has_data == 'true'
         env:
           CF_R2_ACCESS_KEY_ID: ${{ secrets.CF_R2_ACCESS_KEY_ID }}
           CF_R2_SECRET_ACCESS_KEY: ${{ secrets.CF_R2_SECRET_ACCESS_KEY }}
@@ -328,6 +319,7 @@ jobs:
           EOF
 
       - name: Upload summary to R2
+        if: steps.merge.outputs.has_data == 'true'
         env:
           CF_R2_ACCESS_KEY_ID: ${{ secrets.CF_R2_ACCESS_KEY_ID }}
           CF_R2_SECRET_ACCESS_KEY: ${{ secrets.CF_R2_SECRET_ACCESS_KEY }}
@@ -346,14 +338,15 @@ jobs:
           )
           dt = datetime.now()
           bucket = os.environ['CF_R2_BUCKET_NAME']
-          key = f"qatarsale/year={dt.year}/month={dt.strftime('%m')}/day={dt.strftime('%d')}/cars_for_sale/summary/scrape_summary.txt"
+          key = f"qatarsale/year={dt.year}/month={dt.strftime('%m')}/day={dt.strftime('%d')}/cars_for_sale/summary/summary.json"
 
-          client.upload_file('scrape_summary.txt', bucket, key,
-              ExtraArgs={'ContentType': 'text/plain; charset=utf-8'})
+          client.upload_file('summary.json', bucket, key,
+              ExtraArgs={'ContentType': 'application/json; charset=utf-8'})
           print(f'Uploaded summary: {key}')
           EOF
 
       - name: Merge failed URLs report
+        if: steps.merge.outputs.has_data == 'true'
         run: |
           python << 'EOF'
           import glob
@@ -395,6 +388,7 @@ jobs:
           EOF
       
       - name: Upload failed URLs to R2
+        if: steps.merge.outputs.has_data == 'true'
         env:
           CF_R2_ACCESS_KEY_ID: ${{ secrets.CF_R2_ACCESS_KEY_ID }}
           CF_R2_SECRET_ACCESS_KEY: ${{ secrets.CF_R2_SECRET_ACCESS_KEY }}
@@ -421,6 +415,7 @@ jobs:
           EOF
 
       - name: Upload performance report to R2
+        if: steps.merge.outputs.has_data == 'true'
         env:
           CF_R2_ACCESS_KEY_ID: ${{ secrets.CF_R2_ACCESS_KEY_ID }}
           CF_R2_SECRET_ACCESS_KEY: ${{ secrets.CF_R2_SECRET_ACCESS_KEY }}
