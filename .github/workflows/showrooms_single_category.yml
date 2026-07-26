@@ -38,7 +38,7 @@ jobs:
         run: |
           python << 'EOF'
           import json, os
-          from showroom_parser import get_showroom_links
+          from Showrooms.showroom_parser import get_showroom_links
 
           category  = os.environ["CATEGORY"]
           showrooms = get_showroom_links(category)
