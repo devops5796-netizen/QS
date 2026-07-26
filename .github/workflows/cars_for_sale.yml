@@ -200,6 +200,7 @@ jobs:
           from datetime import datetime, timezone
           import json
           from Common_files.build_summary import build_category_summary
+          from Common_files.monitor_helpers import collect_failed_links, aggregate_request_stats, build_failed_report
 
           files = glob.glob('csv_parts/*.csv')
           if not files:

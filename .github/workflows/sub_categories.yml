@@ -245,6 +245,7 @@ jobs:
           from datetime import datetime, timezone, timedelta
           from Common_files.r2_uploader  import upload_final_batch_assets
           from Common_files.build_summary import build_category_summary
+          from Common_files.monitor_helpers import collect_failed_links, aggregate_request_stats, build_failed_report
 
           category = "${{ matrix.category }}"
           files = glob.glob('excel_parts/*.xlsx')
