@@ -5,9 +5,9 @@ import pandas as pd
 import requests as req
 from PIL import Image
 import io
-from r2_uploader import upload_buffer
+from .r2_uploader import upload_buffer
 from concurrent.futures import ThreadPoolExecutor, as_completed
-from request_tracker import tracker
+from .request_tracker import tracker
 
 API_BASE = "https://production-api.qatarsale.com/api/v2/Products"
 

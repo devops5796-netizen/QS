@@ -3,7 +3,7 @@ import random
 import requests
 import pandas as pd
 from urllib.parse import urlencode
-from request_tracker import tracker
+from .request_tracker import tracker
 
 API_URL = "https://production-api.qatarsale.com/api/v2/Products"
 BASE_PRODUCT_URL = "https://qatarsale.com/ar/product"
