@@ -35,8 +35,7 @@ jobs:
           import json
           import os
           import sys
-          sys.path.insert(0, "Common_files")
-          from detect_utils import analyze_category_with_products
+          from Common_files.detect_utils import analyze_category_with_products
 
           CATEGORIES = {
               "cars_for_rent":                 "https://qatarsale.com/ar/products/cars_for_rent?basic_search:StatusFilter=0",

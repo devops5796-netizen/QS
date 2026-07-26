@@ -157,11 +157,9 @@ jobs:
         run: |
           python << 'EOF'
           import pandas as pd
-          import glob, os, boto3, json, sys
+          import glob, os, boto3, json
           from datetime import datetime, timezone
-
-          sys.path.insert(0, "Common_files")
-          from monitor_helpers import aggregate_request_stats, collect_failed_links, build_failed_report
+          from Common_files.monitor_helpers import aggregate_request_stats, collect_failed_links, build_failed_report
 
           category = os.environ["CATEGORY"]
           dt = datetime.now(timezone.utc)
