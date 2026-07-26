@@ -148,13 +148,13 @@ jobs:
         uses: actions/cache@v4
         with:
           path: ~/.cache/pip
-          key: ${{ runner.os }}-pip-${{ hashFiles('Common_files.requirements.txt') }}
+          key: ${{ runner.os }}-pip-${{ hashFiles('Common_files/requirements.txt') }}
           restore-keys: |
             ${{ runner.os }}-pip-
 
       - name: Install dependencies
         run: |
-          pip install -r Common_files.requirements.txt
+          pip install -r Common_files/requirements.txt
 
       - name: Run scraper for category pages
         env:
