@@ -1,0 +1,177 @@
+name: Jobs
+
+on:
+  workflow_run:
+    workflows: ["Cars For Sale"]
+    types:
+      - completed
+  workflow_dispatch:
+
+jobs:
+  scrape_jobs:
+    runs-on: ubuntu-latest
+    if: ${{ github.event.workflow_run.conclusion == 'success' || github.event_name == 'workflow_dispatch' }}
+
+    steps:
+      - name: Checkout repo
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+
+      - name: Cache pip
+        uses: actions/cache@v4
+        with:
+          path: ~/.cache/pip
+          key: ${{ runner.os }}-pip-${{ hashFiles('Common_files.requirements.txt') }}
+          restore-keys: |
+            ${{ runner.os }}-pip-
+
+      - name: Install dependencies
+        run: |
+          pip install -r Common_files.requirements.txt
+          
+      - name: Run scraper
+        env:
+          CF_R2_ACCESS_KEY_ID: ${{ secrets.CF_R2_ACCESS_KEY_ID }}
+          CF_R2_SECRET_ACCESS_KEY: ${{ secrets.CF_R2_SECRET_ACCESS_KEY }}
+          CF_R2_ENDPOINT_URL: ${{ secrets.CF_R2_ENDPOINT_URL }}
+          CF_R2_BUCKET_NAME: ${{ secrets.CF_R2_BUCKET_NAME }}
+        run: |
+          python -u Jobs/jobs_scraper.py
+
+      - uses: actions/upload-artifact@v4
+        with:
+          name: jobs-excel-all
+          path: |
+            jobs_*.xlsx
+            failed_urls*.txt
+            jobs_*_request_stats.json
+          if-no-files-found: ignore
+
+  merge_jobs:
+    runs-on: ubuntu-latest
+    needs: scrape_jobs
+
+    steps:
+      - name: Checkout repo
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+
+      - name: Install dependencies
+        run: pip install pandas openpyxl boto3
+
+      - name: Download all artifacts
+        uses: actions/download-artifact@v4
+        with:
+          pattern: jobs-excel-*
+          merge-multiple: true
+          path: excel_parts/
+
+      - name: Merge and upload to R2
+        env:
+          CF_R2_ACCESS_KEY_ID: ${{ secrets.CF_R2_ACCESS_KEY_ID }}
+          CF_R2_SECRET_ACCESS_KEY: ${{ secrets.CF_R2_SECRET_ACCESS_KEY }}
+          CF_R2_ENDPOINT_URL: ${{ secrets.CF_R2_ENDPOINT_URL }}
+          CF_R2_BUCKET_NAME: ${{ secrets.CF_R2_BUCKET_NAME }}
+        run: |
+          python << 'EOF'
+          import pandas as pd
+          import glob, os, boto3
+          from datetime import datetime, timezone
+          import json
+
+          dt     = datetime.now(timezone.utc)
+          base   = f"qatarsale/year={dt.year}/month={dt.strftime('%m')}/day={dt.strftime('%d')}/jobs"
+          bucket = os.environ['CF_R2_BUCKET_NAME']
+
+          client = boto3.client('s3',
+              endpoint_url=os.environ['CF_R2_ENDPOINT_URL'],
+              aws_access_key_id=os.environ['CF_R2_ACCESS_KEY_ID'],
+              aws_secret_access_key=os.environ['CF_R2_SECRET_ACCESS_KEY'],
+              region_name='auto'
+          )
+
+          # Merge Excel -- if nothing was scraped, stop here entirely (no uploads at all)
+          files = glob.glob('excel_parts/*.xlsx')
+          if not files:
+              print("No Excel files found -- nothing scraped for yesterday, skipping all uploads.")
+              exit(0)
+
+          dfs    = [pd.read_excel(f) for f in files]
+          merged = pd.concat(dfs, ignore_index=True)
+          merged = merged.drop_duplicates(subset=['job_url'], keep='first')
+          total  = len(merged)
+          print(f"Merged {len(files)} files | {total} total jobs")
+
+          if total == 0:
+              print("Merged result is empty -- skipping all uploads.")
+              exit(0)
+
+          json_file = "jobs.json"
+          json_data = merged.to_dict(orient='records')
+          with open(json_file, 'w', encoding='utf-8') as f:
+              json.dump(json_data, f, ensure_ascii=False, indent=2)
+          print(f"JSON saved: {json_file} ({len(json_data)} records)")
+
+          output_file = "jobs.xlsx"
+          merged.to_excel(output_file, index=False, sheet_name="jobs")
+
+          key = f"{base}/excel/jobs.xlsx"
+          client.upload_file(output_file, bucket, key,
+              ExtraArgs={'ContentType': 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet'})
+          print(f"Uploaded: {key}")
+
+          key_j = f"{base}/json/jobs.json"
+          client.upload_file(
+              "jobs.json",
+              bucket,
+              key_j,
+              ExtraArgs={"ContentType": "application/json; charset=utf-8"}
+          )
+          print(f"Uploaded: {key_j}")
+
+          # No categories/subcategories for jobs -- same top-level shape as
+          # the category summaries, with subcategories always empty.
+          summary = {
+              "scraped_at": dt.isoformat(),
+              "data_scraped_date": (dt.date().isoformat()),
+              "saved_to_R2_date": dt.strftime("%Y-%m-%d"),
+              "total_subcategories": 0,
+              "total_listings": total,
+              "subcategories": [],
+          }
+          with open("summary.json", "w", encoding="utf-8") as f:
+              json.dump(summary, f, ensure_ascii=False, indent=2)
+
+          key = f"{base}/summary/summary.json"
+          client.upload_file("summary.json", bucket, key,
+              ExtraArgs={'ContentType': 'application/json; charset=utf-8'})
+          print(f"Uploaded: {key}")
+
+          failed_links = collect_failed_links('excel_parts/failed_urls*.txt')
+          failed_report = build_failed_report(failed_links, total)
+          with open("failed.json", "w", encoding="utf-8") as f:
+              json.dump(failed_report, f, ensure_ascii=False, indent=2)
+
+          failed_key = f"{base}/summary/failed.json"
+          client.upload_file("failed.json", bucket, failed_key,
+              ExtraArgs={'ContentType': 'application/json; charset=utf-8'})
+          print(f"Failed report uploaded: {failed_key} ({failed_report['total_failed']} failed)")
+
+          # Request stats
+          metrics = aggregate_request_stats('excel_parts/*_request_stats.json')
+          with open("request_metrics.json", "w", encoding="utf-8") as f:
+              json.dump(metrics, f, ensure_ascii=False, indent=2)
+
+          metrics_key = f"{base}/summary/request_metrics.json"
+          client.upload_file("request_metrics.json", bucket, metrics_key,
+              ExtraArgs={'ContentType': 'application/json; charset=utf-8'})
+          print(f"Request metrics uploaded: {metrics_key} ({metrics['requests_total']} req, {metrics['requests_per_min']} req/min)")
+          EOF

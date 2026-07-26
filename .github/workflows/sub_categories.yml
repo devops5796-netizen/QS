@@ -1,0 +1,491 @@
+name: Sub Categories
+
+on:
+  workflow_run:
+    workflows: ["Simple Categories"]
+    types:
+      - completed
+  workflow_dispatch:
+
+jobs:
+  detect_pages:
+    runs-on: ubuntu-latest
+    if: ${{ github.event.workflow_run.conclusion == 'success' || github.event_name == 'workflow_dispatch' }}
+    outputs:
+      matrix: ${{ steps.build_matrix.outputs.matrix }}
+
+    steps:
+      - name: Checkout repo
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+
+      - name: Install dependencies
+        run: pip install requests
+
+      - name: Detect pages and build matrix
+        id: build_matrix
+        env:
+          PYTHONUNBUFFERED: "1"
+        run: |
+          python << 'EOF'
+          import json
+          import os
+          from Common_files.detect_utils import analyze_category_with_products
+
+          MULTI_CATEGORIES = {
+                "car_spare_parts_accessories-automotive_exterior_accessories":
+                    "https://qatarsale.com/ar/products/car_spare_parts_accessories-automotive_exterior_accessories?basic_search:StatusFilter=0",
+                "heavy_equipments":
+                    "https://qatarsale.com/ar/products/heavy_equipments?basic_search:StatusFilter=0",
+                "car_spare_parts_accessories":
+                    "https://qatarsale.com/ar/products/car_spare_parts_accessories?basic_search:StatusFilter=0",
+                "jewellery":
+                    "https://qatarsale.com/ar/products/jewellery?basic_search:StatusFilter=0",
+                "property":
+                    "https://qatarsale.com/ar/products/property?basic_search:StatusFilter=0",
+                "watercrafts":
+                    "https://qatarsale.com/ar/products/watercrafts?basic_search:StatusFilter=0",
+                "computers_and_parts":
+                    "https://qatarsale.com/ar/products/computers_and_parts?basic_search:StatusFilter=0",
+                "video_games":
+                    "https://qatarsale.com/ar/products/video_games?basic_search:StatusFilter=0",
+                "wrist_watches":
+                    "https://qatarsale.com/ar/products/wrist_watches?basic_search:StatusFilter=0",
+                "home_security_surveillance_systems":
+                    "https://qatarsale.com/ar/products/home_security_surveillance_systems?basic_search:StatusFilter=0",
+                "health_beauty":
+                    "https://qatarsale.com/ar/products/health_beauty?basic_search:StatusFilter=0",
+                "toys_games":
+                    "https://qatarsale.com/ar/products/toys_games?basic_search:StatusFilter=0",
+                "kids":
+                    "https://qatarsale.com/ar/products/kids?basic_search:StatusFilter=0",
+                "shoes_bags":
+                    "https://qatarsale.com/ar/products/shoes_bags?basic_search:StatusFilter=0",
+                "arts_crafts_sewing":
+                    "https://qatarsale.com/ar/products/arts_crafts_sewing?basic_search:StatusFilter=0",
+                "kitchen_dining_room":
+                    "https://qatarsale.com/ar/products/kitchen_dining_room?basic_search:StatusFilter=0",
+                "education":
+                    "https://qatarsale.com/ar/products/education?basic_search:StatusFilter=0",
+                "bikes_accessories":
+                    "https://qatarsale.com/ar/products/bikes_accessories?basic_search:StatusFilter=0",
+                "clothes":
+                    "https://qatarsale.com/ar/products/clothes?basic_search:StatusFilter=0",
+                "camping":
+                    "https://qatarsale.com/ar/products/camping?basic_search:StatusFilter=0",
+                "tools_home_improvement":
+                    "https://qatarsale.com/ar/products/tools_home_improvement?basic_search:StatusFilter=0",
+                "men_accessories":
+                    "https://qatarsale.com/ar/products/men_accessories?basic_search:StatusFilter=0",
+                "musical_instruments":
+                      "https://qatarsale.com/ar/products/musical_instruments?basic_search:StatusFilter=0",
+                "travel_accessories":
+                      "https://qatarsale.com/ar/products/travel_accessories?basic_search:StatusFilter=0",
+                "special_numbers":
+                      "https://qatarsale.com/ar/products/special_numbers?basic_search:StatusFilter=0",
+          }
+
+          PAGES_PER_JOB = {cat: 20 for cat in MULTI_CATEGORIES}
+
+          matrix = {"include": []}
+
+          for category, url in MULTI_CATEGORIES.items():
+              print(f"Detecting pages for {category}...")
+              try:
+                  last_page, has_products = analyze_category_with_products(url)
+              except Exception as e:
+                  print(f"  Failed: {e}")
+                  continue
+
+              if not has_products:
+                  print(f"  ⚠️ No products in {category}, skipping...")
+                  continue
+
+              print(f"  {category}: {last_page} pages")
+
+              category_path = url.replace("https://qatarsale.com", "")
+              pages_per_job = PAGES_PER_JOB.get(category, 20)
+
+              for i in range(0, last_page, pages_per_job):
+                  start = i + 1
+                  end   = min(i + pages_per_job, last_page)
+                  matrix["include"].append({
+                      "category":      category,
+                      "category_path": category_path,
+                      "start":         start,
+                      "end":           end,
+                  })
+
+          print(f"Total jobs: {len(matrix['include'])}")
+          print(f"Matrix: {json.dumps(matrix, indent=2, ensure_ascii=False)}")
+
+          with open(os.environ['GITHUB_OUTPUT'], 'a') as f:
+              f.write(f"matrix={json.dumps(matrix, ensure_ascii=False)}\n")
+          EOF
+
+  scrape_subcats:
+    runs-on: ubuntu-latest
+    needs: detect_pages
+    strategy:
+      matrix: ${{ fromJson(needs.detect_pages.outputs.matrix) }}
+      max-parallel: 10
+      fail-fast: false
+
+    steps:
+      - name: Checkout repo
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+
+      - name: Cache pip
+        uses: actions/cache@v4
+        with:
+          path: ~/.cache/pip
+          key: ${{ runner.os }}-pip-${{ hashFiles('Common_files.requirements.txt') }}
+          restore-keys: |
+            ${{ runner.os }}-pip-
+
+      - name: Install dependencies
+        run: |
+          pip install -r Common_files.requirements.txt
+
+      - name: Run scraper for category pages
+        env:
+          CF_R2_ACCESS_KEY_ID: ${{ secrets.CF_R2_ACCESS_KEY_ID }}
+          CF_R2_SECRET_ACCESS_KEY: ${{ secrets.CF_R2_SECRET_ACCESS_KEY }}
+          CF_R2_ENDPOINT_URL: ${{ secrets.CF_R2_ENDPOINT_URL }}
+          CF_R2_BUCKET_NAME: ${{ secrets.CF_R2_BUCKET_NAME }}
+        run: |
+          python -u Sub_and_Sub_Sub Categories/main.py \
+            "${{ matrix.category }}" \
+            "${{ matrix.category_path }}" \
+            ${{ matrix.start }} \
+            ${{ matrix.end }}
+
+      - name: Upload Excel artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: multi-excel-${{ matrix.category }}-${{ matrix.start }}-${{ matrix.end }}
+          path: |
+            ${{ matrix.category }}_${{ matrix.start }}_${{ matrix.end }}.xlsx
+            products_${{ matrix.category }}_${{ matrix.start }}_${{ matrix.end }}_failed.txt
+            request_stats_${{ matrix.start }}_${{ matrix.end }}.json
+          if-no-files-found: ignore
+
+  merge_subcats:
+    runs-on: ubuntu-latest
+    needs: scrape_subcats
+
+    strategy:
+      matrix:
+        category:
+          - car_spare_parts_accessories-automotive_exterior_accessories
+          - heavy_equipments
+          - car_spare_parts_accessories
+          - jewellery
+          - property
+          - watercrafts
+          - computers_and_parts
+          - video_games
+          - wrist_watches
+          - home_security_surveillance_systems
+          - health_beauty
+          - toys_games
+          - kids
+          - shoes_bags
+          - arts_crafts_sewing
+          - kitchen_dining_room
+          - education
+          - bikes_accessories
+          - clothes
+          - camping
+          - tools_home_improvement
+          - men_accessories
+          - musical_instruments
+          - travel_accessories
+          - special_numbers
+
+    steps:
+      - name: Checkout repo
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+
+      - name: Install dependencies
+        run: pip install pandas openpyxl boto3 python-dotenv
+
+      - name: Download artifacts for ${{ matrix.category }}
+        uses: actions/download-artifact@v4
+        with:
+          pattern: multi-excel-${{ matrix.category }}-*
+          merge-multiple: true
+          path: excel_parts/
+
+      - name: Merge sheets and upload
+        env:
+          CF_R2_ACCESS_KEY_ID: ${{ secrets.CF_R2_ACCESS_KEY_ID }}
+          CF_R2_SECRET_ACCESS_KEY: ${{ secrets.CF_R2_SECRET_ACCESS_KEY }}
+          CF_R2_ENDPOINT_URL: ${{ secrets.CF_R2_ENDPOINT_URL }}
+          CF_R2_BUCKET_NAME: ${{ secrets.CF_R2_BUCKET_NAME }}
+        run: |
+          python << 'EOF'
+          import pandas as pd
+          import glob, os, boto3, json, ast
+          from datetime import datetime, timezone, timedelta
+          from Common_files.r2_uploader  import upload_final_batch_assets
+          from Common_files.build_summary import build_category_summary
+
+          category = "${{ matrix.category }}"
+          files = glob.glob('excel_parts/*.xlsx')
+
+          if not files:
+              print(f"No Excel files found for {category} -- nothing scraped for yesterday, skipping all uploads.")
+              exit(0)
+
+          all_sheets = {}
+          for f in files:
+              xl = pd.ExcelFile(f)
+              for sheet in xl.sheet_names:
+                  df = xl.parse(sheet)
+                  if sheet in all_sheets:
+                      all_sheets[sheet] = pd.concat([all_sheets[sheet], df], ignore_index=True)
+                  else:
+                      all_sheets[sheet] = df
+
+          for sheet in all_sheets:
+              all_sheets[sheet] = all_sheets[sheet].drop_duplicates(subset=['product_url'], keep='first')
+
+          combined_df = pd.concat(all_sheets.values(), ignore_index=True) if all_sheets else pd.DataFrame()
+
+          if combined_df.empty:
+              print(f"Merged result is empty for {category} -- skipping all uploads.")
+              exit(0)
+
+          output_file = f"{category}.xlsx"
+          with pd.ExcelWriter(output_file, engine="openpyxl") as writer:
+              for sheet_name, df in all_sheets.items():
+                  safe = sheet_name.replace("/", "-").replace("\\", "-").replace("*", "").replace("?", "").replace(":", "-")
+                  df.to_excel(writer, sheet_name=safe, index=False)
+                  print(f"  Sheet '{safe}': {len(df)} rows")
+          print(f"Excel saved: {output_file}")
+
+          all_data = combined_df.to_dict(orient='records')
+          json_file = f"{category}.json"
+          with open(json_file, 'w', encoding='utf-8') as f:
+              json.dump(all_data, f, ensure_ascii=False, indent=2)
+          print(f"JSON saved: {json_file} ({len(all_data)} records)")   
+
+          dt = datetime.now(timezone.utc)
+          summary = build_category_summary(combined_df, dt)
+          summary_file = "summary.json"
+          with open(summary_file, "w", encoding="utf-8") as f:
+              json.dump(summary, f, ensure_ascii=False, indent=2)
+          print(f"Summary saved: {summary_file} ({summary['total_subcategories']} subcats, {summary['total_listings']} listings)")
+
+          # ---- uploads ----
+          result = upload_final_batch_assets(
+              images_folder="",
+              final_excel=output_file,
+              folder_name="qatarsale",
+              category=category
+          )
+          print(f"Upload result: {result}")
+
+          client = boto3.client('s3',
+              endpoint_url=os.environ['CF_R2_ENDPOINT_URL'],
+              aws_access_key_id=os.environ['CF_R2_ACCESS_KEY_ID'],
+              aws_secret_access_key=os.environ['CF_R2_SECRET_ACCESS_KEY'],
+              region_name='auto'
+          )
+          bucket = os.environ['CF_R2_BUCKET_NAME']
+          dt_local = datetime.now()
+          base = f"qatarsale/year={dt_local.year}/month={dt_local.strftime('%m')}/day={dt_local.strftime('%d')}/{category}"
+
+          json_key = f"{base}/json/{category}.json"
+          client.upload_file(json_file, bucket, json_key,
+              ExtraArgs={'ContentType': 'application/json; charset=utf-8'})
+          print(f"JSON uploaded: {json_key}")
+
+          summary_key = f"{base}/summary/summary.json"
+          client.upload_file(summary_file, bucket, summary_key,
+              ExtraArgs={'ContentType': 'application/json; charset=utf-8'})
+          print(f"Summary uploaded: {summary_key}")
+
+          failed_links = collect_failed_links('excel_parts/*_failed.txt')
+          total_scraped = sum(len(df) for df in all_sheets.values())
+          failed_report = build_failed_report(failed_links, total_scraped)
+          with open("failed.json", "w", encoding="utf-8") as f:
+              json.dump(failed_report, f, ensure_ascii=False, indent=2)
+
+          failed_key = f"{base}/summary/failed.json"
+          client.upload_file("failed.json", bucket, failed_key,
+              ExtraArgs={'ContentType': 'application/json; charset=utf-8'})
+          print(f"Failed report uploaded: {failed_key} ({failed_report['total_failed']} failed)")
+
+
+          # ---- request_metrics.json (replaces performance_report.json) ----
+          metrics = aggregate_request_stats('excel_parts/request_stats_*.json')
+          with open("request_metrics.json", "w", encoding="utf-8") as f:
+              json.dump(metrics, f, ensure_ascii=False, indent=2)
+
+          metrics_key = f"{base}/summary/request_metrics.json"
+          client.upload_file("request_metrics.json", bucket, metrics_key,
+              ExtraArgs={'ContentType': 'application/json; charset=utf-8'})
+          print(f"Request metrics uploaded: {metrics_key} ({metrics['requests_total']} req, {metrics['requests_per_min']} req/min)")
+          EOF
+
+
+    #   - name: Monitor - Compare with yesterday
+    #     env:
+    #       CF_R2_ACCESS_KEY_ID: ${{ secrets.CF_R2_ACCESS_KEY_ID }}
+    #       CF_R2_SECRET_ACCESS_KEY: ${{ secrets.CF_R2_SECRET_ACCESS_KEY }}
+    #       CF_R2_ENDPOINT_URL: ${{ secrets.CF_R2_ENDPOINT_URL }}
+    #       CF_R2_BUCKET_NAME: ${{ secrets.CF_R2_BUCKET_NAME }}
+    #     run: |
+    #       python << 'EOF'
+    #       import boto3, os, json, glob
+    #       import pandas as pd
+    #       from io import BytesIO
+    #       from datetime import datetime, timezone, timedelta
+
+    #       client = boto3.client('s3',
+    #           endpoint_url=os.environ['CF_R2_ENDPOINT_URL'],
+    #           aws_access_key_id=os.environ['CF_R2_ACCESS_KEY_ID'],
+    #           aws_secret_access_key=os.environ['CF_R2_SECRET_ACCESS_KEY'],
+    #           region_name='auto'
+    #       )
+    #       bucket   = os.environ['CF_R2_BUCKET_NAME']
+    #       category = "${{ matrix.category }}"
+    #       dt       = datetime.now(timezone.utc)
+    #       yesterday = (dt.date() - timedelta(days=1))
+
+    #       # ── Read current data ──
+    #       files = glob.glob('excel_parts/*.xlsx')
+    #       if not files:
+    #           print("No Excel files found, skipping monitor.")
+    #           exit(0)
+
+    #       dfs = []
+    #       for f in files:
+    #           xl = pd.ExcelFile(f)
+    #           for sheet in xl.sheet_names:
+    #               dfs.append(xl.parse(sheet))
+
+    #       current_df = pd.concat(dfs, ignore_index=True)
+    #       current_df = current_df.drop_duplicates(subset=['id'], keep='first')
+    #       print(f"Current (today):   {len(current_df)} products")
+
+    #       # ── Read previous data (yesterday's Excel from R2) ──
+    #       file_key = (
+    #           f"qatarsale/year={yesterday.year}/month={yesterday.strftime('%m')}/"
+    #           f"day={yesterday.strftime('%d')}/{category}/excel/{category}.xlsx"
+    #       )
+    #       try:
+    #           obj        = client.get_object(Bucket=bucket, Key=file_key)
+    #           excel_file = BytesIO(obj["Body"].read())
+    #           sheets     = pd.read_excel(excel_file, sheet_name=None)
+    #           previous_df = pd.concat(sheets.values(), ignore_index=True)
+    #           print(f"Previous (yesterday): {len(previous_df)} products")
+    #       except Exception as e:
+    #           print(f"Could not load yesterday's data: {e}")
+    #           exit(0)
+
+    #       # ── Compare ──
+    #       current_df["id"]  = current_df["id"].astype(str)
+    #       previous_df["id"] = previous_df["id"].astype(str)
+
+    #       current_ids  = set(current_df["id"].dropna())
+    #       previous_ids = set(previous_df["id"].dropna())
+
+    #       removed_ids   = previous_ids - current_ids
+    #       remaining_ids = previous_ids & current_ids
+
+    #       current_indexed  = current_df.set_index("id")
+    #       previous_indexed = previous_df.set_index("id")
+
+    #       rows = []
+
+    #       # Remaining - check changes
+    #       for id_ in remaining_ids:
+    #           if id_ not in current_indexed.index or id_ not in previous_indexed.index:
+    #               continue
+    #           curr = current_indexed.loc[id_]
+    #           prev = previous_indexed.loc[id_]
+
+    #           if curr.get("isSold") and not prev.get("isSold"):
+    #             if curr.get('advertisedFor') == 0:
+    #               status = "sold"
+    #             if curr.get('advertisedFor') == 1:
+    #               status = "rent"
+    #           elif curr.get("isExpired") and not prev.get("isExpired"):
+    #               status = "expired"
+    #           else:
+    #               status = "no_change"
+
+    #           rows.append({
+    #               "id":            id_,
+    #               "product_url":   curr.get("product_url", ""),
+    #               "isSold":        curr.get("isSold", ""),
+    #               "isExpired":     curr.get("isExpired", ""),
+    #               "status_change": status
+    #           })
+
+    #       monitor_df = pd.DataFrame(
+    #           rows,
+    #           columns=[
+    #               "id",
+    #               "product_url",
+    #               "isSold",
+    #               "isExpired",
+    #               "status_change",
+    #           ]
+    #       )
+
+    #       # ── Save locally ──
+    #       os.makedirs(category, exist_ok=True)
+    #       excel_path = f"{category}/monitor_{category}.xlsx"
+    #       monitor_df.to_excel(excel_path, index=False)
+    #       print(f"Saved Excel: {excel_path} ({len(monitor_df)} rows)")
+
+    #       summary = {
+    #           "date":      dt.strftime("%Y-%m-%d"),
+    #           "category":  category,
+    #           "sold":      int((monitor_df["status_change"] == "sold").sum()),
+    #           "rent":       int((monitor_df["status_change"] == "rent").sum()),
+    #           "expired":   int((monitor_df["status_change"] == "expired").sum()),
+    #           "no_change": int((monitor_df["status_change"] == "no_change").sum()),
+    #       }
+    #       json_path = f"{category}/monitor_{category}.json"
+    #       with open(json_path, "w", encoding="utf-8") as f:
+    #           json.dump(summary, f, ensure_ascii=False, indent=2)
+
+    #       print(f"  Sold:      {summary['sold']}")
+    #       print(f"  Rent:      {summary['rent']}")
+    #       print(f"  Expired:   {summary['expired']}")
+    #       print(f"  No change: {summary['no_change']}")
+
+    #       # ── Upload both to R2 ──
+    #       for local_path, content_type, r2_suffix in [
+    #           (excel_path, "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet", f"excel/monitor_{category}.xlsx"),
+    #           (json_path,  "application/json; charset=utf-8", f"json/monitor_{category}.json"),
+    #       ]:
+    #           r2_key = (
+    #               f"qatarsale/year={dt.year}/month={dt.strftime('%m')}/"
+    #               f"day={dt.strftime('%d')}/{category}/{r2_suffix}"
+    #           )
+    #           client.upload_file(local_path, bucket, r2_key, ExtraArgs={"ContentType": content_type})
+    #           print(f"Uploaded: {r2_key}")
+    #       EOF
+
+
+  
