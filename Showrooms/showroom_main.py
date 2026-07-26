@@ -1,7 +1,7 @@
 import sys
 import time
 import pandas as pd
-from .showroom_parser import scrape_showroom
+import showroom_parser
 from PIL import Image
 import pandas as pd
 import requests as req
@@ -89,7 +89,7 @@ def filter_yesterday_links(product_df: pd.DataFrame) -> pd.DataFrame:
 def process_showroom(url, category_key: str):
     for attempt in range(3):
         try:
-            details, product_df = scrape_showroom(url)
+            details, product_df = showroom_parser.scrape_showroom(url)
 
             if product_df is None or product_df.empty:
                 print(f"  [EMPTY] No products found")
