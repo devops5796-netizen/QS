@@ -2,7 +2,7 @@ name: QS Monitor
 
 on:
   workflow_run:
-    workflows: ["Sub Sub Categories"]
+    workflows: ["Showrooms"]
     types:
       - completed
   workflow_dispatch:
