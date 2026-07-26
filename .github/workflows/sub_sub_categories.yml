@@ -126,7 +126,7 @@ jobs:
           CF_R2_BUCKET_NAME: ${{ secrets.CF_R2_BUCKET_NAME }}
         run: |
           export PYTHONPATH=$PWD
-          python -u Sub_and_Sub_Sub Categories/main.py \
+          python -u Sub_and_Sub_Sub_Categories/main.py \
             "${{ matrix.category }}" \
             "${{ matrix.category_path }}" \
             ${{ matrix.start }} \
