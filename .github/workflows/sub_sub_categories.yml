@@ -271,7 +271,7 @@ jobs:
           with open("failed.json", "w", encoding="utf-8") as f:
               json.dump(failed_report, f, ensure_ascii=False, indent=2)
 
-          failed_key = f"{base}/summary/failed.json"
+          failed_key = f"{base_key}/summary/failed.json"
           client.upload_file("failed.json", bucket, failed_key,
               ExtraArgs={'ContentType': 'application/json; charset=utf-8'})
           print(f"Failed report uploaded: {failed_key} ({failed_report['total_failed']} failed)")
@@ -282,7 +282,7 @@ jobs:
           with open("request_metrics.json", "w", encoding="utf-8") as f:
               json.dump(metrics, f, ensure_ascii=False, indent=2)
 
-          metrics_key = f"{base}/summary/request_metrics.json"
+          metrics_key = f"{base_key}/summary/request_metrics.json"
           client.upload_file("request_metrics.json", bucket, metrics_key,
               ExtraArgs={'ContentType': 'application/json; charset=utf-8'})
           print(f"Request metrics uploaded: {metrics_key} ({metrics['requests_total']} req, {metrics['requests_per_min']} req/min)")

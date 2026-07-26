@@ -192,7 +192,7 @@ jobs:
           import pandas as pd
           import glob, os, boto3, subprocess, json
           from datetime import datetime, timezone
-          from Common_files.r2_uploader  import upload_final_batch_assets
+          from Common_files.r2_uploader import upload_final_batch_assets
           from Common_files.build_summary import build_category_summary
           from Common_files.monitor_helpers import collect_failed_links, aggregate_request_stats, build_failed_report
 
@@ -233,16 +233,8 @@ jobs:
 
           print(f"Category: {category} | Rows: {total} | Files merged: {len(files)}")
 
-          result = upload_final_batch_assets(
-              images_folder="",
-              final_excel=output_file,
-              folder_name="qatarsale",
-              category=category
-          )
-          print(f"Upload result: {result}")
-
-          json_file = f"{category}.json"
           all_data = combined_df.to_dict(orient='records')
+          json_file = f"{category}.json"
           with open(json_file, 'w', encoding='utf-8') as f:
               json.dump(all_data, f, ensure_ascii=False, indent=2)
           print(f"JSON saved: {json_file} ({len(all_data)} records)")
@@ -254,13 +246,23 @@ jobs:
               json.dump(summary, f, ensure_ascii=False, indent=2)
           print(f"Summary saved: {summary_file} ({summary['total_subcategories']} entries, {summary['total_listings']} listings)")
 
+          client = boto3.client('s3',
+              endpoint_url=os.environ['CF_R2_ENDPOINT_URL'],
+              aws_access_key_id=os.environ['CF_R2_ACCESS_KEY_ID'],
+              aws_secret_access_key=os.environ['CF_R2_SECRET_ACCESS_KEY'],
+              region_name='auto'
+          )
+          bucket = os.environ['CF_R2_BUCKET_NAME']
+          dt_local = datetime.now()
+          base_key = f"qatarsale/year={dt_local.year}/month={dt_local.strftime('%m')}/day={dt_local.strftime('%d')}/{category}"
+
           summary_key = f"{base_key}/summary/summary.json"
           client.upload_file(summary_file, bucket, summary_key,
               ExtraArgs={'ContentType': 'application/json; charset=utf-8'})
           print(f"Summary uploaded: {summary_key}")
 
           if category == "cars_for_rent":
-              subprocess.run(["python", "split_by_manufacturer.py", output_file, f"excel_by_manufacturer_{category}"], check=True)
+              subprocess.run(["python", "Common_files/split_by_manufacturer.py", output_file, f"excel_by_manufacturer_{category}"], check=True)
 
               prefix = f"{base_key}/excel"
               json_prefix = f"{base_key}/json"
@@ -288,34 +290,26 @@ jobs:
               )
               print(f"Upload result: {result}")
 
-              json_file = f"{category}.json"
-              with open(json_file, 'w', encoding='utf-8') as f:
-                  json.dump(all_data, f, ensure_ascii=False, indent=2)
-              print(f"JSON saved: {json_file} ({len(all_data)} records)")
-
               json_key = f"{base_key}/json/{category}.json"
               client.upload_file(json_file, bucket, json_key,
                   ExtraArgs={'ContentType': 'application/json; charset=utf-8'})
               print(f"JSON uploaded: {json_key}")
 
           failed_links = collect_failed_links('excel_parts/*_failed.txt')
-          total_scraped = sum(len(df) for df in all_sheets.values())
-          failed_report = build_failed_report(failed_links, total_scraped)
+          failed_report = build_failed_report(failed_links, total)
           with open("failed.json", "w", encoding="utf-8") as f:
               json.dump(failed_report, f, ensure_ascii=False, indent=2)
 
-          failed_key = f"{base}/summary/failed.json"
+          failed_key = f"{base_key}/summary/failed.json"
           client.upload_file("failed.json", bucket, failed_key,
               ExtraArgs={'ContentType': 'application/json; charset=utf-8'})
           print(f"Failed report uploaded: {failed_key} ({failed_report['total_failed']} failed)")
 
-
-          # ---- request_metrics.json (replaces performance_report.json) ----
           metrics = aggregate_request_stats('excel_parts/request_stats_*.json')
           with open("request_metrics.json", "w", encoding="utf-8") as f:
               json.dump(metrics, f, ensure_ascii=False, indent=2)
 
-          metrics_key = f"{base}/summary/request_metrics.json"
+          metrics_key = f"{base_key}/summary/request_metrics.json"
           client.upload_file("request_metrics.json", bucket, metrics_key,
               ExtraArgs={'ContentType': 'application/json; charset=utf-8'})
           print(f"Request metrics uploaded: {metrics_key} ({metrics['requests_total']} req, {metrics['requests_per_min']} req/min)")

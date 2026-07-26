@@ -196,9 +196,8 @@ jobs:
         run: |
           python << 'EOF'
           import pandas as pd
-          import glob
+          import glob, os, boto3, json
           from datetime import datetime, timezone
-          import json
           from Common_files.build_summary import build_category_summary
           from Common_files.monitor_helpers import collect_failed_links, aggregate_request_stats, build_failed_report
 
@@ -232,9 +231,19 @@ jobs:
           print(f'Found {len(files)} CSV files to merge')
           print(f'Total Rows: {len(merged)}')
 
+          client = boto3.client('s3',
+              endpoint_url=os.environ['CF_R2_ENDPOINT_URL'],
+              aws_access_key_id=os.environ['CF_R2_ACCESS_KEY_ID'],
+              aws_secret_access_key=os.environ['CF_R2_SECRET_ACCESS_KEY'],
+              region_name='auto'
+          )
+          bucket = os.environ['CF_R2_BUCKET_NAME']
+          dt_local = datetime.now()
+          base = f"qatarsale/year={dt_local.year}/month={dt_local.strftime('%m')}/day={dt_local.strftime('%d')}/cars_for_sale"
+
+          # ---- failed.json (numbers + links) ----
           failed_links = collect_failed_links('csv_parts/*_failed.txt')
-          total_scraped = sum(len(df) for df in all_sheets.values())
-          failed_report = build_failed_report(failed_links, total_scraped)
+          failed_report = build_failed_report(failed_links, len(merged))
           with open("failed.json", "w", encoding="utf-8") as f:
               json.dump(failed_report, f, ensure_ascii=False, indent=2)
 
@@ -243,8 +252,7 @@ jobs:
               ExtraArgs={'ContentType': 'application/json; charset=utf-8'})
           print(f"Failed report uploaded: {failed_key} ({failed_report['total_failed']} failed)")
 
-
-          # ---- request_metrics.json (replaces performance_report.json) ----
+          # ---- request_metrics.json ----
           metrics = aggregate_request_stats('csv_parts/request_stats_*.json')
           with open("request_metrics.json", "w", encoding="utf-8") as f:
               json.dump(metrics, f, ensure_ascii=False, indent=2)
@@ -253,9 +261,7 @@ jobs:
           client.upload_file("request_metrics.json", bucket, metrics_key,
               ExtraArgs={'ContentType': 'application/json; charset=utf-8'})
           print(f"Request metrics uploaded: {metrics_key} ({metrics['requests_total']} req, {metrics['requests_per_min']} req/min)")
-          EOF
 
-          
           with open("HAS_DATA", "w") as f:
               f.write("true")
           EOF
@@ -270,7 +276,7 @@ jobs:
         if: steps.merge.outputs.has_data == 'true'
         run: |
           pip install openpyxl
-          python Common_files.split_by_manufacturer.py cars_for_sale.xlsx excel_by_manufacturer
+          python Common_files/split_by_manufacturer.py cars_for_sale.xlsx excel_by_manufacturer
 
       - name: Upload Excel files to R2
         if: steps.merge.outputs.has_data == 'true'
