@@ -1,4 +1,4 @@
-name: QatarSale Monitor
+name: QS Monitor
 
 on:
   workflow_run:
