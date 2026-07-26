@@ -144,6 +144,8 @@ def run_single_showroom(url, category_key: str = "cars_for_sale"):
         excel_writer.write({slug: empty_df}, f"showroom_{slug}.xlsx")
         print(f"  ⚠ Empty marker saved: showroom_{slug}.xlsx")
     else:
+        with open(f"{slug}_failed.txt", "w", encoding="utf-8") as f:
+            f.write(url + "\n")
         print(f"  ✗ Failed: {slug}")
         return False
 
