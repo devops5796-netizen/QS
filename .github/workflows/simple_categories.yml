@@ -137,6 +137,7 @@ jobs:
           CF_R2_ENDPOINT_URL: ${{ secrets.CF_R2_ENDPOINT_URL }}
           CF_R2_BUCKET_NAME: ${{ secrets.CF_R2_BUCKET_NAME }}
         run: |
+          export PYTHONPATH=$PWD
           python -u Simple_Category/main.py "${{ matrix.category }}" ${{ matrix.start }} ${{ matrix.end }}
 
       - name: Upload Excel artifact
