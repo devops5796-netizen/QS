@@ -1,5 +1,6 @@
 import sys
 import time
+import json
 import Common_files.excel_writer as excel_writer
 from Common_files.detect_utils import analyze_category_with_products
 from datetime import datetime, timezone, timedelta
@@ -7,7 +8,6 @@ import pandas as pd
 from Common_files.request_tracker import tracker
 import Common_files.links_scraper as links_scraper
 import Common_files.products_scraper as products_scraper
-import Common_files.flatten as flatten
 from dotenv import load_dotenv
 load_dotenv()
 
@@ -30,6 +30,42 @@ def filter_yesterday_links(links_csv: str, filtered_csv: str) -> dict:
 
     df_yesterday.to_csv(filtered_csv, index=False, encoding="utf-8")
     return {"total": len(df), "yesterday": len(df_yesterday)}
+
+
+# advertisedFor: 0 = For Sale, 1 = For Rent
+PROPERTY_PURPOSE_SPLIT = {
+    0: "property_for_sale",
+    1: "property_for_rent",
+}
+
+
+def split_property_by_purpose(df: pd.DataFrame) -> dict[str, pd.DataFrame]:
+    """
+    Splits the property category's df into {property_for_sale, property_for_rent}
+    based on advertisedFor. Rows with a missing/unrecognized value are kept
+    under property_for_sale as a safe default -- verify this matches your
+    data before relying on it for anything downstream.
+    """
+    if "advertisedFor" not in df.columns:
+        print("  ⚠️ 'advertisedFor' column not found -- keeping property unsplit as property_for_sale.")
+        return {"property_for_sale": df}
+
+    splits: dict[str, pd.DataFrame] = {}
+    for value, name in PROPERTY_PURPOSE_SPLIT.items():
+        part = df[df["advertisedFor"] == value].copy()
+        if not part.empty:
+            splits[name] = part
+
+    unmatched = df[~df["advertisedFor"].isin(PROPERTY_PURPOSE_SPLIT.keys())]
+    if not unmatched.empty:
+        print(f"  ⚠️ {len(unmatched)} row(s) with unrecognized advertisedFor value -- keeping under property_for_sale.")
+        splits.setdefault("property_for_sale", pd.DataFrame())
+        splits["property_for_sale"] = pd.concat([splits["property_for_sale"], unmatched], ignore_index=True)
+
+    for name, part_df in splits.items():
+        print(f"  Split property: {name} = {len(part_df)} rows")
+
+    return splits
 
 
 def run_category_pages(category: str, category_path: str, start: int, end: int):
@@ -76,15 +112,31 @@ def run_category_pages(category: str, category_path: str, start: int, end: int):
     if s2['success'] == 0:
         print(f"⚠️ No products scraped for '{category}' — skipping.")
         return None
-
-    s3 = flatten.run(products_json)
-    df = s3["df"]
+    
+    rows = []
+    with open(products_json, "r", encoding="utf-8") as f:
+        for line in f:
+            try:
+                rows.append(json.loads(line))
+            except Exception:
+                pass
+    df = pd.DataFrame(rows)
     COLUMNS_TO_DROP = [
         "categoryId", "categoryName", "_CategoryPath", "categoryUri", "createdBy", "thumbnailImages"
     ]
-    df = df.drop(columns=COLUMNS_TO_DROP)
+    df = df.drop(columns=[c for c in COLUMNS_TO_DROP if c in df.columns])
 
-    excel_writer.write_split_by_subcategory(df, output_excel, category_column="categoryPath")
+    output_files = []
+
+    if category == "property":
+        splits = split_property_by_purpose(df)
+        for split_name, split_df in splits.items():
+            split_excel = f"{split_name}_{start}_{end}.xlsx"
+            excel_writer.write_split_by_subcategory(split_df, split_excel, category_column="categoryPath")
+            output_files.append(split_excel)
+    else:
+        excel_writer.write_split_by_subcategory(df, output_excel, category_column="categoryPath")
+        output_files.append(output_excel)
 
     elapsed = time.time() - elapsed_start
     print(f"\nDONE: {s1['total_links']} links | {s2['success']} scraped | {int(elapsed//60)}m {int(elapsed%60)}s")
@@ -96,8 +148,8 @@ def run_category_pages(category: str, category_path: str, start: int, end: int):
     print(f"By source: {stats['per_source']}")
     for worker, s in stats["per_worker"].items():
         print(f"  {worker}: {s['requests']} req | {s['req_per_min']} req/min")
-    
-    return output_excel
+
+    return output_files
 
 
 def main():

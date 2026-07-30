@@ -30,15 +30,15 @@ def run(input_csv: str = "cars_for_sale.csv", output_dir: str = "excel_by_manufa
     out = Path(output_dir)
     out.mkdir(exist_ok=True)
 
-    df["Make"] = df["Make"].fillna("NA")
-    df["Class"]  = df["Class"].fillna("NA")
+    df["specs_Make"] = df["specs_Make"].fillna("NA")
+    df["specs_Class"]  = df["specs_Class"].fillna("NA")
 
-    manufacturers = df["Make"].unique()
+    manufacturers = df["specs_Make"].unique()
     print(f"Found {len(manufacturers)} manufacturers\n")
 
     results = []
     for mfr in sorted(manufacturers, key=str):
-        df_mfr = df[df["Make"] == mfr].copy()
+        df_mfr = df[df["specs_Make"] == mfr].copy()
         filepath = write_manufacturer_excel(str(mfr), df_mfr, out)
         n_models = df_mfr["Class"].nunique()
         print(f"  ✓ {mfr}: {len(df_mfr)} rows | {n_models} models → {filepath.name}")

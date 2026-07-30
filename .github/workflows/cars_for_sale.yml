@@ -156,7 +156,7 @@ jobs:
           CF_R2_BUCKET_NAME: ${{ secrets.CF_R2_BUCKET_NAME }}
         run: |
           export PYTHONPATH=$PWD
-          python -u Cars-for-sale/main.py ${{ matrix.start }} ${{ matrix.end }}
+          python -u Cars_for_sale/main.py ${{ matrix.start }} ${{ matrix.end }}
 
       - name: Upload CSV artifact
         uses: actions/upload-artifact@v4

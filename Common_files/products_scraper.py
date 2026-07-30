@@ -46,7 +46,8 @@ def parse_product(api_data: dict) -> dict:
             whatsapps.append(number)
 
     row = {k: v for k, v in product.items() if k != "definitions"}
-    row.update(specs)
+    #row.update(specs)
+    row["specs"] = specs
     row["phones"] = phones
     row["whatsapps"] = whatsapps
 

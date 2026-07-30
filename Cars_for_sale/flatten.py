@@ -3,10 +3,12 @@ import os
 import pandas as pd
 
 
-def run(input_json: str):
+def run(input_json: str, output_csv: str = None):
+
     if not os.path.exists(input_json):
         print(f"ERROR: '{input_json}' not found!")
         return {"columns": 0, "df": pd.DataFrame()}
+
 
     rows = []
 
@@ -17,16 +19,17 @@ def run(input_json: str):
             except Exception:
                 pass
 
+
     if not rows:
         print("ERROR: No data found in file!")
         return {"columns": 0, "df": pd.DataFrame()}
 
 
-    # Keep original data
+    # keep original columns
     df = pd.DataFrame(rows)
 
 
-    # Flatten specs while keeping original specs column
+    # flatten specs and keep original specs column
     if "specs" in df.columns:
 
         specs_flat = pd.json_normalize(
@@ -48,7 +51,16 @@ def run(input_json: str):
         )
 
 
-    print(f"STEP 3 DONE: {len(df)} rows, {len(df.columns)} columns")
+    if output_csv:
+        df.to_csv(
+            output_csv,
+            index=False,
+            encoding="utf-8-sig"
+        )
+
+    print(
+        f"STEP 3 DONE: {len(df)} rows, {len(df.columns)} columns"
+    )
 
     return {
         "columns": len(df.columns),
