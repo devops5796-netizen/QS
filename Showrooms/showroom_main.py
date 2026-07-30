@@ -129,7 +129,7 @@ def run_single_showroom(url, category_key: str = "cars_for_sale"):
         "title", "startingPrice", "source_url"
     ]
     if df is not None:
-        df = df.drop(columns=COLUMNS_TO_DROP)
+        df = df.drop(columns=[c for c in COLUMNS_TO_DROP if c in df.columns])
 
     stats_file = f"request_stats_{slug}.json"
     tracker.save(stats_file)

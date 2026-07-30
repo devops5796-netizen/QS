@@ -85,7 +85,12 @@ def write_excel_sheets(sheets, output_path):
     print(f"✅ Saved {output_path}")
 
 
-def _write_grouped(df, category_column, file_uri_fn):
+def _filename(file_uri, filename_prefix):
+    base = clean_name(file_uri)
+    return f"{filename_prefix}_{base}.xlsx" if filename_prefix else f"{base}.xlsx"
+
+
+def _write_grouped(df, category_column, file_uri_fn, filename_prefix=None):
     df = df.copy()
     df["_file_uri"] = df[category_column].apply(file_uri_fn)
     df["_sheet_name"] = df[category_column].apply(get_last_name)
@@ -95,31 +100,10 @@ def _write_grouped(df, category_column, file_uri_fn):
             name: sheet_df.drop(columns=["_depth", "_file_uri", "_sheet_name"])
             for name, sheet_df in group.groupby("_sheet_name")
         }
-        write_excel_sheets(sheets, f"{clean_name(file_uri)}.xlsx")
+        write_excel_sheets(sheets, _filename(file_uri, filename_prefix))
 
 
-def write_split_by_subcategory(df, output_path, category_column="categoryPath"):
-    """
-    Decision is based on the DEEPEST categoryPath found anywhere in this
-    scraped category (not per-row), since one scraper run always covers a
-    single top-level category:
-
-    - max depth == 1 (simple category, e.g. glasses):
-        one file named after the leaf uri, one sheet named after the leaf name.
-        glasses.xlsx (sheet: Glasses)
-
-    - max depth == 2 everywhere (sub category, no sub-subcategories anywhere,
-      e.g. computers_and_parts):
-        one file named after the top-level uri, one sheet per subcategory.
-        computers_and_parts.xlsx (sheets: Laptops, Printers, ...)
-
-    - max depth >= 3 present anywhere (sub category WITH sub-subcategories
-      somewhere, e.g. home_appliances): every subcategory gets its own file
-      (named after itself, prefix stripped), whether or not that particular
-      subcategory has sub-subcategories. Sheet = leaf category name.
-        kitchen_appliances.xlsx (sheet: Freezers)
-        vacuums.xlsx (sheet: Vacuums)
-    """
+def write_split_by_subcategory(df, output_path, category_column="categoryPath", filename_prefix=None):
     if category_column not in df.columns:
         write_excel_sheets({"All": df}, output_path)
         return
@@ -134,7 +118,6 @@ def write_split_by_subcategory(df, output_path, category_column="categoryPath"):
 
     max_depth = valid["_depth"].max()
 
-    # Simple category: depth == 1 only
     if max_depth <= 1:
         depth1 = valid[valid["_depth"] == 1].copy()
         depth1["_sheet_name"] = depth1[category_column].apply(get_last_name)
@@ -143,22 +126,17 @@ def write_split_by_subcategory(df, output_path, category_column="categoryPath"):
             name: group.drop(columns=["_depth", "_sheet_name"])
             for name, group in depth1.groupby("_sheet_name")
         }
-        write_excel_sheets(sheets, f"{clean_name(file_uri)}.xlsx")
+        write_excel_sheets(sheets, _filename(file_uri, filename_prefix))
         return
 
-    # Sub category only: depth == 2 everywhere, no sub-subcategories at all
     if max_depth == 2:
         depth2 = valid[valid["_depth"] == 2]
-        _write_grouped(depth2, category_column, get_main_uri)
+        _write_grouped(depth2, category_column, get_main_uri, filename_prefix)
         return
 
-    # Sub category + sub-subcategory mix: depth >= 3 present somewhere.
-    # Every subcategory (depth2 or depth3+) becomes its own file.
     mixed = valid[valid["_depth"] >= 2]
-    _write_grouped(mixed, category_column, get_subcategory_file_uri)
+    _write_grouped(mixed, category_column, get_subcategory_file_uri, filename_prefix)
 
-    # Edge case: stray depth1 rows inside an otherwise-mixed category --
-    # file them under the top-level uri so they aren't silently dropped.
     depth1_stray = valid[valid["_depth"] == 1]
     if not depth1_stray.empty:
-        _write_grouped(depth1_stray, category_column, get_main_uri)
+        _write_grouped(depth1_stray, category_column, get_main_uri, filename_prefix)

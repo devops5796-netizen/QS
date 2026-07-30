@@ -15,8 +15,8 @@ def write_manufacturer_excel(manufacturer: str, df_mfr: pd.DataFrame, output_dir
     with pd.ExcelWriter(filepath, engine="openpyxl") as writer:
 
         # Sheet
-        for model in sorted(df_mfr["Class"].unique(), key=str):
-            df_model = df_mfr[df_mfr["Class"] == model].reset_index(drop=True)
+        for model in sorted(df_mfr["specs_Class"].unique(), key=str):
+            df_model = df_mfr[df_mfr["specs_Class"] == model].reset_index(drop=True)
             sheet_name = clean_name(str(model))
             df_model.to_excel(writer, sheet_name=sheet_name, index=False)
 
@@ -40,7 +40,7 @@ def run(input_csv: str = "cars_for_sale.csv", output_dir: str = "excel_by_manufa
     for mfr in sorted(manufacturers, key=str):
         df_mfr = df[df["specs_Make"] == mfr].copy()
         filepath = write_manufacturer_excel(str(mfr), df_mfr, out)
-        n_models = df_mfr["Class"].nunique()
+        n_models = df_mfr["specs_Class"].nunique()
         print(f"  ✓ {mfr}: {len(df_mfr)} rows | {n_models} models → {filepath.name}")
         results.append({"manufacturer": mfr, "rows": len(df_mfr), "models": n_models, "file": filepath.name})
 

@@ -122,8 +122,10 @@ def run_category_pages(category: str, category_path: str, start: int, end: int):
                 pass
     df = pd.DataFrame(rows)
     COLUMNS_TO_DROP = [
-        "categoryId", "categoryName", "_CategoryPath", "categoryUri", "createdBy", "thumbnailImages"
-    ]
+            "categoryId", "categoryName", "_CategoryPath", "categoryUri", "createdBy", "thumbnailImages",
+            "coverImage", "seoImageUrl", "arSeo", "enSeo", "seoTitle", "seoDesc", "isMyProduct",
+            "isFavourite", "returnOriginalImages", "originalImages"
+        ]
     df = df.drop(columns=[c for c in COLUMNS_TO_DROP if c in df.columns])
 
     output_files = []
@@ -131,9 +133,9 @@ def run_category_pages(category: str, category_path: str, start: int, end: int):
     if category == "property":
         splits = split_property_by_purpose(df)
         for split_name, split_df in splits.items():
-            split_excel = f"{split_name}_{start}_{end}.xlsx"
-            excel_writer.write_split_by_subcategory(split_df, split_excel, category_column="categoryPath")
-            output_files.append(split_excel)
+            excel_writer.write_split_by_subcategory(
+                split_df, None, category_column="categoryPath", filename_prefix=split_name
+        )
     else:
         excel_writer.write_split_by_subcategory(df, output_excel, category_column="categoryPath")
         output_files.append(output_excel)

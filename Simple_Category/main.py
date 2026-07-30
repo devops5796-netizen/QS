@@ -138,9 +138,11 @@ def run_single_category(category: str, start: int, end: int):
     s3 = flatten.run(products_json)
     df = s3["df"]
     COLUMNS_TO_DROP = [
-        "categoryId", "categoryName", "_CategoryPath", "categoryUri", "createdBy", "thumbnailImages"
-    ]
-    df = df.drop(columns=COLUMNS_TO_DROP)
+            "categoryId", "categoryName", "_CategoryPath", "categoryUri", "createdBy", "thumbnailImages",
+            "coverImage", "seoImageUrl", "arSeo", "enSeo", "seoTitle", "seoDesc", "isMyProduct",
+            "isFavourite", "returnOriginalImages", "originalImages"
+        ]
+    df = df.drop(columns=[c for c in COLUMNS_TO_DROP if c in df.columns])
 
     excel_writer.write_split_by_subcategory(df, output_excel, category_column="categoryPath")
 
