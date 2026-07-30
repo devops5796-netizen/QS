@@ -304,7 +304,7 @@ jobs:
           )
           bucket = os.environ['CF_R2_BUCKET_NAME']
           dt_local = datetime.now()
-          base_key = f"qatarsale/year={dt_local.year}/month={dt_local.strftime('%m')}/day={dt_local.strftime('%d')}/{category}"
+          base_key = f"qatarsale/{category}/year={dt_local.year}/month={dt_local.strftime('%m')}/day={dt_local.strftime('%d')}"
 
           if category == "property":
               sale_sheets = merge_group('excel_parts/property_for_sale_*.xlsx')

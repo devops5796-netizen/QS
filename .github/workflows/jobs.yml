@@ -90,7 +90,7 @@ jobs:
           from Common_files.monitor_helpers import collect_failed_links, aggregate_request_stats, build_failed_report
 
           dt     = datetime.now(timezone.utc)
-          base   = f"qatarsale/year={dt.year}/month={dt.strftime('%m')}/day={dt.strftime('%d')}/jobs"
+          base   = f"qatarsale/jobs/year={dt.year}/month={dt.strftime('%m')}/day={dt.strftime('%d')}"
           bucket = os.environ['CF_R2_BUCKET_NAME']
 
           client = boto3.client('s3',
