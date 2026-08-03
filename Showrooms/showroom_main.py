@@ -9,7 +9,7 @@ import io
 from datetime import datetime, timezone, timedelta
 from Common_files.r2_uploader import upload_buffer
 from Common_files.request_tracker import tracker
-import Common_files.excel_writer as excel_writer
+import Common_files.excel_writer as write_excel_sheets
 from dotenv import load_dotenv
 load_dotenv()
 
@@ -136,12 +136,12 @@ def run_single_showroom(url, category_key: str = "cars_for_sale"):
 
     if status == "success" and df is not None and not df.empty:
         sheets = {slug: df}
-        excel_writer.write(sheets, f"showroom_{slug}.xlsx")
+        write_excel_sheets.write(sheets, f"showroom_{slug}.xlsx")
         print(f"  ✓ Saved: showroom_{slug}.xlsx")
         return True
     elif status == "empty":
         empty_df = pd.DataFrame({"status": ["empty - no products found"]})
-        excel_writer.write({slug: empty_df}, f"showroom_{slug}.xlsx")
+        write_excel_sheets.write({slug: empty_df}, f"showroom_{slug}.xlsx")
         print(f"  ⚠ Empty marker saved: showroom_{slug}.xlsx")
     else:
         with open(f"{slug}_failed.txt", "w", encoding="utf-8") as f:

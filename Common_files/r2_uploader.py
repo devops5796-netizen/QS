@@ -45,9 +45,9 @@ def build_r2_key(folder_name: str, category: str, file_type: str, filename: str,
     day   = f"day={dt.strftime('%d')}"
     
     if file_type:
-        return f"{folder_name}/{category}/{year}/{month}/{day}/{file_type}/{filename}"
+        return f"{folder_name}/{year}/{month}/{day}/{category}/{file_type}/{filename}"
     else:
-        return f"{folder_name}/{category}/{year}/{month}/{day}/{category}/{filename}"
+        return f"{folder_name}/{year}/{month}/{day}/{category}/{category}/{filename}"
 
 
 def upload_single_file(

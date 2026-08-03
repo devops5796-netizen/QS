@@ -1,0 +1,8 @@
+__pycache__/
+.env
+README.md
+test.py
+upload.py
+site.yml
+del.py
+size.py

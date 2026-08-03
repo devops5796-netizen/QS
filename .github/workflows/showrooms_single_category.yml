@@ -162,7 +162,7 @@ jobs:
 
           category = os.environ["CATEGORY"]
           dt = datetime.now(timezone.utc)
-          base_path = f"qatarsale/showrooms_{category}/year={dt.year}/month={dt.strftime('%m')}/day={dt.strftime('%d')}"
+          base_path = f"qatarsale/year={dt.year}/month={dt.strftime('%m')}/day={dt.strftime('%d')}/showrooms_{category}"
 
           excel_files  = glob.glob("showroom_parts/showroom_*.xlsx")
           failed_files = glob.glob("showroom_parts/*_failed.txt")

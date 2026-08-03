@@ -244,7 +244,7 @@ jobs:
           )
           bucket = os.environ['CF_R2_BUCKET_NAME']
           dt_local = datetime.now()
-          base = f"qatarsale/cars_for_sale/year={dt_local.year}/month={dt_local.strftime('%m')}/day={dt_local.strftime('%d')}"
+          base = f"qatarsale/year={dt_local.year}/month={dt_local.strftime('%m')}/day={dt_local.strftime('%d')}/cars_for_sale"
 
           # ---- failed.json (numbers + links) ----
           failed_links = collect_failed_links('csv_parts/*_failed.txt')
@@ -303,7 +303,7 @@ jobs:
               region_name='auto'
           )
           dt = datetime.now()
-          prefix = f"qatarsale/cars_for_sale/year={dt.year}/month={dt.strftime('%m')}/day={dt.strftime('%d')}/excel"
+          prefix = f"qatarsale/year={dt.year}/month={dt.strftime('%m')}/day={dt.strftime('%d')}/excel"
           bucket = os.environ['CF_R2_BUCKET_NAME']
 
           for f in glob.glob('excel_by_manufacturer/*.xlsx'):
@@ -319,7 +319,7 @@ jobs:
               with open(json_split_file, 'w', encoding='utf-8') as jf:
                   json.dump(df_split.to_dict(orient='records'), jf, ensure_ascii=False, indent=2)
                   
-              json_prefix = f"qatarsale/cars_for_sale/year={dt.year}/month={dt.strftime('%m')}/day={dt.strftime('%d')}/json"
+              json_prefix = f"qatarsale/year={dt.year}/month={dt.strftime('%m')}/day={dt.strftime('%d')}/cars_for_sale/json"
               json_key = f"{json_prefix}/{os.path.basename(json_split_file)}"
               client.upload_file(json_split_file, bucket, json_key,
                   ExtraArgs={'ContentType': 'application/json; charset=utf-8'})
@@ -346,7 +346,7 @@ jobs:
           )
           dt = datetime.now()
           bucket = os.environ['CF_R2_BUCKET_NAME']
-          key = f"qatarsale/cars_for_sale/year={dt.year}/month={dt.strftime('%m')}/day={dt.strftime('%d')}/summary/summary.json"
+          key = f"qatarsale/year={dt.year}/month={dt.strftime('%m')}/day={dt.strftime('%d')}/cars_for_sale/summary/summary.json"
 
           client.upload_file('summary.json', bucket, key,
               ExtraArgs={'ContentType': 'application/json; charset=utf-8'})

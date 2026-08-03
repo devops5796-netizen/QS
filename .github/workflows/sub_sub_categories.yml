@@ -186,7 +186,7 @@ jobs:
           import pandas as pd
           import glob, os, boto3, json
           from datetime import datetime, timezone
-          from Common_files.r2_uploader  import upload_final_batch_assets
+          from Common_files.r2_uploader import upload_final_batch_assets
           from Common_files.build_summary import build_category_summary
           from Common_files.monitor_helpers import collect_failed_links, aggregate_request_stats, build_failed_report
 
@@ -197,53 +197,35 @@ jobs:
               print(f"No Excel files found for {category} -- nothing scraped for yesterday, skipping all uploads.")
               exit(0)
 
-          all_sheets = {}
+          # Group by ORIGINAL FILENAME (each filename = one subcategory-level
+          # file produced by excel_writer). Multiple batches (start/end jobs)
+          # can produce the same filename -- merge sheets across those, but
+          # never across different filenames.
+          by_filename: dict[str, dict[str, pd.DataFrame]] = {}
           for f in files:
+              fname = os.path.basename(f)
               xl = pd.ExcelFile(f)
+              sheets = by_filename.setdefault(fname, {})
               for sheet in xl.sheet_names:
                   df = xl.parse(sheet)
-                  if sheet in all_sheets:
-                      all_sheets[sheet] = pd.concat([all_sheets[sheet], df], ignore_index=True)
+                  if sheet in sheets:
+                      sheets[sheet] = pd.concat([sheets[sheet], df], ignore_index=True)
                   else:
-                      all_sheets[sheet] = df
+                      sheets[sheet] = df
 
-          for sheet in all_sheets:
-              all_sheets[sheet] = all_sheets[sheet].drop_duplicates(subset=['product_url'], keep='first')
+          for fname, sheets in by_filename.items():
+              for sheet in sheets:
+                  if 'product_url' in sheets[sheet].columns:
+                      sheets[sheet] = sheets[sheet].drop_duplicates(subset=['product_url'], keep='first')
 
-          combined_df = pd.concat(all_sheets.values(), ignore_index=True) if all_sheets else pd.DataFrame()
+          all_dfs = []
+          for fname, sheets in by_filename.items():
+              all_dfs.extend(sheets.values())
+          combined_df = pd.concat(all_dfs, ignore_index=True) if all_dfs else pd.DataFrame()
 
           if combined_df.empty:
               print(f"Merged result is empty for {category} -- skipping all uploads.")
               exit(0)
-
-          output_file = f"{category}.xlsx"
-          with pd.ExcelWriter(output_file, engine="openpyxl") as writer:
-              for sheet_name, df in all_sheets.items():
-                  safe = sheet_name.replace("/", "-").replace("\\", "-").replace("*", "").replace("?", "").replace(":", "-")
-                  df.to_excel(writer, sheet_name=safe, index=False)
-                  print(f"  Sheet '{safe}': {len(df)} rows")
-          print(f"Excel saved: {output_file}")
-
-          all_data = combined_df.to_dict(orient='records')
-          json_file = f"{category}.json"
-          with open(json_file, 'w', encoding='utf-8') as f:
-              json.dump(all_data, f, ensure_ascii=False, indent=2)
-          print(f"JSON saved: {json_file} ({len(all_data)} records)")
-
-          dt = datetime.now(timezone.utc)
-          summary = build_category_summary(combined_df, dt)
-          summary_file = "summary.json"
-          with open(summary_file, "w", encoding="utf-8") as f:
-              json.dump(summary, f, ensure_ascii=False, indent=2)
-          print(f"Summary saved: {summary_file} ({summary['total_subcategories']} subcats, {summary['total_listings']} listings)")
-
-          result = upload_final_batch_assets(
-              images_folder="",
-              final_excel=output_file,
-              folder_name="qatarsale",
-              category=category
-          )
-          print(f"Upload result: {result}")
 
           client = boto3.client('s3',
               endpoint_url=os.environ['CF_R2_ENDPOINT_URL'],
@@ -253,12 +235,45 @@ jobs:
           )
           bucket = os.environ['CF_R2_BUCKET_NAME']
           dt_local = datetime.now()
-          base_key = f"qatarsale/{category}/year={dt_local.year}/month={dt_local.strftime('%m')}/day={dt_local.strftime('%d')}"
+          base_key = f"qatarsale/year={dt_local.year}/month={dt_local.strftime('%m')}/day={dt_local.strftime('%d')}/{category}"
 
-          json_key = f"{base_key}/json/{category}.json"
-          client.upload_file(json_file, bucket, json_key,
-              ExtraArgs={'ContentType': 'application/json; charset=utf-8'})
-          print(f"JSON uploaded: {json_key}")
+          all_data = []
+          for fname, sheets in by_filename.items():
+              local_path = fname
+              with pd.ExcelWriter(local_path, engine="openpyxl") as writer:
+                  for sheet_name, df in sheets.items():
+                      safe = sheet_name.replace("/", "-").replace("\\", "-").replace("*", "").replace("?", "").replace(":", "-")
+                      df.to_excel(writer, sheet_name=safe, index=False)
+                      print(f"  [{fname}] Sheet '{safe}': {len(df)} rows")
+
+              excel_key = f"{base_key}/excel/{fname}"
+              client.upload_file(local_path, bucket, excel_key,
+                  ExtraArgs={'ContentType': 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet'})
+              print(f"Excel uploaded: {excel_key}")
+
+              json_fname = fname.replace(".xlsx", ".json")
+              file_records = []
+              for sheet_name, df in sheets.items():
+                  recs = df.to_dict(orient='records')
+                  for r in recs:
+                      r["_sheet"] = sheet_name
+                  file_records.extend(recs)
+                  all_data.extend(recs)
+
+              with open(json_fname, 'w', encoding='utf-8') as f:
+                  json.dump(file_records, f, ensure_ascii=False, indent=2)
+
+              json_key = f"{base_key}/json/{json_fname}"
+              client.upload_file(json_fname, bucket, json_key,
+                  ExtraArgs={'ContentType': 'application/json; charset=utf-8'})
+              print(f"JSON uploaded: {json_key}")
+
+          dt = datetime.now(timezone.utc)
+          summary = build_category_summary(combined_df, dt)
+          summary_file = "summary.json"
+          with open(summary_file, "w", encoding="utf-8") as f:
+              json.dump(summary, f, ensure_ascii=False, indent=2)
+          print(f"Summary saved: {summary_file} ({summary['total_subcategories']} subcats, {summary['total_listings']} listings)")
 
           summary_key = f"{base_key}/summary/summary.json"
           client.upload_file(summary_file, bucket, summary_key,
@@ -266,8 +281,7 @@ jobs:
           print(f"Summary uploaded: {summary_key}")
 
           failed_links = collect_failed_links('excel_parts/*_failed.txt')
-          total_scraped = sum(len(df) for df in all_sheets.values())
-          failed_report = build_failed_report(failed_links, total_scraped)
+          failed_report = build_failed_report(failed_links, len(combined_df))
           with open("failed.json", "w", encoding="utf-8") as f:
               json.dump(failed_report, f, ensure_ascii=False, indent=2)
 
@@ -276,8 +290,6 @@ jobs:
               ExtraArgs={'ContentType': 'application/json; charset=utf-8'})
           print(f"Failed report uploaded: {failed_key} ({failed_report['total_failed']} failed)")
 
-
-          # ---- request_metrics.json (replaces performance_report.json) ----
           metrics = aggregate_request_stats('excel_parts/request_stats_*.json')
           with open("request_metrics.json", "w", encoding="utf-8") as f:
               json.dump(metrics, f, ensure_ascii=False, indent=2)
