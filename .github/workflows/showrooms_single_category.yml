@@ -5,12 +5,9 @@ on:
     inputs:
       category:
         required: true
-        type: string  # cars_for_sale | cars_for_rent
+        type: string
 
 jobs:
-  # ─────────────────────────────────────────────────────────────
-  # JOB 1: detect all showroom URLs and build the matrix
-  # ─────────────────────────────────────────────────────────────
   detect_showrooms:
     runs-on: ubuntu-latest
     outputs:
@@ -65,9 +62,6 @@ jobs:
               f.write(f"total={total}\n")
           EOF
 
-  # ─────────────────────────────────────────────────────────────
-  # JOB 2: scrape each showroom in parallel (matrix)
-  # ─────────────────────────────────────────────────────────────
   scrape_showrooms:
     runs-on: ubuntu-latest
     needs: detect_showrooms
@@ -120,9 +114,6 @@ jobs:
             request_stats_*.json
           if-no-files-found: ignore
 
-  # ─────────────────────────────────────────────────────────────
-  # JOB 3: merge all showroom Excels + upload to R2
-  # ─────────────────────────────────────────────────────────────
   merge_showrooms:
     runs-on: ubuntu-latest
     needs: scrape_showrooms
@@ -139,6 +130,17 @@ jobs:
       - name: Install dependencies
         run: pip install pandas openpyxl boto3 python-dotenv
 
+      # Get workflow start time from GitHub API (full workflow duration)
+      - name: Get workflow start time
+        id: workflow_start
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          STARTED_AT=$(gh api repos/${{ github.repository }}/actions/runs/${{ github.run_id }} --jq .run_started_at)
+          START_TIMESTAMP=$(date -d "$STARTED_AT" +%s)
+          echo "start_time=$START_TIMESTAMP" >> "$GITHUB_OUTPUT"
+          echo "Workflow started at: $STARTED_AT (timestamp: $START_TIMESTAMP)"
+
       - name: Download all showroom artifacts
         uses: actions/download-artifact@v4
         with:
@@ -153,20 +155,36 @@ jobs:
           CF_R2_ENDPOINT_URL:      ${{ secrets.CF_R2_ENDPOINT_URL }}
           CF_R2_BUCKET_NAME:       ${{ secrets.CF_R2_BUCKET_NAME }}
           CATEGORY: ${{ inputs.category }}
+          WORKFLOW_START_TIME: ${{ steps.workflow_start.outputs.start_time }}
         run: |
           python << 'EOF'
           import pandas as pd
-          import glob, os, boto3, json
-          from datetime import datetime, timezone
-          from Common_files.monitor_helpers import aggregate_request_stats, collect_failed_links, build_failed_report
+          import glob, os, boto3, json, time
+          from datetime import datetime, timezone, timedelta
+          from Common_files.monitor_helpers import collect_failed_links
 
           category = os.environ["CATEGORY"]
+          
+          # Get full workflow duration from GitHub API
+          workflow_start_time = os.getenv("WORKFLOW_START_TIME")
+          workflow_duration = None
+          if workflow_start_time:
+              try:
+                  start_ts = float(workflow_start_time)
+                  now_ts = time.time()
+                  workflow_duration = round(now_ts - start_ts, 2)
+                  print(f"✅ Full workflow duration: {workflow_duration}s")
+              except (ValueError, TypeError):
+                  print("⚠️ Warning: Could not parse WORKFLOW_START_TIME")
+          
+          # Data date = yesterday
+          data_date = datetime.now(timezone.utc) - timedelta(days=1)
           dt = datetime.now(timezone.utc)
+          
           base_path = f"qatarsale/year={dt.year}/month={dt.strftime('%m')}/day={dt.strftime('%d')}/showrooms_{category}"
 
           excel_files  = glob.glob("showroom_parts/showroom_*.xlsx")
-          failed_files = glob.glob("showroom_parts/*_failed.txt")
-          print(f"Found {len(excel_files)} Excel files, {len(failed_files)} failed files")
+          print(f"Found {len(excel_files)} Excel files")
 
           bucket = os.environ["CF_R2_BUCKET_NAME"]
           client = boto3.client(
@@ -177,10 +195,8 @@ jobs:
               region_name           = "auto",
           )
 
-          # ── merge Excel files ────────────────────────────────────────────
-          success_sheets   = []
-          empty_showrooms  = []
-          failed_showrooms = []
+          success_sheets = []
+          empty_showrooms = []
           all_data = []
 
           with pd.ExcelWriter("all_showrooms.xlsx", engine="openpyxl") as writer:
@@ -218,7 +234,6 @@ jobs:
 
                   except Exception as e:
                       sheet_name = os.path.basename(f).replace("showroom_", "").replace(".xlsx", "")[:31]
-                      failed_showrooms.append(sheet_name)
                       print(f"  ✗ FAILED: {sheet_name} — {e}")
 
               if not success_sheets:
@@ -230,19 +245,13 @@ jobs:
                   placeholder.to_excel(writer, sheet_name="summary", index=False)
                   print("  ℹ No successful sheets — wrote placeholder 'summary' sheet")
 
-          print(f"\n{'='*40}")
-          print(f"[{category}] Success:      {len(success_sheets)}")
-          print(f"[{category}] Empty:        {len(empty_showrooms)}")
-          print(f"[{category}] Failed read:  {len(failed_showrooms)}")
-          print(f"[{category}] Total records: {len(all_data)}")
-
-          # ── upload merged Excel ──────────────────────────────────────────
+          # Upload Excel
           excel_key = f"{base_path}/excel/all_showrooms.xlsx"
           client.upload_file("all_showrooms.xlsx", bucket, excel_key,
               ExtraArgs={"ContentType": "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"})
           print(f"✅ Uploaded: {excel_key}")
 
-          # ── JSON matching the Excel ───────────────────────────────────────
+          # Upload JSON
           json_file = "all_showrooms.json"
           with open(json_file, 'w', encoding='utf-8') as f:
               json.dump(all_data, f, ensure_ascii=False, indent=2)
@@ -252,11 +261,46 @@ jobs:
               ExtraArgs={"ContentType": "application/json; charset=utf-8"})
           print(f"✅ Uploaded: {json_key}")
 
-          # ── summary.json (subcategories = showrooms, matching the shared shape) ──
+          # Build complete summary
+          failed_links = collect_failed_links('showroom_parts/*_failed.txt')
+          total_failed = len(failed_links)
+
+          stats_files = glob.glob('showroom_parts/request_stats_*.json')
+          total_requests = 0
+          requests_duration_sec = 0.0
+          per_source = {}
+
+          for sf in stats_files:
+              with open(sf, 'r', encoding='utf-8') as f:
+                  stats = json.load(f)
+              total_requests += stats.get('total_requests', 0)
+              duration_min = stats.get('total_duration_min', 0)
+              if duration_min:
+                  requests_duration_sec = max(requests_duration_sec, duration_min * 60)
+              for source, count in stats.get('per_source', {}).items():
+                  per_source[source] = per_source.get(source, 0) + count
+
+          error_rate_pct = round(total_failed / total_requests * 100, 2) if total_requests > 0 else None
+          requests_per_min = round(total_requests / (requests_duration_sec / 60.0), 2) if requests_duration_sec > 0 else None
+
+          failed_items = []
+          for url in failed_links:
+              failed_items.append({
+                  "name": url,
+                  "errors": 1,
+                  "detail": "Failed to scrape"
+              })
+
           summary = {
               "scraped_at": dt.isoformat(),
-              "data_scraped_date": (dt - pd.Timedelta(days=1)).strftime("%Y-%m-%d"),
-              "saved_to_R2_date": dt.strftime("%Y-%m-%d"),
+              "data_scraped_date": data_date.strftime("%Y-%m-%d"),
+              "saved_to_R2_date": data_date.strftime("%Y-%m-%d"),
+              "category": {
+                  "name_ar": "",
+                  "name_en": f"Showrooms {category}",
+                  "slug": f"showrooms_{category}"
+              },
+              "workflow_name": f"showrooms_{category}",
               "total_subcategories": len(success_sheets),
               "total_listings": len(all_data),
               "subcategories": [
@@ -270,37 +314,29 @@ jobs:
                   }
                   for s in success_sheets
               ],
+              "request_metrics": {
+                  "requests_total": total_requests,
+                  "requests_failed": total_failed,
+                  "error_rate_pct": error_rate_pct,
+                  "duration_sec": workflow_duration,
+                  "requests_duration_sec": requests_duration_sec,
+                  "requests_per_min": requests_per_min,
+                  "per_source": per_source
+              },
+              "failed_items": failed_items,
+              "failed_items_summary": "; ".join([f"{f['name']}: 1 error" for f in failed_items[:5]]) if failed_items else None
           }
+
           with open("summary.json", "w", encoding="utf-8") as f:
               json.dump(summary, f, ensure_ascii=False, indent=2)
 
           summary_key = f"{base_path}/summary/summary.json"
           client.upload_file("summary.json", bucket, summary_key,
               ExtraArgs={"ContentType": "application/json; charset=utf-8"})
-          print(f"✅ Uploaded: {summary_key} ({summary['total_subcategories']} showrooms, {summary['total_listings']} listings)")
+          print(f"✅ Uploaded: {summary_key}")
+          print(f"  - {summary['total_subcategories']} showrooms, {summary['total_listings']} listings")
+          print(f"  - requests: {summary['request_metrics']['requests_total']} total, {summary['request_metrics']['requests_failed']} failed")
+          print(f"  - duration: {summary['request_metrics']['duration_sec']}s")
+          print(f"  - RPM: {summary['request_metrics']['requests_per_min']}")
 
-          # ── failed.json (numbers + links) ─────────────────────────────────
-          failed_links = collect_failed_links("showroom_parts/*_failed.txt")
-          failed_report = build_failed_report(failed_links, len(all_data))
-          failed_report["failed_to_read_showrooms"] = failed_showrooms
-          failed_report["empty_showrooms"] = empty_showrooms
-          with open("failed.json", "w", encoding="utf-8") as f:
-              json.dump(failed_report, f, ensure_ascii=False, indent=2)
-
-          failed_key = f"{base_path}/summary/failed.json"
-          client.upload_file("failed.json", bucket, failed_key,
-              ExtraArgs={"ContentType": "application/json; charset=utf-8"})
-          print(f"✅ Uploaded: {failed_key} ({failed_report['total_failed']} failed)")
-
-          # ── request_metrics.json (will be all zeros until tracker is added -- see note) ──
-          metrics = aggregate_request_stats("showroom_parts/request_stats_*.json")
-          with open("request_metrics.json", "w", encoding="utf-8") as f:
-              json.dump(metrics, f, ensure_ascii=False, indent=2)
-
-          metrics_key = f"{base_path}/summary/request_metrics.json"
-          client.upload_file("request_metrics.json", bucket, metrics_key,
-              ExtraArgs={"ContentType": "application/json; charset=utf-8"})
-          print(f"✅ Uploaded: {metrics_key} ({metrics['requests_total']} req, {metrics['requests_per_min']} req/min)")
-
-          print("\nDone!")
           EOF
