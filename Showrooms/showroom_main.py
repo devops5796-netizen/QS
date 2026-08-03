@@ -9,7 +9,7 @@ import io
 from datetime import datetime, timezone, timedelta
 from Common_files.r2_uploader import upload_buffer
 from Common_files.request_tracker import tracker
-import Common_files.excel_writer as write_excel_sheets
+from Common_files.excel_writer import write_excel_sheets
 from dotenv import load_dotenv
 load_dotenv()
 
