@@ -136,12 +136,12 @@ def run_single_showroom(url, category_key: str = "cars_for_sale"):
 
     if status == "success" and df is not None and not df.empty:
         sheets = {slug: df}
-        write_excel_sheets.write(sheets, f"showroom_{slug}.xlsx")
+        write_excel_sheets(sheets, f"showroom_{slug}.xlsx")
         print(f"  ✓ Saved: showroom_{slug}.xlsx")
         return True
     elif status == "empty":
         empty_df = pd.DataFrame({"status": ["empty - no products found"]})
-        write_excel_sheets.write({slug: empty_df}, f"showroom_{slug}.xlsx")
+        write_excel_sheets({slug: empty_df}, f"showroom_{slug}.xlsx")
         print(f"  ⚠ Empty marker saved: showroom_{slug}.xlsx")
     else:
         with open(f"{slug}_failed.txt", "w", encoding="utf-8") as f:
