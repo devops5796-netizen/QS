@@ -6,38 +6,8 @@ on:
   workflow_dispatch:
 
 jobs:
-  start_marker:
-    runs-on: ubuntu-latest
-    steps:
-      - name: Record run start time on R2
-        env:
-          CF_R2_ACCESS_KEY_ID: ${{ secrets.CF_R2_ACCESS_KEY_ID }}
-          CF_R2_SECRET_ACCESS_KEY: ${{ secrets.CF_R2_SECRET_ACCESS_KEY }}
-          CF_R2_ENDPOINT_URL: ${{ secrets.CF_R2_ENDPOINT_URL }}
-          CF_R2_BUCKET_NAME: ${{ secrets.CF_R2_BUCKET_NAME }}
-        run: |
-          pip install boto3
-          python << 'EOF'
-          import boto3, os, json
-          from datetime import datetime, timezone
-
-          dt = datetime.now(timezone.utc)
-          client = boto3.client('s3',
-              endpoint_url=os.environ['CF_R2_ENDPOINT_URL'],
-              aws_access_key_id=os.environ['CF_R2_ACCESS_KEY_ID'],
-              aws_secret_access_key=os.environ['CF_R2_SECRET_ACCESS_KEY'],
-              region_name='auto'
-          )
-          bucket = os.environ['CF_R2_BUCKET_NAME']
-          key = f"qatarsale/monitor/year={dt.year}/month={dt.strftime('%m')}/day={dt.strftime('%d')}/_run_started_at.json"
-          client.put_object(Bucket=bucket, Key=key, Body=json.dumps({"started_at": dt.isoformat()}).encode(),
-              ContentType='application/json; charset=utf-8')
-          print(f"Marked run start -> {key}")
-          EOF
-
   detect_pages:
     runs-on: ubuntu-latest
-    needs: start_marker
     outputs:
       matrix: ${{ steps.build_matrix.outputs.matrix }}
     steps:
