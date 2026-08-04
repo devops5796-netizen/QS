@@ -10,8 +10,8 @@ CF_R2_SECRET_KEY = os.getenv('CF_R2_SECRET_ACCESS_KEY')
 CF_R2_ENDPOINT_URL = os.getenv('CF_R2_ENDPOINT_URL')
 BUCKET_NAME = os.getenv('CF_R2_BUCKET_NAME', '')
 
-# تحديد الفولدر مباشرة مع إضافة / لضمان استهداف المحتوى بداخل المجلد
-FOLDER = os.getenv("FOLDER", "qatarsale/")
+
+FOLDER = os.getenv("FOLDER", "DKSA/")
 if not FOLDER.endswith('/'):
     FOLDER += '/'
 
