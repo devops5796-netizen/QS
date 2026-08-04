@@ -116,7 +116,7 @@ jobs:
           data_date = datetime.now(timezone.utc) - timedelta(days=2)
           dt = datetime.now(timezone.utc)
 
-          base = f"qatarsale/year={data_date.year}/month={data_date.strftime('%m')}/day={data_date.strftime('%d')}/cars_for_sale"
+          base = f"qatarsale/year={data_date.year}/month={data_date.strftime('%m')}/day={data_date.strftime('%d')}/jobs"
           bucket = os.environ['CF_R2_BUCKET_NAME']
 
           client = boto3.client('s3',
