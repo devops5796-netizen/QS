@@ -81,7 +81,7 @@ def build_category_summary(df: pd.DataFrame, dt: datetime, name_key: str = "name
 
     return {
         "scraped_at": dt.isoformat(),
-        "data_scraped_date": (dt - timedelta(days=1)).strftime("%Y-%m-%d"),
+        "data_scraped_date": (dt - timedelta(days=2)).strftime("%Y-%m-%d"),
         "saved_to_R2_date": dt.strftime("%Y-%m-%d"),
         "total_subcategories": len(subcategories),
         "total_listings": int(len(df)),

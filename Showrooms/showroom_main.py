@@ -77,7 +77,7 @@ def filter_yesterday_links(product_df: pd.DataFrame) -> pd.DataFrame:
 
     df = product_df.copy()
     df["date_parsed"] = pd.to_datetime(df["startDate"], format="ISO8601", utc=True)
-    yesterday = datetime.now(timezone.utc).date() - timedelta(days=1)
+    yesterday = datetime.now(timezone.utc).date() - timedelta(days=2)
     mask = df["date_parsed"].dt.date == yesterday
     df_yesterday = df[mask].drop(columns=["date_parsed"])
 

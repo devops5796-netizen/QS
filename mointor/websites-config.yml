@@ -1,0 +1,3279 @@
+meta:
+  website: qatarsale.com/ar/           # All scrapers target this domain
+  country: Qatar
+  github_username: "devops5796-netizen"
+  repo: QS                             # Single repo confirmed from workspace
+  run_environment: GitHub Actions      # All pipelines run on ubuntu-22.04
+  r2_bucket: "data-collection-dl"                 # Your R2 bucket name (same as CF_R2_BUCKET_NAME secret)
+  r2_prefix: "qatarsale"                    # Fixed prefix inside the bucket
+
+# ------------------------------------------------------------
+# SCRAPERS — 11 categories across 1 batche
+# ------------------------------------------------------------
+scrapers:
+
+  - name: cars_for_sale
+    url: https://qatarsale.com/ar/products/cars_for_sale
+    batch: "cars_for_sale"
+    workflow_file: cars_for_sale.yml
+    r2_path: "{r2_bucket}/qatarsale/cars_for_sale"
+
+  - name: jobs
+    url: https://qatarsale.com/ar/jobs/opportunity/list
+    batch: "jobs"
+    workflow_file: jobs.yml
+    r2_path: "{r2_bucket}/qatarsale/jobs"
+
+  - name: users
+    url: https://qatarsale.com/ar/jobs/user/list
+    batch: "users"
+    workflow_file: users.yml
+    r2_path: "{r2_bucket}/qatarsale/users"
+
+  - name: cars_for_rent
+    url: https://qatarsale.com/ar/products/cars_for_rent
+    batch: "simple_categories"
+    workflow_file: simple_categories.yml
+    r2_path: "{r2_bucket}/qatarsale/cars_for_rent"
+  
+  - name: bikes
+    url: https://qatarsale.com/ar/products/bikes
+    batch: "simple_categories"
+    workflow_file: simple_categories.yml
+    r2_path: "{r2_bucket}/qatarsale/bikes"
+  
+  - name: caravan
+    url: https://qatarsale.com/ar/products/caravan
+    batch: "simple_categories"
+    workflow_file: simple_categories.yml
+    r2_path: "{r2_bucket}/qatarsale/caravan"
+  
+  - name: gift_items
+    url: https://qatarsale.com/ar/products/gift_items
+    batch: "simple_categories"
+    workflow_file: simple_categories.yml
+    r2_path: "{r2_bucket}/qatarsale/gift_items"
+  
+  - name: escalator
+    url: https://qatarsale.com/ar/products/escalator
+    batch: "simple_categories"
+    workflow_file: simple_categories.yml
+    r2_path: "{r2_bucket}/qatarsale/escalator"
+  
+  - name: air_beds_sleeping_bags
+    url: https://qatarsale.com/ar/products/air_beds_sleeping_bags
+    batch: "simple_categories"
+    workflow_file: simple_categories.yml
+    r2_path: "{r2_bucket}/qatarsale/air_beds_sleeping_bags"
+  
+  - name: cashier_machines
+    url: https://qatarsale.com/ar/products/cashier_machines
+    batch: "simple_categories"
+    workflow_file: simple_categories.yml
+    r2_path: "{r2_bucket}/qatarsale/cashier_machines"
+  
+  - name: elevators
+    url: https://qatarsale.com/ar/products/elevators
+    batch: "simple_categories"
+    workflow_file: simple_categories.yml
+    r2_path: "{r2_bucket}/qatarsale/elevators"
+  
+  - name: generators
+    url: https://qatarsale.com/ar/products/generators
+    batch: "simple_categories"
+    workflow_file: simple_categories.yml
+    r2_path: "{r2_bucket}/qatarsale/generators"
+  
+  - name: building_materials
+    url: https://qatarsale.com/ar/products/building_materials
+    batch: "simple_categories"
+    workflow_file: simple_categories.yml
+    r2_path: "{r2_bucket}/qatarsale/building_materials"
+  
+  - name: shaving_hair_removal_products
+    url: https://qatarsale.com/ar/products/shaving_hair_removal_products
+    batch: "simple_categories"
+    workflow_file: simple_categories.yml
+    r2_path: "{r2_bucket}/qatarsale/shaving_hair_removal_products"
+  
+  - name: metal_detector
+    url: https://qatarsale.com/ar/products/metal_detector
+    batch: "simple_categories"
+    workflow_file: simple_categories.yml
+    r2_path: "{r2_bucket}/qatarsale/metal_detector"
+  
+  - name: aquariums
+    url: https://qatarsale.com/ar/products/aquariums
+    batch: "simple_categories"
+    workflow_file: simple_categories.yml
+    r2_path: "{r2_bucket}/qatarsale/aquariums"
+  
+  - name: business_industrial
+    url: https://qatarsale.com/ar/products/business_industrial
+    batch: "simple_categories"
+    workflow_file: simple_categories.yml
+    r2_path: "{r2_bucket}/qatarsale/business_industrial"
+  
+  - name: pumps
+    url: https://qatarsale.com/ar/products/pumps
+    batch: "simple_categories"
+    workflow_file: simple_categories.yml
+    r2_path: "{r2_bucket}/qatarsale/pumps"
+  
+  - name: walkie_talkie
+    url: https://qatarsale.com/ar/products/walkie_talkie
+    batch: "simple_categories"
+    workflow_file: simple_categories.yml
+    r2_path: "{r2_bucket}/qatarsale/walkie_talkie"
+  
+  - name: glasses
+    url: https://qatarsale.com/ar/products/glasses
+    batch: "simple_categories"
+    workflow_file: simple_categories.yml
+    r2_path: "{r2_bucket}/qatarsale/glasses"
+  
+  - name: safe_boxes
+    url: https://qatarsale.com/ar/products/safe_boxes
+    batch: "simple_categories"
+    workflow_file: simple_categories.yml
+    r2_path: "{r2_bucket}/qatarsale/safe_boxes"
+  
+  - name: tracking_systems
+    url: https://qatarsale.com/ar/products/tracking_systems
+    batch: "simple_categories"
+    workflow_file: simple_categories.yml
+    r2_path: "{r2_bucket}/qatarsale/tracking_systems"
+  
+  - name: pet_accessories
+    url: https://qatarsale.com/ar/products/pet_accessories
+    batch: "simple_categories"
+    workflow_file: simple_categories.yml
+    r2_path: "{r2_bucket}/qatarsale/pet_accessories"
+  
+  - name: stamps
+    url: https://qatarsale.com/ar/products/stamps
+    batch: "simple_categories"
+    workflow_file: simple_categories.yml
+    r2_path: "{r2_bucket}/qatarsale/stamps"
+  
+  - name: inflatable_games
+    url: https://qatarsale.com/ar/products/inflatable_games
+    batch: "simple_categories"
+    workflow_file: simple_categories.yml
+    r2_path: "{r2_bucket}/qatarsale/inflatable_games"
+
+  - name: porta_cabin
+    url: https://qatarsale.com/ar/products/porta_cabin
+    batch: "simple_categories"
+    workflow_file: simple_categories.yml
+    r2_path: "{r2_bucket}/qatarsale/porta_cabin"
+  
+  - name: fishing_equipment
+    url: https://qatarsale.com/ar/products/fishing_equipment
+    batch: "simple_categories"
+    workflow_file: simple_categories.yml
+    r2_path: "{r2_bucket}/qatarsale/fishing_equipment"
+
+  - name: car_spare_parts_accessories-automotive_exterior_accessories
+    url: https://qatarsale.com/ar/products/car_spare_parts_accessories-automotive_exterior_accessories
+    batch: "sub_categories"
+    workflow_file: sub_categories.yml
+    r2_path: "{r2_bucket}/qatarsale/car_spare_parts_accessories-automotive_exterior_accessories"
+  
+  - name: heavy_equipments
+    url: https://qatarsale.com/ar/products/heavy_equipments
+    batch: "sub_categories"
+    workflow_file: sub_categories.yml
+    r2_path: "{r2_bucket}/qatarsale/heavy_equipments"
+  
+  - name: car_spare_parts_accessories
+    url: https://qatarsale.com/ar/products/car_spare_parts_accessories
+    batch: "sub_categories"
+    workflow_file: sub_categories.yml
+    r2_path: "{r2_bucket}/qatarsale/car_spare_parts_accessories"
+  
+  - name: jewellery
+    url: https://qatarsale.com/ar/products/jewellery
+    batch: "sub_categories"
+    workflow_file: sub_categories.yml
+    r2_path: "{r2_bucket}/qatarsale/jewellery"
+  
+  - name: property
+    url: https://qatarsale.com/ar/products/property
+    batch: "sub_categories"
+    workflow_file: sub_categories.yml
+    r2_path: "{r2_bucket}/qatarsale/property"
+  
+  - name: watercrafts
+    url: https://qatarsale.com/ar/products/watercrafts
+    batch: "sub_categories"
+    workflow_file: sub_categories.yml
+    r2_path: "{r2_bucket}/qatarsale/watercrafts"
+
+  - name: computers_and_parts
+    url: https://qatarsale.com/ar/products/computers_and_parts
+    batch: "sub_categories"
+    workflow_file: sub_categories.yml
+    r2_path: "{r2_bucket}/qatarsale/computers_and_parts"
+  
+  - name: video_games
+    url: https://qatarsale.com/ar/products/video_games
+    batch: "sub_categories"
+    workflow_file: sub_categories.yml
+    r2_path: "{r2_bucket}/qatarsale/video_games"
+  
+  - name: wrist_watches
+    url: https://qatarsale.com/ar/products/wrist_watches
+    batch: "sub_categories"
+    workflow_file: sub_categories.yml
+    r2_path: "{r2_bucket}/qatarsale/wrist_watches"
+  
+  - name: home_security_surveillance_systems
+    url: https://qatarsale.com/ar/products/home_security_surveillance_systems
+    batch: "sub_categories"
+    workflow_file: sub_categories.yml
+    r2_path: "{r2_bucket}/qatarsale/home_security_surveillance_systems"
+  
+  - name: health_beauty
+    url: https://qatarsale.com/ar/products/health_beauty
+    batch: "sub_categories"
+    workflow_file: sub_categories.yml
+    r2_path: "{r2_bucket}/qatarsale/health_beauty"
+
+  - name: toys_games
+    url: https://qatarsale.com/ar/products/toys_games
+    batch: "sub_categories"
+    workflow_file: sub_categories.yml
+    r2_path: "{r2_bucket}/qatarsale/toys_games"
+  
+  - name: kids
+    url: https://qatarsale.com/ar/products/kids
+    batch: "sub_categories"
+    workflow_file: sub_categories.yml
+    r2_path: "{r2_bucket}/qatarsale/kids"
+  
+  - name: shoes_bags
+    url: https://qatarsale.com/ar/products/shoes_bags
+    batch: "sub_categories"
+    workflow_file: sub_categories.yml
+    r2_path: "{r2_bucket}/qatarsale/shoes_bags"
+  
+  - name: arts_crafts_sewing
+    url: https://qatarsale.com/ar/products/arts_crafts_sewing
+    batch: "sub_categories"
+    workflow_file: sub_categories.yml
+    r2_path: "{r2_bucket}/qatarsale/arts_crafts_sewing"
+  
+  - name: kitchen_dining_room
+    url: https://qatarsale.com/ar/products/kitchen_dining_room
+    batch: "sub_categories"
+    workflow_file: sub_categories.yml
+    r2_path: "{r2_bucket}/qatarsale/kitchen_dining_room"
+  
+  - name: education
+    url: https://qatarsale.com/ar/products/education
+    batch: "sub_categories"
+    workflow_file: sub_categories.yml
+    r2_path: "{r2_bucket}/qatarsale/education"
+  
+  - name: bikes_accessories
+    url: https://qatarsale.com/ar/products/bikes_accessories
+    batch: "sub_categories"
+    workflow_file: sub_categories.yml
+    r2_path: "{r2_bucket}/qatarsale/bikes_accessories"
+  
+  - name: clothes
+    url: https://qatarsale.com/ar/products/clothes
+    batch: "sub_categories"
+    workflow_file: sub_categories.yml
+    r2_path: "{r2_bucket}/qatarsale/clothes"
+  
+  - name: camping
+    url: https://qatarsale.com/ar/products/camping
+    batch: "sub_categories"
+    workflow_file: sub_categories.yml
+    r2_path: "{r2_bucket}/qatarsale/camping"
+  
+  - name: tools_home_improvement
+    url: https://qatarsale.com/ar/products/tools_home_improvement
+    batch: "sub_categories"
+    workflow_file: sub_categories.yml
+    r2_path: "{r2_bucket}/qatarsale/tools_home_improvement"
+  
+  - name: men_accessories
+    url: https://qatarsale.com/ar/products/men_accessories
+    batch: "sub_categories"
+    workflow_file: sub_categories.yml
+    r2_path: "{r2_bucket}/qatarsale/men_accessories"
+  
+  - name: musical_instruments
+    url: https://qatarsale.com/ar/products/musical_instruments
+    batch: "sub_categories"
+    workflow_file: sub_categories.yml
+    r2_path: "{r2_bucket}/qatarsale/musical_instruments"
+  
+  - name: travel_accessories
+    url: https://qatarsale.com/ar/products/travel_accessories
+    batch: "sub_categories"
+    workflow_file: sub_categories.yml
+    r2_path: "{r2_bucket}/qatarsale/travel_accessories"
+  
+  - name: special_numbers
+    url: https://qatarsale.com/ar/products/special_numbers
+    batch: "sub_categories"
+    workflow_file: sub_categories.yml
+    r2_path: "{r2_bucket}/qatarsale/special_numbers"
+
+  - name: home_appliances
+    url: https://qatarsale.com/ar/products/home_appliances
+    batch: "sub_sub_categories"
+    workflow_file: sub_sub_categories.yml
+    r2_path: "{r2_bucket}/qatarsale/home_appliances"
+  
+  - name: services
+    url: https://qatarsale.com/ar/products/services
+    batch: "sub_sub_categories"
+    workflow_file: sub_sub_categories.yml
+    r2_path: "{r2_bucket}/qatarsale/services"
+  
+  - name: mobile_telephone_and_tablets
+    url: https://qatarsale.com/ar/products/mobile_telephone_and_tablets
+    batch: "sub_sub_categories"
+    workflow_file: sub_sub_categories.yml
+    r2_path: "{r2_bucket}/qatarsale/mobile_telephone_and_tablets"
+  
+  - name: furniture_dcor
+    url: https://qatarsale.com/ar/products/furniture_dcor
+    batch: "sub_sub_categories"
+    workflow_file: sub_sub_categories.yml
+    r2_path: "{r2_bucket}/qatarsale/furniture_dcor"
+  
+  - name: electronics
+    url: https://qatarsale.com/ar/products/electronics
+    batch: "sub_sub_categories"
+    workflow_file: sub_sub_categories.yml
+    r2_path: "{r2_bucket}/qatarsale/electronics"
+  
+  - name: sportswear_equipment
+    url: https://qatarsale.com/ar/products/sportswear_equipment
+    batch: "sub_sub_categories"
+    workflow_file: sub_sub_categories.yml
+    r2_path: "{r2_bucket}/qatarsale/sportswear_equipment"
+
+# ------------------------------------------------------------
+# PIPELINE CHAIN (auto-detected from workflow triggers)
+# Batch Cars For Sale → Jobs → Users → Simple Categories → Sub Categories → 
+#       Sub Sub Categories → Showrooms(daily at 00:00 UTC)
+# ------------------------------------------------------------
+pipeline_chain:
+  - batch: "Cars For Sale"
+    trigger: "cron: '0 0 * * *'"
+    triggers_next: "Jobs"
+  - batch: "Jobs"
+    trigger: "on_completion: Cars For Sale"
+    triggers_next: "Users"
+  - batch: "Users"
+    trigger: "on_completion: Jobs"
+    triggers_next: "Simple Categories"
+  - batch: "Simple Categories"
+    trigger: "on_completion: Users"
+    triggers_next: "Sub Categories"
+  - batch: "Sub Categories"
+    trigger: "on_completion: Simple Categories"
+    triggers_next: "Sub Sub Categories"
+  - batch: "Sub Sub Categories"
+    trigger: "on_completion: Sub Categories"
+    triggers_next: "Showrooms"
+  - batch: "Showrooms"
+    trigger: "workflow_dispatch (triggered by Sub Sub Categories)"
+    triggers_next: null
+
+# ============================================================
+# EXCEL SCHEMA — Per-scraper .xlsx output validation
+# One entry per scraper; each describes the sheets, required
+# column headers, expected row range, and min file size.
+# ============================================================
+
+# ── REUSABLE COLUMN ANCHORS ─────────────────────────────────
+
+_col_default_listing: &col_default_listing
+  - advertisedFor
+  - arDesc
+  - bidRate
+  - buyNowAmount
+  - canComplain
+  - categoryPath
+  - condition
+  - createdAt
+  - currentDate
+  - desc
+  - duration
+  - durationIndex
+  - enDesc
+  - enUrl
+  - endDate
+  - endStatus
+  - fansCount
+  - fee
+  - forView
+  - has360
+  - hasActiveVersion
+  - hasCoverImages
+  - hasLive
+  - hasPdf
+  - hasPendingPrice
+  - hasPendingUpdate
+  - id
+  - images
+  - imagesCount
+  - inStudio
+  - isActive
+  - isActiveCategory
+  - isBusiness
+  - isBuyNow
+  - isDeleted
+  - isDemo
+  - isExpired
+  - isHasMore
+  - isLocked
+  - isMyWinner
+  - isPinned
+  - isPinnedToShowroom
+  - isPromoted
+  - isSaved
+  - isService
+  - isSold
+  - isStarted
+  - isUpdated
+  - isWon
+  - language
+  - liveURL
+  - location
+  - moveUpFee
+  - neededCredit
+  - oldPrice
+  - owner
+  - ownerId
+  - ownerPhoneNumber
+  - pdfUrl
+  - phones
+  - pinFee
+  - platform
+  - product_url
+  - promotedFee
+  - soldDate
+  - specs
+  - startDate
+  - startingPrice
+  - status
+  - tag
+  - timeAgo
+  - title
+  - type
+  - uri
+  - userCode
+  - viewCount
+  - whatsapps
+
+_col_default_2_listing: &col_default_2_listing
+  - advertisedFor
+  - arDesc
+  - bidRate
+  - buyNowAmount
+  - canComplain
+  - categoryPath
+  - condition
+  - createdAt
+  - currentDate
+  - desc
+  - duration
+  - durationIndex
+  - enDesc
+  - enUrl
+  - endDate
+  - endStatus
+  - fansCount
+  - fee
+  - forView
+  - has360
+  - hasActiveVersion
+  - hasCoverImages
+  - hasLive
+  - hasPdf
+  - hasPendingPrice
+  - hasPendingUpdate
+  - id
+  - images
+  - imagesCount
+  - inStudio
+  - isActive
+  - isActiveCategory
+  - isBusiness
+  - isBuyNow
+  - isDeleted
+  - isDemo
+  - isExpired
+  - isHasMore
+  - isLocked
+  - isMyWinner
+  - isPinned
+  - isPinnedToShowroom
+  - isPromoted
+  - isSaved
+  - isService
+  - isSold
+  - isStarted
+  - isUpdated
+  - isWon
+  - language
+  - location
+  - moveUpFee
+  - neededCredit
+  - owner
+  - ownerId
+  - ownerPhoneNumber
+  - pdfUrl
+  - phones
+  - pinFee
+  - platform
+  - product_url
+  - promotedFee
+  - specs
+  - startDate
+  - startingPrice
+  - status
+  - tag
+  - timeAgo
+  - title
+  - type
+  - uri
+  - userCode
+  - viewCount
+  - whatsapps
+
+_col_sale_cars_listing: &col_sale_cars_listing
+  - id
+  - has360
+  - moveUpFee
+  - promotedFee
+  - isService
+  - title
+  - enUrl
+  - uri
+  - desc
+  - hasPdf
+  - language
+  - platform
+  - isBusiness
+  - advertisedFor
+  - ownerId
+  - isDeleted
+  - condition
+  - type
+  - status
+  - endStatus
+  - forView
+  - categoryPath
+  - timeAgo
+  - currentDate
+  - startDate
+  - fee
+  - startingPrice
+  - isExpired
+  - isSold
+  - hasLive
+  - liveURL
+  - isActiveCategory
+  - isMyWinner
+  - createdAt
+  - isUpdated
+  - tag
+  - imagesCount
+  - viewCount
+  - fansCount
+  - hasPendingUpdate
+  - hasActiveVersion
+  - hasPendingPrice
+  - pinFee
+  - isPinned
+  - durationIndex
+  - duration
+  - arDesc
+  - enDesc
+  - isHasMore
+  - bidRate
+  - buyNowAmount
+  - neededCredit
+  - isWon
+  - inStudio
+  - isDemo
+  - isActive
+  - isSaved
+  - isStarted
+  - canComplain
+  - owner
+  - userCode
+  - images
+  - isPromoted
+  - isPinnedToShowroom
+  - hasCoverImages
+  - endDate
+  - isLocked
+  - isBuyNow
+  - specs
+  - phones
+  - whatsapps
+  - product_url
+  - images_local_paths
+  - location
+  - pdfUrl
+
+_col_user_listing: &col_user_listing
+  - id
+  - status
+  - canEdit
+  - personalPictureUrl
+  - workFieldId
+  - workFieldName
+  - workSpecialtyId
+  - workSpecialtyName
+  - fullName
+  - birthYear
+  - gender
+  - countryId
+  - countryName
+  - cityId
+  - cityName
+  - email
+  - phoneNumber
+  - phoneCode
+  - viewsCount
+  - favoritesCount
+  - professionalSummary
+  - openToWork
+  - activatedAt
+  - rejectionReason
+  - isFavorite
+  - totalExperienceYears
+  - appliedForJobsCount
+  - canDiscardChanges
+  - employmentTypes
+  - jobExperiences
+  - educations
+  - skills
+  - certificates
+  - projects
+  - languages
+  - selectedNationalities
+  - socialLinks
+  - uriCode
+  - hasActiveVersion
+  - profile_url
+
+_col_job_listing: &col_job_listing
+  - id
+  - status
+  - published
+  - uri
+  - industryId
+  - industryName
+  - jobTitleId
+  - jobTitleName
+  - companyName
+  - displayCompanyName
+  - companyPicture
+  - workplaceType
+  - salaryType
+  - minSalary
+  - maxSalary
+  - currencyId
+  - currencyName
+  - salaryPayemntPeriod
+  - countryId
+  - countryName
+  - cityId
+  - cityName
+  - description
+  - createdAt
+  - canEdit
+  - timeAgo
+  - activatedAt
+  - isFavorite
+  - employmentTypes
+  - educationDegree
+  - educationDegreeName
+  - experiences
+  - skills
+  - languages
+  - viewsCount
+  - favoritesCount
+  - applicantsCount
+  - canDiscardChanges
+  - hasActiveVersion
+  - isUserCanApply
+  - job_url
+  - rejectionReason
+  - salaryAmount
+
+_col_rent_cars_listing: &col_rent_cars_listing
+  - advertisedFor
+  - arDesc
+  - bidRate
+  - buyNowAmount
+  - canComplain
+  - categoryPath
+  - condition
+  - createdAt
+  - currentDate
+  - desc
+  - duration
+  - durationIndex
+  - enDesc
+  - enUrl
+  - endDate
+  - endStatus
+  - fansCount
+  - fee
+  - forView
+  - has360
+  - hasActiveVersion
+  - hasCoverImages
+  - hasLive
+  - hasPdf
+  - hasPendingPrice
+  - hasPendingUpdate
+  - id
+  - images
+  - imagesCount
+  - inStudio
+  - isActive
+  - isActiveCategory
+  - isBusiness
+  - isBuyNow
+  - isDeleted
+  - isDemo
+  - isExpired
+  - isHasMore
+  - isLocked
+  - isMyWinner
+  - isPinned
+  - isPinnedToShowroom
+  - isPromoted
+  - isSaved
+  - isService
+  - isSold
+  - isStarted
+  - isUpdated
+  - isWon
+  - language
+  - liveURL
+  - location
+  - moveUpFee
+  - neededCredit
+  - oldPrice
+  - owner
+  - ownerId
+  - pdfUrl
+  - phones
+  - pinFee
+  - platform
+  - product_url
+  - promotedFee
+  - rentType
+  - showroomId
+  - showroomIsHidden
+  - showroomName
+  - showroomUri
+  - specs
+  - startDate
+  - startingPrice
+  - status
+  - tag
+  - timeAgo
+  - title
+  - type
+  - uri
+  - userCode
+  - viewCount
+  - whatsapps
+
+_col_bikes_listing: &col_bikes_listing
+  - advertisedFor
+  - arDesc
+  - bidRate
+  - buyNowAmount
+  - canComplain
+  - categoryPath
+  - condition
+  - createdAt
+  - currentDate
+  - desc
+  - duration
+  - durationIndex
+  - enDesc
+  - enUrl
+  - endDate
+  - endStatus
+  - fansCount
+  - fee
+  - forView
+  - has360
+  - hasActiveVersion
+  - hasCoverImages
+  - hasLive
+  - hasPdf
+  - hasPendingPrice
+  - hasPendingUpdate
+  - id
+  - images
+  - imagesCount
+  - inStudio
+  - isActive
+  - isActiveCategory
+  - isBusiness
+  - isBuyNow
+  - isDeleted
+  - isDemo
+  - isExpired
+  - isHasMore
+  - isLocked
+  - isMyWinner
+  - isPinned
+  - isPinnedToShowroom
+  - isPromoted
+  - isSaved
+  - isService
+  - isSold
+  - isStarted
+  - isUpdated
+  - isWon
+  - language
+  - liveURL
+  - location
+  - moveUpFee
+  - neededCredit
+  - owner
+  - ownerId
+  - ownerPhoneNumber
+  - pdfUrl
+  - phones
+  - pinFee
+  - platform
+  - product_url
+  - promotedFee
+  - showroomId
+  - showroomIsHidden
+  - showroomName
+  - showroomUri
+  - soldDate
+  - specs
+  - startDate
+  - startingPrice
+  - status
+  - tag
+  - timeAgo
+  - title
+  - type
+  - uri
+  - userCode
+  - viewCount
+  - whatsapps
+
+_col_cashier_generators_shaving_listing: &col_cashier_generators_shaving_listing
+  - advertisedFor
+  - arDesc
+  - bidRate
+  - buyNowAmount
+  - canComplain
+  - categoryPath
+  - condition
+  - createdAt
+  - currentDate
+  - desc
+  - duration
+  - durationIndex
+  - enDesc
+  - enUrl
+  - endDate
+  - endStatus
+  - fansCount
+  - fee
+  - forView
+  - has360
+  - hasActiveVersion
+  - hasCoverImages
+  - hasLive
+  - hasPdf
+  - hasPendingPrice
+  - hasPendingUpdate
+  - id
+  - images
+  - imagesCount
+  - inStudio
+  - isActive
+  - isActiveCategory
+  - isBusiness
+  - isBuyNow
+  - isDeleted
+  - isDemo
+  - isExpired
+  - isHasMore
+  - isLocked
+  - isMyWinner
+  - isPinned
+  - isPinnedToShowroom
+  - isPromoted
+  - isSaved
+  - isService
+  - isSold
+  - isStarted
+  - isUpdated
+  - isWon
+  - language
+  - moveUpFee
+  - neededCredit
+  - owner
+  - ownerId
+  - ownerPhoneNumber
+  - pdfUrl
+  - phones
+  - pinFee
+  - platform
+  - product_url
+  - promotedFee
+  - specs
+  - startDate
+  - startingPrice
+  - status
+  - tag
+  - timeAgo
+  - title
+  - type
+  - uri
+  - userCode
+  - viewCount
+  - whatsapps
+
+_col_home_appliances_kids_listing: &col_home_appliances_kids_listing
+  - advertisedFor
+  - arDesc
+  - bidRate
+  - buyNowAmount
+  - canComplain
+  - categoryPath
+  - condition
+  - createdAt
+  - currentDate
+  - desc
+  - duration
+  - durationIndex
+  - enDesc
+  - enUrl
+  - endDate
+  - endStatus
+  - fansCount
+  - fee
+  - forView
+  - has360
+  - hasActiveVersion
+  - hasCoverImages
+  - hasLive
+  - hasPdf
+  - hasPendingPrice
+  - hasPendingUpdate
+  - id
+  - images
+  - imagesCount
+  - inStudio
+  - isActive
+  - isActiveCategory
+  - isBusiness
+  - isBuyNow
+  - isDeleted
+  - isDemo
+  - isExpired
+  - isHasMore
+  - isLocked
+  - isMyWinner
+  - isPinned
+  - isPinnedToShowroom
+  - isPromoted
+  - isSaved
+  - isService
+  - isSold
+  - isStarted
+  - isUpdated
+  - isWon
+  - language
+  - location
+  - moveUpFee
+  - neededCredit
+  - oldPrice
+  - owner
+  - ownerId
+  - ownerPhoneNumber
+  - pdfUrl
+  - phones
+  - pinFee
+  - platform
+  - product_url
+  - promotedFee
+  - showroomId
+  - showroomIsHidden
+  - showroomName
+  - showroomUri
+  - soldDate
+  - specs
+  - startDate
+  - startingPrice
+  - status
+  - tag
+  - timeAgo
+  - title
+  - type
+  - uri
+  - userCode
+  - viewCount
+  - whatsapps
+
+_col_escalator_tracking_sys_listing: &col_escalator_tracking_sys_listing
+  - advertisedFor
+  - arDesc
+  - bidRate
+  - buyNowAmount
+  - canComplain
+  - categoryPath
+  - condition
+  - createdAt
+  - currentDate
+  - desc
+  - duration
+  - durationIndex
+  - enDesc
+  - enUrl
+  - endDate
+  - endStatus
+  - fansCount
+  - fee
+  - forView
+  - has360
+  - hasActiveVersion
+  - hasCoverImages
+  - hasLive
+  - hasPdf
+  - hasPendingPrice
+  - hasPendingUpdate
+  - id
+  - images
+  - imagesCount
+  - inStudio
+  - isActive
+  - isActiveCategory
+  - isBusiness
+  - isBuyNow
+  - isDeleted
+  - isDemo
+  - isExpired
+  - isHasMore
+  - isLocked
+  - isMyWinner
+  - isPinned
+  - isPinnedToShowroom
+  - isPromoted
+  - isSaved
+  - isService
+  - isSold
+  - isStarted
+  - isUpdated
+  - isWon
+  - language
+  - location
+  - moveUpFee
+  - neededCredit
+  - owner
+  - ownerId
+  - phones
+  - pinFee
+  - platform
+  - product_url
+  - promotedFee
+  - showroomId
+  - showroomIsHidden
+  - showroomName
+  - showroomUri
+  - specs
+  - startDate
+  - startingPrice
+  - status
+  - tag
+  - timeAgo
+  - title
+  - type
+  - uri
+  - viewCount
+  - whatsapps
+
+_col_services_listing: &col_services_listing
+  - advertisedFor
+  - arDesc
+  - bidRate
+  - buyNowAmount
+  - canComplain
+  - categoryPath
+  - condition
+  - createdAt
+  - currentDate
+  - desc
+  - duration
+  - durationIndex
+  - enDesc
+  - enUrl
+  - endDate
+  - endStatus
+  - fansCount
+  - fee
+  - forView
+  - has360
+  - hasActiveVersion
+  - hasCoverImages
+  - hasLive
+  - hasPdf
+  - hasPendingPrice
+  - hasPendingUpdate
+  - id
+  - images
+  - imagesCount
+  - inStudio
+  - isActive
+  - isActiveCategory
+  - isBusiness
+  - isBuyNow
+  - isDeleted
+  - isDemo
+  - isExpired
+  - isHasMore
+  - isLocked
+  - isMyWinner
+  - isPinned
+  - isPinnedToShowroom
+  - isPromoted
+  - isSaved
+  - isService
+  - isSold
+  - isStarted
+  - isUpdated
+  - isWon
+  - language
+  - liveURL
+  - location
+  - moveUpFee
+  - neededCredit
+  - oldPrice
+  - owner
+  - ownerId
+  - ownerPhoneNumber
+  - pdfUrl
+  - phones
+  - pinFee
+  - platform
+  - product_url
+  - promotedFee
+  - rejectedMsg
+  - rejectedMsgAr
+  - rejectedMsgEn
+  - showroomId
+  - showroomIsHidden
+  - showroomName
+  - showroomUri
+  - soldDate
+  - specs
+  - startDate
+  - startingPrice
+  - status
+  - tag
+  - timeAgo
+  - title
+  - type
+  - uri
+  - userCode
+  - viewCount
+  - whatsapps
+
+_col_elevators_building_materials_listing: &col_elevators_building_materials_listing
+  - advertisedFor
+  - arDesc
+  - bidRate
+  - buyNowAmount
+  - canComplain
+  - categoryPath
+  - condition
+  - createdAt
+  - currentDate
+  - desc
+  - duration
+  - durationIndex
+  - enDesc
+  - enUrl
+  - endDate
+  - endStatus
+  - fansCount
+  - fee
+  - forView
+  - has360
+  - hasActiveVersion
+  - hasCoverImages
+  - hasLive
+  - hasPdf
+  - hasPendingPrice
+  - hasPendingUpdate
+  - id
+  - images
+  - imagesCount
+  - inStudio
+  - isActive
+  - isActiveCategory
+  - isBusiness
+  - isBuyNow
+  - isDeleted
+  - isDemo
+  - isExpired
+  - isHasMore
+  - isLocked
+  - isMyWinner
+  - isPinned
+  - isPinnedToShowroom
+  - isPromoted
+  - isSaved
+  - isService
+  - isSold
+  - isStarted
+  - isUpdated
+  - isWon
+  - language
+  - location
+  - moveUpFee
+  - neededCredit
+  - owner
+  - ownerId
+  - ownerPhoneNumber
+  - pdfUrl
+  - phones
+  - pinFee
+  - platform
+  - product_url
+  - promotedFee
+  - rejectedMsg
+  - rejectedMsgAr
+  - rejectedMsgEn
+  - showroomId
+  - showroomIsHidden
+  - showroomName
+  - showroomUri
+  - specs
+  - startDate
+  - startingPrice
+  - status
+  - tag
+  - timeAgo
+  - title
+  - type
+  - uri
+  - userCode
+  - viewCount
+  - whatsapps
+
+_col_aquariums_bikes_accessories_listing: &col_aquariums_bikes_accessories_listing
+  - advertisedFor
+  - arDesc
+  - bidRate
+  - buyNowAmount
+  - canComplain
+  - categoryPath
+  - condition
+  - createdAt
+  - currentDate
+  - desc
+  - duration
+  - durationIndex
+  - enDesc
+  - enUrl
+  - endDate
+  - endStatus
+  - fansCount
+  - fee
+  - forView
+  - has360
+  - hasActiveVersion
+  - hasCoverImages
+  - hasLive
+  - hasPdf
+  - hasPendingPrice
+  - hasPendingUpdate
+  - id
+  - images
+  - imagesCount
+  - inStudio
+  - isActive
+  - isActiveCategory
+  - isBusiness
+  - isBuyNow
+  - isDeleted
+  - isDemo
+  - isExpired
+  - isHasMore
+  - isLocked
+  - isMyWinner
+  - isPinned
+  - isPinnedToShowroom
+  - isPromoted
+  - isSaved
+  - isService
+  - isSold
+  - isStarted
+  - isUpdated
+  - isWon
+  - language
+  - location
+  - moveUpFee
+  - neededCredit
+  - oldPrice
+  - owner
+  - ownerId
+  - ownerPhoneNumber
+  - pdfUrl
+  - phones
+  - pinFee
+  - platform
+  - product_url
+  - promotedFee
+  - soldDate
+  - specs
+  - startDate
+  - startingPrice
+  - status
+  - tag
+  - timeAgo
+  - title
+  - type
+  - uri
+  - userCode
+  - viewCount
+  - whatsapps
+
+_col_jewellery_car_accessories_listing: &col_jewellery_car_accessories_listing
+  - advertisedFor
+  - arDesc
+  - bidRate
+  - buyNowAmount
+  - canComplain
+  - categoryPath
+  - condition
+  - createdAt
+  - currentDate
+  - desc
+  - duration
+  - durationIndex
+  - enDesc
+  - enUrl
+  - endDate
+  - endStatus
+  - fansCount
+  - fee
+  - forView
+  - has360
+  - hasActiveVersion
+  - hasCoverImages
+  - hasLive
+  - hasPdf
+  - hasPendingPrice
+  - hasPendingUpdate
+  - id
+  - images
+  - imagesCount
+  - inStudio
+  - isActive
+  - isActiveCategory
+  - isBusiness
+  - isBuyNow
+  - isDeleted
+  - isDemo
+  - isExpired
+  - isHasMore
+  - isLocked
+  - isMyWinner
+  - isPinned
+  - isPinnedToShowroom
+  - isPromoted
+  - isSaved
+  - isService
+  - isSold
+  - isStarted
+  - isUpdated
+  - isWon
+  - language
+  - liveURL
+  - location
+  - moveUpFee
+  - neededCredit
+  - oldPrice
+  - owner
+  - ownerId
+  - ownerPhoneNumber
+  - pdfUrl
+  - phones
+  - pinFee
+  - platform
+  - product_url
+  - promotedFee
+  - showroomId
+  - showroomIsHidden
+  - showroomName
+  - showroomUri
+  - specs
+  - startDate
+  - startingPrice
+  - status
+  - tag
+  - timeAgo
+  - title
+  - type
+  - uri
+  - userCode
+  - viewCount
+  - whatsapps
+
+_col_special_numbers_furniture_listing: &col_special_numbers_furniture_listing
+  - advertisedFor
+  - arDesc
+  - bidRate
+  - buyNowAmount
+  - canComplain
+  - categoryPath
+  - condition
+  - createdAt
+  - currentDate
+  - desc
+  - duration
+  - durationIndex
+  - enDesc
+  - enUrl
+  - endDate
+  - endStatus
+  - fansCount
+  - fee
+  - forView
+  - has360
+  - hasActiveVersion
+  - hasCoverImages
+  - hasLive
+  - hasPdf
+  - hasPendingPrice
+  - hasPendingUpdate
+  - id
+  - images
+  - imagesCount
+  - inStudio
+  - isActive
+  - isActiveCategory
+  - isBusiness
+  - isBuyNow
+  - isDeleted
+  - isDemo
+  - isExpired
+  - isHasMore
+  - isLocked
+  - isMyWinner
+  - isPinned
+  - isPinnedToShowroom
+  - isPromoted
+  - isSaved
+  - isService
+  - isSold
+  - isStarted
+  - isUpdated
+  - isWon
+  - language
+  - liveURL
+  - location
+  - moveUpFee
+  - neededCredit
+  - oldPrice
+  - owner
+  - ownerId
+  - pdfUrl
+  - phones
+  - pinFee
+  - platform
+  - product_url
+  - promotedFee
+  - showroomId
+  - showroomIsHidden
+  - showroomName
+  - showroomUri
+  - specs
+  - startDate
+  - startingPrice
+  - status
+  - tag
+  - timeAgo
+  - title
+  - type
+  - uri
+  - userCode
+  - viewCount
+  - whatsapps
+
+_col_tools_watercrafts_listings: &col_tools_watercrafts_listings
+  - advertisedFor
+  - arDesc
+  - bidRate
+  - buyNowAmount
+  - canComplain
+  - categoryPath
+  - condition
+  - createdAt
+  - currentDate
+  - desc
+  - duration
+  - durationIndex
+  - enDesc
+  - enUrl
+  - endDate
+  - endStatus
+  - fansCount
+  - fee
+  - forView
+  - has360
+  - hasActiveVersion
+  - hasCoverImages
+  - hasLive
+  - hasPdf
+  - hasPendingPrice
+  - hasPendingUpdate
+  - id
+  - images
+  - imagesCount
+  - inStudio
+  - isActive
+  - isActiveCategory
+  - isBusiness
+  - isBuyNow
+  - isDeleted
+  - isDemo
+  - isExpired
+  - isHasMore
+  - isLocked
+  - isMyWinner
+  - isPinned
+  - isPinnedToShowroom
+  - isPromoted
+  - isSaved
+  - isService
+  - isSold
+  - isStarted
+  - isUpdated
+  - isWon
+  - language
+  - liveURL
+  - location
+  - moveUpFee
+  - neededCredit
+  - oldPrice
+  - owner
+  - ownerId
+  - ownerPhoneNumber
+  - pdfUrl
+  - phones
+  - pinFee
+  - platform
+  - product_url
+  - promotedFee
+  - showroomId
+  - showroomIsHidden
+  - showroomName
+  - showroomUri
+  - soldDate
+  - specs
+  - startDate
+  - startingPrice
+  - status
+  - tag
+  - timeAgo
+  - title
+  - type
+  - uri
+  - userCode
+  - viewCount
+  - whatsapps
+
+_col_glasses_shoes_listing: &col_glasses_shoes_listing
+  - advertisedFor
+  - arDesc
+  - bidRate
+  - buyNowAmount
+  - canComplain
+  - categoryPath
+  - condition
+  - createdAt
+  - currentDate
+  - desc
+  - duration
+  - durationIndex
+  - enDesc
+  - enUrl
+  - endDate
+  - endStatus
+  - fansCount
+  - fee
+  - forView
+  - has360
+  - hasActiveVersion
+  - hasCoverImages
+  - hasLive
+  - hasPdf
+  - hasPendingPrice
+  - hasPendingUpdate
+  - id
+  - images
+  - imagesCount
+  - inStudio
+  - isActive
+  - isActiveCategory
+  - isBusiness
+  - isBuyNow
+  - isDeleted
+  - isDemo
+  - isExpired
+  - isHasMore
+  - isLocked
+  - isMyWinner
+  - isPinned
+  - isPinnedToShowroom
+  - isPromoted
+  - isSaved
+  - isService
+  - isSold
+  - isStarted
+  - isUpdated
+  - isWon
+  - language
+  - liveURL
+  - location
+  - moveUpFee
+  - neededCredit
+  - oldPrice
+  - owner
+  - ownerId
+  - ownerPhoneNumber
+  - pdfUrl
+  - phones
+  - pinFee
+  - platform
+  - product_url
+  - promotedFee
+  - rejectedMsg
+  - rejectedMsgAr
+  - rejectedMsgEn
+  - specs
+  - startDate
+  - startingPrice
+  - status
+  - tag
+  - timeAgo
+  - title
+  - type
+  - uri
+  - userCode
+  - viewCount
+  - whatsapps
+
+_col_sportswear_equipment_listing: &_col_sportswear_equipment_listing
+  - advertisedFor
+  - arDesc
+  - bidRate
+  - buyNowAmount
+  - canComplain
+  - categoryPath
+  - condition
+  - createdAt
+  - currentDate
+  - desc
+  - duration
+  - durationIndex
+  - enDesc
+  - enUrl
+  - endDate
+  - endStatus
+  - fansCount
+  - fee
+  - forView
+  - has360
+  - hasActiveVersion
+  - hasCoverImages
+  - hasLive
+  - hasPdf
+  - hasPendingPrice
+  - hasPendingUpdate
+  - id
+  - images
+  - imagesCount
+  - inStudio
+  - isActive
+  - isActiveCategory
+  - isBusiness
+  - isBuyNow
+  - isDeleted
+  - isDemo
+  - isExpired
+  - isHasMore
+  - isLocked
+  - isMyWinner
+  - isPinned
+  - isPinnedToShowroom
+  - isPromoted
+  - isSaved
+  - isService
+  - isSold
+  - isStarted
+  - isUpdated
+  - isWon
+  - language
+  - location
+  - moveUpFee
+  - neededCredit
+  - oldPrice
+  - owner
+  - ownerId
+  - pdfUrl
+  - phones
+  - pinFee
+  - platform
+  - product_url
+  - promotedFee
+  - showroomId
+  - showroomIsHidden
+  - showroomName
+  - showroomUri
+  - specs
+  - startDate
+  - startingPrice
+  - status
+  - tag
+  - timeAgo
+  - title
+  - type
+  - uri
+  - userCode
+  - viewCount
+  - whatsapps
+
+_col_pet_accessories_listing: &col_pet_accessories_listing
+  - advertisedFor
+  - arDesc
+  - bidRate
+  - buyNowAmount
+  - canComplain
+  - categoryPath
+  - condition
+  - createdAt
+  - currentDate
+  - desc
+  - duration
+  - durationIndex
+  - enDesc
+  - enUrl
+  - endDate
+  - endStatus
+  - fansCount
+  - fee
+  - forView
+  - has360
+  - hasActiveVersion
+  - hasCoverImages
+  - hasLive
+  - hasPdf
+  - hasPendingPrice
+  - hasPendingUpdate
+  - id
+  - images
+  - imagesCount
+  - inStudio
+  - isActive
+  - isActiveCategory
+  - isBusiness
+  - isBuyNow
+  - isDeleted
+  - isDemo
+  - isExpired
+  - isHasMore
+  - isLocked
+  - isMyWinner
+  - isPinned
+  - isPinnedToShowroom
+  - isPromoted
+  - isSaved
+  - isService
+  - isSold
+  - isStarted
+  - isUpdated
+  - isWon
+  - language
+  - location
+  - moveUpFee
+  - neededCredit
+  - oldPrice
+  - owner
+  - ownerId
+  - ownerPhoneNumber
+  - pdfUrl
+  - phones
+  - pinFee
+  - platform
+  - product_url
+  - promotedFee
+  - specs
+  - startDate
+  - startingPrice
+  - status
+  - tag
+  - timeAgo
+  - title
+  - type
+  - uri
+  - userCode
+  - viewCount
+  - whatsapps
+
+_col_heavy_equipments_listing: &col_heavy_equipments_listing
+  - advertisedFor
+  - arDesc
+  - bidRate
+  - buyNowAmount
+  - canComplain
+  - categoryPath
+  - condition
+  - createdAt
+  - currentDate
+  - desc
+  - duration
+  - durationIndex
+  - enDesc
+  - enUrl
+  - endDate
+  - endStatus
+  - fansCount
+  - fee
+  - forView
+  - has360
+  - hasActiveVersion
+  - hasCoverImages
+  - hasLive
+  - hasPdf
+  - hasPendingPrice
+  - hasPendingUpdate
+  - id
+  - images
+  - imagesCount
+  - inStudio
+  - isActive
+  - isActiveCategory
+  - isBusiness
+  - isBuyNow
+  - isDeleted
+  - isDemo
+  - isExpired
+  - isHasMore
+  - isLocked
+  - isMyWinner
+  - isPinned
+  - isPinnedToShowroom
+  - isPromoted
+  - isSaved
+  - isService
+  - isSold
+  - isStarted
+  - isUpdated
+  - isWon
+  - language
+  - liveURL
+  - location
+  - moveUpFee
+  - neededCredit
+  - oldPrice
+  - owner
+  - ownerId
+  - ownerPhoneNumber
+  - pdfUrl
+  - phones
+  - pinFee
+  - platform
+  - product_url
+  - promotedFee
+  - rejectedMsg
+  - rejectedMsgAr
+  - rejectedMsgEn
+  - rentType
+  - showroomId
+  - showroomIsHidden
+  - showroomName
+  - showroomUri
+  - specs
+  - startDate
+  - startingPrice
+  - status
+  - tag
+  - timeAgo
+  - title
+  - type
+  - uri
+  - userCode
+  - viewCount
+  - whatsapps
+
+_col_property_listing: &col_property_listing
+  - advertisedFor
+  - agent
+  - agentId
+  - arDesc
+  - bidRate
+  - buyNowAmount
+  - canComplain
+  - categoryPath
+  - condition
+  - createdAt
+  - currentDate
+  - desc
+  - duration
+  - durationIndex
+  - enDesc
+  - enUrl
+  - endDate
+  - endStatus
+  - fansCount
+  - fee
+  - forView
+  - has360
+  - hasActiveVersion
+  - hasCoverImages
+  - hasLive
+  - hasPdf
+  - hasPendingPrice
+  - hasPendingUpdate
+  - id
+  - images
+  - imagesCount
+  - inStudio
+  - isActive
+  - isActiveCategory
+  - isBusiness
+  - isBuyNow
+  - isDeleted
+  - isDemo
+  - isExpired
+  - isHasMore
+  - isLocked
+  - isMyWinner
+  - isPinned
+  - isPinnedToShowroom
+  - isPromoted
+  - isSaved
+  - isService
+  - isSold
+  - isStarted
+  - isUpdated
+  - isWon
+  - language
+  - location
+  - moveUpFee
+  - neededCredit
+  - owner
+  - ownerId
+  - pdfUrl
+  - phones
+  - pinFee
+  - platform
+  - product_url
+  - promotedFee
+  - rentType
+  - showroomId
+  - showroomIsHidden
+  - showroomName
+  - showroomUri
+  - specs
+  - startDate
+  - startingPrice
+  - status
+  - tag
+  - timeAgo
+  - title
+  - type
+  - uri
+  - userCode
+  - viewCount
+  - whatsapps
+   
+_col_mobile_tablets_listing: &col_mobile_tablets_listing
+  - advertisedFor
+  - arDesc
+  - bidRate
+  - buyNowAmount
+  - canComplain
+  - categoryPath
+  - condition
+  - createdAt
+  - currentDate
+  - desc
+  - duration
+  - durationIndex
+  - enDesc
+  - enUrl
+  - endDate
+  - endStatus
+  - fansCount
+  - fee
+  - forView
+  - has360
+  - hasActiveVersion
+  - hasCoverImages
+  - hasLive
+  - hasPdf
+  - hasPendingPrice
+  - hasPendingUpdate
+  - id
+  - images
+  - imagesCount
+  - inStudio
+  - isActive
+  - isActiveCategory
+  - isBusiness
+  - isBuyNow
+  - isDeleted
+  - isDemo
+  - isExpired
+  - isHasMore
+  - isLocked
+  - isMyWinner
+  - isPinned
+  - isPinnedToShowroom
+  - isPromoted
+  - isSaved
+  - isService
+  - isSold
+  - isStarted
+  - isUpdated
+  - isWon
+  - language
+  - liveURL
+  - location
+  - moveUpFee
+  - neededCredit
+  - oldPrice
+  - owner
+  - ownerId
+  - ownerPhoneNumber
+  - pdfUrl
+  - phones
+  - pinFee
+  - platform
+  - product_url
+  - promotedFee
+  - rejectedMsg
+  - rejectedMsgAr
+  - rejectedMsgEn
+  - soldDate
+  - specs
+  - startDate
+  - startingPrice
+  - status
+  - tag
+  - timeAgo
+  - title
+  - type
+  - uri
+  - userCode
+  - viewCount
+  - whatsapps
+
+_col_fishing_equipment_listing: &col_fishing_equipment_listing
+  - advertisedFor
+  - arDesc
+  - bidRate
+  - buyNowAmount
+  - canComplain
+  - categoryPath
+  - condition
+  - createdAt
+  - currentDate
+  - desc
+  - duration
+  - durationIndex
+  - enDesc
+  - enUrl
+  - endDate
+  - endStatus
+  - fansCount
+  - fee
+  - forView
+  - has360
+  - hasActiveVersion
+  - hasCoverImages
+  - hasLive
+  - hasPdf
+  - hasPendingPrice
+  - hasPendingUpdate
+  - id
+  - images
+  - imagesCount
+  - inStudio
+  - isActive
+  - isActiveCategory
+  - isBusiness
+  - isBuyNow
+  - isDeleted
+  - isDemo
+  - isExpired
+  - isHasMore
+  - isLocked
+  - isMyWinner
+  - isPinned
+  - isPinnedToShowroom
+  - isPromoted
+  - isSaved
+  - isService
+  - isSold
+  - isStarted
+  - isUpdated
+  - isWon
+  - language
+  - location
+  - moveUpFee
+  - neededCredit
+  - owner
+  - ownerId
+  - ownerPhoneNumber
+  - pdfUrl
+  - phones
+  - pinFee
+  - platform
+  - product_url
+  - promotedFee
+  - soldDate
+  - specs
+  - startDate
+  - startingPrice
+  - status
+  - tag
+  - timeAgo
+  - title
+  - type
+  - uri
+  - userCode
+  - viewCount
+  - whatsapps
+
+_col_toys_games_listing: &col_toys_games_listing
+  - advertisedFor
+  - arDesc
+  - bidRate
+  - buyNowAmount
+  - canComplain
+  - categoryPath
+  - condition
+  - createdAt
+  - currentDate
+  - desc
+  - duration
+  - durationIndex
+  - enDesc
+  - enUrl
+  - endDate
+  - endStatus
+  - fansCount
+  - fee
+  - forView
+  - has360
+  - hasActiveVersion
+  - hasCoverImages
+  - hasLive
+  - hasPdf
+  - hasPendingPrice
+  - hasPendingUpdate
+  - id
+  - images
+  - imagesCount
+  - inStudio
+  - isActive
+  - isActiveCategory
+  - isBusiness
+  - isBuyNow
+  - isDeleted
+  - isDemo
+  - isExpired
+  - isHasMore
+  - isLocked
+  - isMyWinner
+  - isPinned
+  - isPinnedToShowroom
+  - isPromoted
+  - isSaved
+  - isService
+  - isSold
+  - isStarted
+  - isUpdated
+  - isWon
+  - language
+  - liveURL
+  - location
+  - moveUpFee
+  - neededCredit
+  - oldPrice
+  - owner
+  - ownerId
+  - ownerPhoneNumber
+  - pdfUrl
+  - phones
+  - pinFee
+  - platform
+  - product_url
+  - promotedFee
+  - rejectedMsg
+  - rejectedMsgAr
+  - rejectedMsgEn
+  - showroomId
+  - showroomIsHidden
+  - showroomName
+  - showroomUri
+  - specs
+  - startDate
+  - startingPrice
+  - status
+  - tag
+  - timeAgo
+  - title
+  - type
+  - uri
+  - userCode
+  - viewCount
+  - whatsapps
+
+_col_education_listing: &col_education_listing
+  - advertisedFor
+  - arDesc
+  - bidRate
+  - buyNowAmount
+  - canComplain
+  - categoryPath
+  - condition
+  - createdAt
+  - currentDate
+  - desc
+  - duration
+  - durationIndex
+  - enDesc
+  - enUrl
+  - endDate
+  - endStatus
+  - fansCount
+  - fee
+  - forView
+  - has360
+  - hasActiveVersion
+  - hasCoverImages
+  - hasLive
+  - hasPdf
+  - hasPendingPrice
+  - hasPendingUpdate
+  - id
+  - images
+  - imagesCount
+  - inStudio
+  - isActive
+  - isActiveCategory
+  - isBusiness
+  - isBuyNow
+  - isDeleted
+  - isDemo
+  - isExpired
+  - isHasMore
+  - isLocked
+  - isMyWinner
+  - isPinned
+  - isPinnedToShowroom
+  - isPromoted
+  - isSaved
+  - isService
+  - isSold
+  - isStarted
+  - isUpdated
+  - isWon
+  - language
+  - liveURL
+  - location
+  - moveUpFee
+  - neededCredit
+  - oldPrice
+  - owner
+  - ownerId
+  - ownerPhoneNumber
+  - pdfUrl
+  - phones
+  - pinFee
+  - platform
+  - product_url
+  - promotedFee
+  - specs
+  - startDate
+  - startingPrice
+  - status
+  - tag
+  - timeAgo
+  - title
+  - type
+  - uri
+  - userCode
+  - viewCount
+  - whatsapps
+
+_col_men_accessories_listing: &col_men_accessories_listing
+  - advertisedFor
+  - arDesc
+  - bidRate
+  - buyNowAmount
+  - canComplain
+  - categoryPath
+  - condition
+  - createdAt
+  - currentDate
+  - desc
+  - duration
+  - durationIndex
+  - enDesc
+  - enUrl
+  - endDate
+  - endStatus
+  - fansCount
+  - fee
+  - forView
+  - has360
+  - hasActiveVersion
+  - hasCoverImages
+  - hasLive
+  - hasPdf
+  - hasPendingPrice
+  - hasPendingUpdate
+  - id
+  - images
+  - imagesCount
+  - inStudio
+  - isActive
+  - isActiveCategory
+  - isBusiness
+  - isBuyNow
+  - isDeleted
+  - isDemo
+  - isExpired
+  - isHasMore
+  - isLocked
+  - isMyWinner
+  - isPinned
+  - isPinnedToShowroom
+  - isPromoted
+  - isSaved
+  - isService
+  - isSold
+  - isStarted
+  - isUpdated
+  - isWon
+  - language
+  - liveURL
+  - location
+  - moveUpFee
+  - neededCredit
+  - owner
+  - ownerId
+  - pdfUrl
+  - phones
+  - pinFee
+  - platform
+  - product_url
+  - promotedFee
+  - specs
+  - startDate
+  - startingPrice
+  - status
+  - tag
+  - timeAgo
+  - title
+  - type
+  - uri
+  - userCode
+  - viewCount
+  - whatsapps
+
+_col_travel_accessories_listing: &col_travel_accessories_listing
+  - advertisedFor
+  - arDesc
+  - bidRate
+  - buyNowAmount
+  - canComplain
+  - categoryPath
+  - condition
+  - createdAt
+  - currentDate
+  - desc
+  - duration
+  - durationIndex
+  - enDesc
+  - enUrl
+  - endDate
+  - endStatus
+  - fansCount
+  - fee
+  - forView
+  - has360
+  - hasActiveVersion
+  - hasCoverImages
+  - hasLive
+  - hasPdf
+  - hasPendingPrice
+  - hasPendingUpdate
+  - id
+  - images
+  - imagesCount
+  - inStudio
+  - isActive
+  - isActiveCategory
+  - isBusiness
+  - isBuyNow
+  - isDeleted
+  - isDemo
+  - isExpired
+  - isHasMore
+  - isLocked
+  - isMyWinner
+  - isPinned
+  - isPinnedToShowroom
+  - isPromoted
+  - isSaved
+  - isService
+  - isSold
+  - isStarted
+  - isUpdated
+  - isWon
+  - language
+  - moveUpFee
+  - neededCredit
+  - oldPrice
+  - owner
+  - ownerId
+  - ownerPhoneNumber
+  - phones
+  - pinFee
+  - platform
+  - product_url
+  - promotedFee
+  - specs
+  - startDate
+  - startingPrice
+  - status
+  - tag
+  - timeAgo
+  - title
+  - type
+  - uri
+  - userCode
+  - viewCount
+  - whatsapps
+
+_col_business_industrial_listing: &col_business_industrial_listing
+  - advertisedFor
+  - arDesc
+  - bidRate
+  - buyNowAmount
+  - canComplain
+  - categoryPath
+  - condition
+  - createdAt
+  - currentDate
+  - desc
+  - duration
+  - durationIndex
+  - enDesc
+  - enUrl
+  - endDate
+  - endStatus
+  - fansCount
+  - fee
+  - forView
+  - has360
+  - hasActiveVersion
+  - hasCoverImages
+  - hasLive
+  - hasPdf
+  - hasPendingPrice
+  - hasPendingUpdate
+  - id
+  - images
+  - imagesCount
+  - inStudio
+  - isActive
+  - isActiveCategory
+  - isBusiness
+  - isBuyNow
+  - isDeleted
+  - isDemo
+  - isExpired
+  - isHasMore
+  - isLocked
+  - isMyWinner
+  - isPinned
+  - isPinnedToShowroom
+  - isPromoted
+  - isSaved
+  - isService
+  - isSold
+  - isStarted
+  - isUpdated
+  - isWon
+  - language
+  - liveURL
+  - location
+  - moveUpFee
+  - neededCredit
+  - owner
+  - ownerId
+  - phones
+  - pinFee
+  - platform
+  - product_url
+  - promotedFee
+  - showroomId
+  - showroomIsHidden
+  - showroomName
+  - showroomUri
+  - specs
+  - startDate
+  - startingPrice
+  - status
+  - tag
+  - timeAgo
+  - title
+  - type
+  - uri
+  - viewCount
+  - whatsapps
+
+_col_inflatable_games_listing: &col_inflatable_games_listing
+  - advertisedFor
+  - arDesc
+  - bidRate
+  - buyNowAmount
+  - canComplain
+  - categoryPath
+  - condition
+  - createdAt
+  - currentDate
+  - desc
+  - duration
+  - durationIndex
+  - enDesc
+  - enUrl
+  - endDate
+  - endStatus
+  - fansCount
+  - fee
+  - forView
+  - has360
+  - hasActiveVersion
+  - hasCoverImages
+  - hasLive
+  - hasPdf
+  - hasPendingPrice
+  - hasPendingUpdate
+  - id
+  - images
+  - imagesCount
+  - inStudio
+  - isActive
+  - isActiveCategory
+  - isBusiness
+  - isBuyNow
+  - isDeleted
+  - isDemo
+  - isExpired
+  - isHasMore
+  - isLocked
+  - isMyWinner
+  - isPinned
+  - isPinnedToShowroom
+  - isPromoted
+  - isSaved
+  - isService
+  - isSold
+  - isStarted
+  - isUpdated
+  - isWon
+  - language
+  - moveUpFee
+  - neededCredit
+  - owner
+  - ownerId
+  - ownerPhoneNumber
+  - pdfUrl
+  - phones
+  - pinFee
+  - platform
+  - product_url
+  - promotedFee
+  - showroomId
+  - showroomIsHidden
+  - showroomName
+  - showroomUri
+  - specs
+  - startDate
+  - startingPrice
+  - status
+  - tag
+  - timeAgo
+  - title
+  - type
+  - uri
+  - userCode
+  - viewCount
+  - whatsapps
+
+_col_porta_cabin_listing: &col_porta_cabin_listing
+  - advertisedFor
+  - arDesc
+  - bidRate
+  - buyNowAmount
+  - canComplain
+  - categoryPath
+  - condition
+  - createdAt
+  - currentDate
+  - desc
+  - duration
+  - durationIndex
+  - enDesc
+  - enUrl
+  - endDate
+  - endStatus
+  - fansCount
+  - fee
+  - forView
+  - has360
+  - hasActiveVersion
+  - hasCoverImages
+  - hasLive
+  - hasPdf
+  - hasPendingPrice
+  - hasPendingUpdate
+  - id
+  - images
+  - imagesCount
+  - inStudio
+  - isActive
+  - isActiveCategory
+  - isBusiness
+  - isBuyNow
+  - isDeleted
+  - isDemo
+  - isExpired
+  - isHasMore
+  - isLocked
+  - isMyWinner
+  - isPinned
+  - isPinnedToShowroom
+  - isPromoted
+  - isSaved
+  - isService
+  - isSold
+  - isStarted
+  - isUpdated
+  - isWon
+  - language
+  - location
+  - moveUpFee
+  - neededCredit
+  - owner
+  - ownerId
+  - ownerPhoneNumber
+  - pdfUrl
+  - phones
+  - pinFee
+  - platform
+  - product_url
+  - promotedFee
+  - specs
+  - startDate
+  - startingPrice
+  - status
+  - tag
+  - timeAgo
+  - title
+  - type
+  - uri
+  - userCode
+  - viewCount
+  - whatsapps
+
+
+# ── PER-SCRAPER SCHEMAS ──────────────────────────────────────
+excel_schema:
+
+  # ── BATCH Cars For Sale ─────────────────────────────────────────────────
+
+  - scraper: cars_for_sale
+    excel_file_pattern: "{brand_name}.xlsx"
+    sheets:
+      - name: "{car_type}"
+        required_columns: *col_sale_cars_listing
+        row_count_range: [1, 1]
+    min_file_size_kb: 5
+
+  - scraper: jobs
+    excel_file_pattern: "{category_slug}.xlsx"
+    sheets:
+      - name: "{child_category or Main}"
+        required_columns: *col_job_listing
+        row_count_range: [1, 1]
+    min_file_size_kb: 5
+
+  - scraper: users
+    excel_file_pattern: "{category_slug}.xlsx"
+    sheets:
+      - name: "{child_category or Main}"
+        required_columns: *col_user_listing
+        row_count_range: [1, 1]
+    min_file_size_kb: 5
+
+  - scraper: cars_for_rent
+    excel_file_pattern: "{brand_name}.xlsx"
+    sheets:
+      - name: "{car_type}"
+        required_columns: *col_rent_cars_listing
+        row_count_range: [1, 1]
+    min_file_size_kb: 5
+
+  - scraper: bikes
+    excel_file_pattern: "{category_slug}.xlsx"
+    sheets:
+      - name: "{child_category or Main}"
+        required_columns: *col_bikes_listing
+        row_count_range: [1, 1]
+    min_file_size_kb: 5
+
+  - scraper: caravan
+    excel_file_pattern: "{category_slug}.xlsx"
+    sheets:
+      - name: "{child_category or Main}"
+        required_columns: *col_services_listing
+        row_count_range: [1, 1]
+    min_file_size_kb: 5
+
+  - scraper: gift_items
+    excel_file_pattern: "{category_slug}.xlsx"
+    sheets:
+      - name: "{child_category or Main}"
+        required_columns: *col_default_listing
+        row_count_range: [1, 1]
+    min_file_size_kb: 5
+
+  - scraper: escalator
+    excel_file_pattern: "{category_slug}.xlsx"
+    sheets:
+      - name: "{child_category or Main}"
+        required_columns: *col_escalator_tracking_sys_listing
+        row_count_range: [1, 1]
+    min_file_size_kb: 5
+
+  - scraper: air_beds_sleeping_bags
+    excel_file_pattern: "{category_slug}.xlsx"
+    sheets:
+      - name: "{child_category or Main}"
+        required_columns: *col_default_2_listing
+        row_count_range: [1, 1]
+    min_file_size_kb: 5
+
+  - scraper: cashier_machines
+    excel_file_pattern: "{category_slug}.xlsx"
+    sheets:
+      - name: "{child_category or Main}"
+        required_columns: *col_cashier_generators_shaving_listing
+        row_count_range: [1, 1]
+    min_file_size_kb: 5
+
+  - scraper: elevators
+    excel_file_pattern: "{category_slug}.xlsx"
+    sheets:
+      - name: "{child_category or Main}"
+        required_columns: *col_elevators_building_materials_listing
+        row_count_range: [1, 1]
+    min_file_size_kb: 5
+
+  - scraper: generators
+    excel_file_pattern: "{category_slug}.xlsx"
+    sheets:
+      - name: "{child_category or Main}"
+        required_columns: *col_cashier_generators_shaving_listing
+        row_count_range: [1, 1]
+    min_file_size_kb: 5
+
+  - scraper: building_materials
+    excel_file_pattern: "{category_slug}.xlsx"
+    sheets:
+      - name: "{child_category or Main}"
+        required_columns: *col_elevators_building_materials_listing
+        row_count_range: [1, 1]
+    min_file_size_kb: 5
+
+  - scraper: shaving_hair_removal_products
+    excel_file_pattern: "{category_slug}.xlsx"
+    sheets:
+      - name: "{child_category or Main}"
+        required_columns: *col_cashier_generators_shaving_listing
+        row_count_range: [1, 1]
+    min_file_size_kb: 5
+
+  - scraper: metal_detector
+    excel_file_pattern: "{category_slug}.xlsx"
+    sheets:
+      - name: "{child_category or Main}"
+        required_columns: *col_default_listing
+        row_count_range: [1, 1]
+    min_file_size_kb: 5
+
+
+  - scraper: aquariums
+    excel_file_pattern: "{category_slug}.xlsx"
+    sheets:
+      - name: "{child_category or Main}"
+        required_columns: *col_aquariums_bikes_accessories_listing
+        row_count_range: [1, 1]
+    min_file_size_kb: 5
+
+  - scraper: business_industrial
+    excel_file_pattern: "{category_slug}.xlsx"
+    sheets:
+      - name: "{child_category or Main}"
+        required_columns: *col_business_industrial_listing
+        row_count_range: [1, 1]
+    min_file_size_kb: 5
+
+  - scraper: pumps
+    excel_file_pattern: "{category_slug}.xlsx"
+    sheets:
+      - name: "{child_category or Main}"
+        required_columns: *col_default_2_listing
+        row_count_range: [1, 1]
+    min_file_size_kb: 5
+
+  - scraper: walkie_talkie
+    excel_file_pattern: "{category_slug}.xlsx"
+    sheets:
+      - name: "{child_category or Main}"
+        required_columns: *col_default_2_listing
+        row_count_range: [1, 1]
+    min_file_size_kb: 5
+
+  - scraper: glasses
+    excel_file_pattern: "{category_slug}.xlsx"
+    sheets:
+      - name: "{child_category or Main}"
+        required_columns: *col_glasses_shoes_listing
+        row_count_range: [1, 1]
+    min_file_size_kb: 5
+
+  - scraper: safe_boxes
+    excel_file_pattern: "{category_slug}.xlsx"
+    sheets:
+      - name: "{child_category or Main}"
+        required_columns: *col_default_listing
+        row_count_range: [1, 1]
+    min_file_size_kb: 5
+
+  - scraper: tracking_systems
+    excel_file_pattern: "{category_slug}.xlsx"
+    sheets:
+      - name: "{child_category or Main}"
+        required_columns: *col_escalator_tracking_sys_listing
+        row_count_range: [1, 1]
+    min_file_size_kb: 5
+
+  - scraper: pet_accessories
+    excel_file_pattern: "{category_slug}.xlsx"
+    sheets:
+      - name: "{child_category or Main}"
+        required_columns: *col_pet_accessories_listing
+        row_count_range: [1, 1]
+    min_file_size_kb: 5
+
+  - scraper: stamps
+    excel_file_pattern: "{category_slug}.xlsx"
+    sheets:
+      - name: "{child_category or Main}"
+        required_columns: *col_default_2_listing
+        row_count_range: [1, 1]
+    min_file_size_kb: 5
+
+  - scraper: inflatable_games
+    excel_file_pattern: "{category_slug}.xlsx"
+    sheets:
+      - name: "{child_category or Main}"
+        required_columns: *col_inflatable_games_listing
+        row_count_range: [1, 1]
+    min_file_size_kb: 5
+
+  - scraper: porta_cabin
+    excel_file_pattern: "{category_slug}.xlsx"
+    sheets:
+      - name: "{child_category or Main}"
+        required_columns: *col_porta_cabin_listing
+        row_count_range: [1, 1]
+    min_file_size_kb: 5
+
+  - scraper: fishing_equipment
+    excel_file_pattern: "{category_slug}.xlsx"
+    sheets:
+      - name: "{child_category or Main}"
+        required_columns: *col_fishing_equipment_listing
+        row_count_range: [1, 1]
+    min_file_size_kb: 5
+
+  - scraper: car_spare_parts_accessories-automotive_exterior_accessories
+    excel_file_pattern: "{category_slug}.xlsx"
+    sheets:
+      - name: "{child_category or Main}"
+        required_columns: *col_jewellery_car_accessories_listing
+        row_count_range: [1, 1]
+    min_file_size_kb: 5
+
+  - scraper: heavy_equipments
+    excel_file_pattern: "{category_slug}.xlsx"
+    sheets:
+      - name: "{child_category or Main}"
+        required_columns: *col_heavy_equipments_listing
+        row_count_range: [1, 1]
+    min_file_size_kb: 5
+
+  - scraper: car_spare_parts_accessories
+    excel_file_pattern: "{category_slug}.xlsx"
+    sheets:
+      - name: "{child_category or Main}"
+        required_columns: *col_jewellery_car_accessories_listing
+        row_count_range: [1, 1]
+    min_file_size_kb: 5
+
+  - scraper: jewellery
+    excel_file_pattern: "{category_slug}.xlsx"
+    sheets:
+      - name: "{child_category or Main}"
+        required_columns: *col_jewellery_car_accessories_listing
+        row_count_range: [1, 1]
+    min_file_size_kb: 5
+
+  - scraper: property
+    excel_file_pattern: "{category_slug}.xlsx"
+    sheets:
+      - name: "{child_category or Main}"
+        required_columns: *col_property_listing
+        row_count_range: [1, 1]
+    min_file_size_kb: 5
+
+  - scraper: watercrafts
+    excel_file_pattern: "{category_slug}.xlsx"
+    sheets:
+      - name: "{child_category or Main}"
+        required_columns: *col_tools_watercrafts_listings
+        row_count_range: [1, 1]
+    min_file_size_kb: 5
+
+  - scraper: computers_and_parts
+    excel_file_pattern: "{category_slug}.xlsx"
+    sheets:
+      - name: "{child_category or Main}"
+        required_columns: *col_default_listing
+        row_count_range: [1, 1]
+    min_file_size_kb: 5
+  
+  - scraper: video_games
+    excel_file_pattern: "{category_slug}.xlsx"
+    sheets:
+      - name: "{child_category or Main}"
+        required_columns: *col_default_listing
+        row_count_range: [1, 1]
+    min_file_size_kb: 5
+
+  - scraper: wrist_watches
+    excel_file_pattern: "{category_slug}.xlsx"
+    sheets:
+      - name: "{child_category or Main}"
+        required_columns: *col_default_listing
+        row_count_range: [1, 1]
+    min_file_size_kb: 5
+ 
+  - scraper: home_security_surveillance_systems
+    excel_file_pattern: "{category_slug}.xlsx"
+    sheets:
+      - name: "{child_category or Main}"
+        required_columns: *col_default_listing
+        row_count_range: [1, 1]
+    min_file_size_kb: 5
+
+  - scraper: health_beauty
+    excel_file_pattern: "{category_slug}.xlsx"
+    sheets:
+      - name: "{child_category or Main}"
+        required_columns: *col_default_listing
+        row_count_range: [1, 1]
+    min_file_size_kb: 5
+
+  - scraper: toys_games
+    excel_file_pattern: "{category_slug}.xlsx"
+    sheets:
+      - name: "{child_category or Main}"
+        required_columns: *col_toys_games_listing
+        row_count_range: [1, 1]
+    min_file_size_kb: 5
+
+  - scraper: kids
+    excel_file_pattern: "{category_slug}.xlsx"
+    sheets:
+      - name: "{child_category or Main}"
+        required_columns: *col_home_appliances_kids_listing
+        row_count_range: [1, 1]
+    min_file_size_kb: 5
+
+  - scraper: shoes_bags
+    excel_file_pattern: "{category_slug}.xlsx"
+    sheets:
+      - name: "{child_category or Main}"
+        required_columns: *col_glasses_shoes_listing
+        row_count_range: [1, 1]
+    min_file_size_kb: 5
+
+  - scraper: arts_crafts_sewing
+    excel_file_pattern: "{category_slug}.xlsx"
+    sheets:
+      - name: "{child_category or Main}"
+        required_columns: *col_default_2_listing
+        row_count_range: [1, 1]
+    min_file_size_kb: 5
+
+  - scraper: kitchen_dining_room
+    excel_file_pattern: "{category_slug}.xlsx"
+    sheets:
+      - name: "{child_category or Main}"
+        required_columns: *col_services_listing
+        row_count_range: [1, 1]
+    min_file_size_kb: 5
+
+  - scraper: education
+    excel_file_pattern: "{category_slug}.xlsx"
+    sheets:
+      - name: "{child_category or Main}"
+        required_columns: *col_education_listing
+        row_count_range: [1, 1]
+    min_file_size_kb: 5
+
+  - scraper: bikes_accessories
+    excel_file_pattern: "{category_slug}.xlsx"
+    sheets:
+      - name: "{child_category or Main}"
+        required_columns: *col_aquariums_bikes_accessories_listing
+        row_count_range: [1, 1]
+    min_file_size_kb: 5
+
+  - scraper: clothes
+    excel_file_pattern: "{category_slug}.xlsx"
+    sheets:
+      - name: "{child_category or Main}"
+        required_columns: *col_default_listing
+        row_count_range: [1, 1]
+    min_file_size_kb: 5
+
+  - scraper: camping
+    excel_file_pattern: "{category_slug}.xlsx"
+    sheets:
+      - name: "{child_category or Main}"
+        required_columns: *col_services_listing
+        row_count_range: [1, 1]
+    min_file_size_kb: 5
+
+  - scraper: tools_home_improvement
+    excel_file_pattern: "{category_slug}.xlsx"
+    sheets:
+      - name: "{child_category or Main}"
+        required_columns: *col_tools_watercrafts_listings
+        row_count_range: [1, 1]
+    min_file_size_kb: 5
+
+  - scraper: men_accessories
+    excel_file_pattern: "{category_slug}.xlsx"
+    sheets:
+      - name: "{child_category or Main}"
+        required_columns: *col_men_accessories_listing
+        row_count_range: [1, 1]
+    min_file_size_kb: 5
+
+  - scraper: musical_instruments
+    excel_file_pattern: "{category_slug}.xlsx"
+    sheets:
+      - name: "{child_category or Main}"
+        required_columns: *col_default_listing
+        row_count_range: [1, 1]
+    min_file_size_kb: 5
+
+  - scraper: travel_accessories
+    excel_file_pattern: "{category_slug}.xlsx"
+    sheets:
+      - name: "{child_category or Main}"
+        required_columns: *col_travel_accessories_listing
+        row_count_range: [1, 1]
+    min_file_size_kb: 5
+
+  - scraper: special_numbers
+    excel_file_pattern: "{category_slug}.xlsx"
+    sheets:
+      - name: "{child_category or Main}"
+        required_columns: *col_special_numbers_furniture_listing
+        row_count_range: [1, 1]
+    min_file_size_kb: 5
+
+  - scraper: home_appliances
+    excel_file_pattern: "{subcategory_slug}.xlsx"
+    sheets:
+      - name: "{child_category or Main}"
+        required_columns: *col_home_appliances_kids_listing
+        row_count_range: [1, 1]
+    min_file_size_kb: 5
+
+  - scraper: services
+    excel_file_pattern: "{subcategory_slug}.xlsx"
+    sheets:
+      - name: "{child_category or Main}"
+        required_columns: *col_services_listing
+        row_count_range: [1, 1]
+    min_file_size_kb: 5
+
+  - scraper: mobile_telephone_and_tablets
+    excel_file_pattern: "{subcategory_slug}.xlsx"
+    sheets:
+      - name: "{child_category or Main}"
+        required_columns: *col_mobile_tablets_listing
+        row_count_range: [1, 1]
+    min_file_size_kb: 5
+
+  - scraper: furniture_dcor
+    excel_file_pattern: "{subcategory_slug}.xlsx"
+    sheets:
+      - name: "{child_category or Main}"
+        required_columns: *col_special_numbers_furniture_listing
+        row_count_range: [1, 1]
+    min_file_size_kb: 5
+
+  - scraper: electronics
+    excel_file_pattern: "{subcategory_slug}.xlsx"
+    sheets:
+      - name: "{child_category or Main}"
+        required_columns: *col_default_listing
+        row_count_range: [1, 1]
+    min_file_size_kb: 5
+
+  - scraper: sportswear_equipment
+    excel_file_pattern: "{subcategory_slug}.xlsx"
+    sheets:
+      - name: "{child_category or Main}"
+        required_columns: *col_sportswear_equipment_listing
+        row_count_range: [1, 1]
+    min_file_size_kb: 5
+
+# ============================================================
+# ALERT THRESHS — schema validation + historical trend alarms
+# Trend multipliers calibrated against monitor_stats.yml
+# (observed 2026-06-07 → 2026-06-13, 7 days, 23 scrapers)
+# ============================================================
+alert_thresholds:
+  enabled: true
+
+  # Fire webhook when ANY scraper fails schema / trend / missing-files check
+  alert_on_any_failure: true
+
+  # Historical trend checks (requires monitor_stats.yml in R2)
+  trend:
+    min_observed_days: 3
+    min_row_pct_of_hist_min: 30       # alert if rows < 30% of historical min per sheet
+    max_row_pct_of_hist_max: 300      # alert if rows > 300% of historical max per sheet
+    min_file_size_pct_of_hist_min: 50 # alert if file < 50% of historical min per scraper
+
+  # Run-level gate — skip webhook if failure rate is below this (0 = always alert)
+  max_scraper_fail_rate_pct: 0
+
+  # Per-scraper observed file-size floors (KB) from real stats × 50%, floored at schema min
+  # Used as a fast check even before trend history exists
+  observed_min_file_size_kb:
+    cars_for_sale: 3 
+    jobs: 3
+    users: 3
+    cars_for_rent: 3
+    bikes: 3
+    caravan: 3
+    gift_items: 3
+    escalator: 3
+    air_beds_sleeping_bags: 3
+    cashier_machines: 3
+    elevators: 3
+    generators: 3
+    building_materials: 3
+    shaving_hair_removal_products: 3
+    metal_detector: 3
+    aquariums: 3
+    business_industrial: 3
+    pumps: 3
+    walkie_talkie: 3
+    glasses: 3
+    safe_boxes: 3
+    tracking_systems: 3
+    pet_accessories: 3
+    stamps: 3
+    inflatable_games: 3
+    porta_cabin: 3
+    fishing_equipment: 3
+    car_spare_parts_accessories-automotive_exterior_accessories: 3
+    heavy_equipments: 3
+    car_spare_parts_accessories: 3
+    jewellery: 3
+    property: 3
+    watercrafts: 3
+    computers_and_parts: 3
+    video_games: 3
+    wrist_watches: 3
+    home_security_surveillance_systems: 3
+    health_beauty: 3
+    toys_games: 3
+    kids: 3
+    shoes_bags: 3
+    arts_crafts_sewing: 3
+    kitchen_dining_room: 3
+    education: 3
+    bikes_accessories: 3
+    clothes: 3
+    camping: 3
+    tools_home_improvement: 3
+    men_accessories: 3
+    musical_instruments: 3
+    travel_accessories: 3
+    special_numbers: 3
+    services: 3
+    home_appliances: 3
+    mobile_telephone_and_tablets: 3
+    furniture_dcor: 3
+    electronics: 3
+    sportswear_equipment: 3
+
+  channels:
+    webhook:
+      enabled: true
+      # URL from env MONITOR_ALERT_WEBHOOK_URL (GitHub secret)
+      # Import monitor/n8n-email-alert-workflow.json for email via n8n

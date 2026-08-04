@@ -178,7 +178,7 @@ jobs:
                   print("⚠️ Warning: Could not parse WORKFLOW_START_TIME")
           
           # Data date = yesterday
-          data_date = datetime.now(timezone.utc) - timedelta(days=1)
+          data_date = datetime.now(timezone.utc) - timedelta(days=2)
           dt = datetime.now(timezone.utc)
           
           base_path = f"qatarsale/year={dt.year}/month={dt.strftime('%m')}/day={dt.strftime('%d')}/showrooms_{category}"
