@@ -142,7 +142,7 @@ def filter_yesterday_links(jobs: list[dict]) -> dict:
         }
 
     df["date_parsed"] = pd.to_datetime(df["createdAt"], format="ISO8601", utc=True)
-    yesterday = datetime.now(timezone.utc).date() - timedelta(days=1)
+    yesterday = datetime.now(timezone.utc).date() - timedelta(days=2)
     mask = df["date_parsed"].dt.date == yesterday
     df_yesterday = df[mask].drop(columns=["date_parsed"])
 

@@ -113,10 +113,10 @@ jobs:
                   print("⚠️ Warning: Could not parse WORKFLOW_START_TIME")
 
           # Data date = yesterday
-          data_date = datetime.now(timezone.utc) - timedelta(days=1)
+          data_date = datetime.now(timezone.utc) - timedelta(days=2)
           dt = datetime.now(timezone.utc)
 
-          base = f"qatarsale/year={dt.year}/month={dt.strftime('%m')}/day={dt.strftime('%d')}/jobs"
+          base = f"qatarsale/year={data_date.year}/month={data_date.strftime('%m')}/day={data_date.strftime('%d')}/cars_for_sale"
           bucket = os.environ['CF_R2_BUCKET_NAME']
 
           client = boto3.client('s3',
