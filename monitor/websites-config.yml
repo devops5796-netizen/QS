@@ -1687,7 +1687,7 @@ _col_glasses_shoes_listing: &col_glasses_shoes_listing
   - viewCount
   - whatsapps
 
-_col_sportswear_equipment_listing: &_col_sportswear_equipment_listing
+_col_sportswear_equipment_listing: &col_sportswear_equipment_listing
   - advertisedFor
   - arDesc
   - bidRate
