@@ -3230,7 +3230,7 @@ excel_schema:
     excel_file_pattern: "{subcategory_slug}.xlsx"
     sheets:
       - name: "{child_category or Main}"
-        required_columns: *
+        required_columns: *col_showrooms_listing
         row_count_range: [1, 1]
     min_file_size_kb: 5
 
@@ -3317,8 +3317,8 @@ alert_thresholds:
     furniture_dcor: 3
     electronics: 3
     sportswear_equipment: 3
-    showrooms_cars_for_sale:
-    showrooms_cars_for_rent:
+    showrooms_cars_for_sale: 3
+    showrooms_cars_for_rent: 3
 
   channels:
     webhook:
