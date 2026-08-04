@@ -11,7 +11,7 @@ CF_R2_ENDPOINT_URL = os.getenv('CF_R2_ENDPOINT_URL')
 BUCKET_NAME = os.getenv('CF_R2_BUCKET_NAME', '')
 
 
-FOLDER = os.getenv("FOLDER", "DUAE")
+FOLDER = os.getenv("FOLDER", "qatarsale/year=2026/month=08/day=03/")
 if not FOLDER.endswith('/'):
     FOLDER += '/'
 
