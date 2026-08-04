@@ -143,10 +143,10 @@ jobs:
         with:
           name: excel-${{ matrix.category }}-${{ matrix.start }}-${{ matrix.end }}
           path: |
-            ${{ matrix.category }}_${{ matrix.start }}_${{ matrix.end }}.xlsx
+            ${{ matrix.category }}*.xlsx
             products_${{ matrix.category }}_${{ matrix.start }}_${{ matrix.end }}_failed.txt
             request_stats_${{ matrix.start }}_${{ matrix.end }}.json
-          if-no-files-found: ignore
+          if-no-files-found: error
 
   merge:
     runs-on: ubuntu-latest
@@ -220,7 +220,7 @@ jobs:
                   print("⚠️ Warning: Could not parse WORKFLOW_START_TIME")
 
           # Data date = yesterday
-          data_date = datetime.now(timezone.utc) - timedelta(days=2)
+          data_date = datetime.now(timezone.utc) - timedelta(days=1)
           dt = datetime.now(timezone.utc)
 
           files = glob.glob('excel_parts/*.xlsx')
