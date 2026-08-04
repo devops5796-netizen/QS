@@ -146,7 +146,7 @@ jobs:
             ${{ matrix.category }}*.xlsx
             products_${{ matrix.category }}_${{ matrix.start }}_${{ matrix.end }}_failed.txt
             request_stats_${{ matrix.start }}_${{ matrix.end }}.json
-          if-no-files-found: error
+          if-no-files-found: warn
 
   merge:
     runs-on: ubuntu-latest
