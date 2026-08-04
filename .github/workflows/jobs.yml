@@ -113,7 +113,7 @@ jobs:
                   print("⚠️ Warning: Could not parse WORKFLOW_START_TIME")
 
           # Data date = yesterday
-          data_date = datetime.now(timezone.utc) - timedelta(days=2)
+          data_date = datetime.now(timezone.utc) - timedelta(days=1)
           dt = datetime.now(timezone.utc)
 
           base = f"qatarsale/year={dt.year}/month={dt.strftime('%m')}/day={dt.strftime('%d')}/jobs"
