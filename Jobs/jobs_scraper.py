@@ -173,11 +173,11 @@ def run(output_excel: str = "jobs.xlsx", start_page: int = 0, end_page: int = No
         print("No jobs found!")
         return {"total": 0, "success": 0, "failed": 0, "failed_urls": []}
 
-    """print("\nSTEP 1.5: Filtering jobs created yesterday...")
+    print("\nSTEP 1.5: Filtering jobs created yesterday...")
     filter_result = filter_yesterday_links(raw_jobs)
     raw_jobs = filter_result["filtered_jobs"]
     print(f"  Total jobs:     {filter_result['total']}")
-    print(f"  Yesterday jobs: {filter_result['yesterday']}")"""
+    print(f"  Yesterday jobs: {filter_result['yesterday']}")
 
     if not raw_jobs:
         print("No jobs from yesterday!")

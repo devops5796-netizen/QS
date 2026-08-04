@@ -178,11 +178,10 @@ jobs:
                   print("⚠️ Warning: Could not parse WORKFLOW_START_TIME")
           
           # Data date = yesterday
-          data_date = datetime.now(timezone.utc) - timedelta(days=2)
-          dt = datetime.now(timezone.utc)
+          data_date = datetime.now(timezone.utc) - timedelta(days=1)
           
-          base_path = f"qatarsale/year={dt.year}/month={dt.strftime('%m')}/day={dt.strftime('%d')}/showrooms_{category}"
-
+          base_path = f"qatarsale/year={data_date.year}/month={data_date.strftime('%m')}/day={data_date.strftime('%d')}/showrooms_{category}"
+          
           excel_files  = glob.glob("showroom_parts/showroom_*.xlsx")
           print(f"Found {len(excel_files)} Excel files")
 
