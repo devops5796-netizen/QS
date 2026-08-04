@@ -92,10 +92,7 @@ jobs:
           CF_R2_BUCKET_NAME: ${{ secrets.CF_R2_BUCKET_NAME }}
         run: |
           DATE_PREFIX=$(date -d "yesterday" +'%Y-%m-%d')
-          DATE_PREFIX="2026-08-02"
           echo "Generating report for: $DATE_PREFIX"
-          python monitor/build_monitor_data.py --prefix qatarsale --report-date "$DATE_PREFIX"
-          DATE_PREFIX="2026-08-03"
           python monitor/build_monitor_data.py --prefix qatarsale --report-date "$DATE_PREFIX"
 
 
