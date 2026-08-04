@@ -103,6 +103,8 @@ def parse_job_details(uri: str) -> dict:
 def download_and_upload_image(img_url: str, job_uri: str) -> str:
     if not img_url:
         return ""
+
+    yesterday = datetime.now(timezone.utc) - timedelta(days=2)
     try:
         r = req.get(img_url, timeout=15)
         if r.status_code == 200:
@@ -121,7 +123,8 @@ def download_and_upload_image(img_url: str, job_uri: str) -> str:
                 folder_name="qatarsale",
                 category="jobs",
                 file_type="images",
-                content_type="image/webp"
+                content_type="image/webp",
+                dt=yesterday
             )
             return r2_key or ""
         return ""
