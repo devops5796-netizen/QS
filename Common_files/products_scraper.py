@@ -8,6 +8,7 @@ import io
 from .r2_uploader import upload_buffer
 from concurrent.futures import ThreadPoolExecutor, as_completed
 from .request_tracker import tracker
+from datetime import datetime, timezone, timedelta
 
 API_BASE = "https://production-api.qatarsale.com/api/v2/Products"
 
@@ -61,6 +62,8 @@ def download_images(images: list, product_url: str = "", category: str = "", fmt
 
     ext = "webp"
 
+    yesterday = datetime.now(timezone.utc) - timedelta(days=1)
+
     slug = product_url.rstrip("/").split("/")[-1] if product_url else "unknown"
 
     for idx, img_url in enumerate(images, start=1):
@@ -89,7 +92,8 @@ def download_images(images: list, product_url: str = "", category: str = "", fmt
                     filename=filename,
                     category=category,
                     file_type="images",
-                    content_type="image/webp"
+                    content_type="image/webp",
+                    dt = yesterday
                 )
 
                 if r2_key:
