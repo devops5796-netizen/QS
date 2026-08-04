@@ -179,6 +179,7 @@ jobs:
           
           # Data date = yesterday
           data_date = datetime.now(timezone.utc) - timedelta(days=1)
+          dt = datetime.now(timezone.utc)
           
           base_path = f"qatarsale/year={data_date.year}/month={data_date.strftime('%m')}/day={data_date.strftime('%d')}/showrooms_{category}"
           
