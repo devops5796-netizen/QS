@@ -1,7 +1,7 @@
 import os
 import mimetypes
 from pathlib import Path
-from datetime import datetime
+from datetime import datetime, timezone, timedelta
 import boto3
 import io
 from dotenv import load_dotenv
@@ -112,7 +112,7 @@ def upload_final_batch_assets(images_folder: str, final_excel: str, folder_name:
 
     uploaded = 0
     failed = 0
-    dt = datetime.now()
+    dt = datetime.now(timezone.utc) - timedelta(days=1)
 
     if os.path.exists(final_excel):
         print(f"Found final Excel file '{final_excel}', starting upload...")
