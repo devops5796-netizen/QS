@@ -360,6 +360,18 @@ scrapers:
     workflow_file: sub_sub_categories.yml
     r2_path: "{r2_bucket}/qatarsale/sportswear_equipment"
 
+  - name: showrooms_cars_for_sale
+    url: https://qatarsale.com/ar/showroom-list/cars_for_sale
+    batch: "showrooms_cars_for_sale"
+    workflow_file: showrooms_single_category.yml
+    r2_path: "{r2_bucket}/qatarsale/showrooms_cars_for_sale"
+
+  - name: showrooms_cars_for_rent
+    url: https://qatarsale.com/ar/showroom-list/cars_for_rent
+    batch: "showrooms_single_category"
+    workflow_file: showrooms_single_category.yml
+    r2_path: "{r2_bucket}/qatarsale/showrooms_cars_for_rent"
+
 # ------------------------------------------------------------
 # PIPELINE CHAIN (auto-detected from workflow triggers)
 # Batch Cars For Sale → Jobs → Users → Simple Categories → Sub Categories → 
@@ -2718,6 +2730,23 @@ _col_porta_cabin_listing: &col_porta_cabin_listing
   - viewCount
   - whatsapps
 
+_col_showrooms_listing: &col_showrooms_listing
+  - id
+  - uri
+  - product_url
+  - startDate
+  - showroomUri
+  - categoryUri
+  - isSold
+  - isExpired
+  - url
+  - name
+  - cover_image
+  - phones
+  - whatsapps
+  - posts_count
+  - views_count
+  - r2_image
 
 # ── PER-SCRAPER SCHEMAS ──────────────────────────────────────
 excel_schema:
@@ -3189,6 +3218,23 @@ excel_schema:
         row_count_range: [1, 1]
     min_file_size_kb: 5
 
+  - scraper: showrooms_cars_for_sale
+    excel_file_pattern: "{subcategory_slug}.xlsx"
+    sheets:
+      - name: "{child_category or Main}"
+        required_columns: *col_showrooms_listing
+        row_count_range: [1, 1]
+    min_file_size_kb: 5
+
+  - scraper: showrooms_cars_for_rent
+    excel_file_pattern: "{subcategory_slug}.xlsx"
+    sheets:
+      - name: "{child_category or Main}"
+        required_columns: *
+        row_count_range: [1, 1]
+    min_file_size_kb: 5
+
+
 # ============================================================
 # ALERT THRESHS — schema validation + historical trend alarms
 # Trend multipliers calibrated against monitor_stats.yml
@@ -3271,6 +3317,8 @@ alert_thresholds:
     furniture_dcor: 3
     electronics: 3
     sportswear_equipment: 3
+    showrooms_cars_for_sale:
+    showrooms_cars_for_rent:
 
   channels:
     webhook:

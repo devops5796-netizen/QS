@@ -44,7 +44,7 @@ def download_images(images: list, product_url: str = "", category: str = "", fmt
 
                 output_buffer.seek(0)
 
-                yesterday = datetime.now(timezone.utc) - timedelta(days=2)
+                yesterday = datetime.now(timezone.utc) - timedelta(days=1)
 
                 r2_key = upload_buffer(
                     output_buffer,
@@ -80,7 +80,7 @@ def filter_yesterday_links(product_df: pd.DataFrame) -> pd.DataFrame:
 
     df = product_df.copy()
     df["date_parsed"] = pd.to_datetime(df["startDate"], format="ISO8601", utc=True)
-    yesterday = datetime.now(timezone.utc).date() - timedelta(days=2)
+    yesterday = datetime.now(timezone.utc).date() - timedelta(days=1)
     mask = df["date_parsed"].dt.date == yesterday
     df_yesterday = df[mask].drop(columns=["date_parsed"])
 

@@ -99,7 +99,7 @@ def parse_user_details(uri_code: str) -> dict:
 def download_and_upload_image(img_url: str, user_uri: str) -> str:
     if not img_url:
         return ""
-    yesterday = datetime.now(timezone.utc) - timedelta(days=2)
+    yesterday = datetime.now(timezone.utc) - timedelta(days=1)
     try:
         r = req.get(img_url, timeout=15)
         if r.status_code == 200:
@@ -140,7 +140,7 @@ def filter_yesterday_links(users: list[dict]) -> dict:
         }
 
     df["date_parsed"] = pd.to_datetime(df["activatedAt"], format="ISO8601", utc=True)
-    yesterday = datetime.now(timezone.utc).date() - timedelta(days=2)
+    yesterday = datetime.now(timezone.utc).date() - timedelta(days=1)
     mask = df["date_parsed"].dt.date == yesterday
     df_yesterday = df[mask].drop(columns=["date_parsed"])
 

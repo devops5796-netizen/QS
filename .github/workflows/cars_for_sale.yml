@@ -194,7 +194,7 @@ jobs:
                   print("⚠️ Warning: Could not parse WORKFLOW_START_TIME")
 
           # Data date = yesterday
-          data_date = datetime.now(timezone.utc) - timedelta(days=2)
+          data_date = datetime.now(timezone.utc) - timedelta(days=1)
           dt = datetime.now(timezone.utc)
 
           files = glob.glob('csv_parts/*.csv')
@@ -353,7 +353,7 @@ jobs:
           )
           
           # Use data date (yesterday) for path
-          data_date = datetime.now(timezone.utc) - timedelta(days=2)
+          data_date = datetime.now(timezone.utc) - timedelta(days=1)
           prefix = f"qatarsale/year={data_date.year}/month={data_date.strftime('%m')}/day={data_date.strftime('%d')}/cars_for_sale/excel"
           bucket = os.environ['CF_R2_BUCKET_NAME']
 
